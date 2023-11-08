@@ -10,7 +10,7 @@ class Commercial : public Building {
     ~Commercial();
 
     void Display() {
-        std::cout << "This is a " << typeOfCommmercial_ << std::endl;
+        std::cout << "This is a" << typeOfCommmercial_ << "." << std::endl;
     }
 
     private:
