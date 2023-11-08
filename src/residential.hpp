@@ -8,7 +8,7 @@ class Residential : public Building {
                 Building(buildingName, location) {}
 
     ~Residential();
-    int a = 0;
+   
     void Display() {
         std::cout << "This is a residential building" << std::endl;
     }
