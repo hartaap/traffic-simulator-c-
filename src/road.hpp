@@ -1,29 +1,41 @@
-#include <stdlib.h>
+#ifndef ROAD_H
+#define ROAD_H
 
-class Road {
-public:
-    Road(const int speedLimit, const std::pair<int, int> start, const std::pair<int, int> end) :
-            speedLimit_(speedLimit), start_(start), end_(end) {}
+#include "grid.hpp"
 
-    // const std::pair<Lane*, Lane*> GetLanes() const {
-    //      return lanes_;
-    // }
 
-    const int GetSpeedLimit() const {
-        return speedLimit_;
-    }
+class Road{
 
-    const std::pair<int, int> GetStart() const {
-        return start_;
-    }
+    public:
 
-    const std::pair<int, int> GetEnd() const {
+    Road(std::pair<int, int> start, std::pair<int, int> end, int speedLimit): start_(start), end_(end), speedLimit_(speedLimit){}
+
+    std::pair<int, int> GetEnd() const {
         return end_;
     }
 
-private:
-    // std::pair<Lane*, Lane*> lanes_;
-    int speedLimit_;
+    std::pair<int, int> GetStart() const {
+        return start_;
+    }
+
+    int GetSpeedLimit() const {
+        return speedLimit_;
+    }
+
+
+    void MakeVertical(Grid* grid, int x, int yStart, int yEnd);
+    
+    void MakeHorizontal(Grid* grid, int y, int xStart, int xEnd);
+
+    private:
+
     const std::pair<int, int> start_;
-    const std::pair<int, int> end_; 
+    const std::pair<int, int> end_;
+    int speedLimit_;
+
+
+
 };
+
+
+#endif
