@@ -22,10 +22,12 @@ class Road{
         return speedLimit_;
     }
 
+    bool IsVertical() const;
 
-    void MakeVertical(Grid* grid, int x, int yStart, int yEnd);
-    
-    void MakeHorizontal(Grid* grid, int y, int xStart, int xEnd);
+    bool IsHorizontal() const;
+
+
+
 
     private:
 

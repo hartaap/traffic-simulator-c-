@@ -16,7 +16,11 @@ class City{
 
     ~City();
 
-   bool AddRoad(std::pair<int, int> start, std::pair<int, int> end, int speedLimit);
+   bool AddRoad(Road* r);
+
+   void MakeRoad(Road* r);
+
+   bool AddBuilding(std::pair<int, int> location);
 
    void PrintCity();
 

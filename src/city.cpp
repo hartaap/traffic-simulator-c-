@@ -9,7 +9,7 @@ City::City(int sizeX, int sizeY){
 
 
 City::~City(){
-    
+
     for(auto it: roads_){
         delete(it);
     }
@@ -18,49 +18,62 @@ City::~City(){
 }
 
 
-bool City::AddRoad(std::pair<int, int> start, std::pair<int, int> end, int speedLimit){
+bool City::AddRoad(Road* r){
 
     //Check if road coordinates are ok
-    if((start.first != end.first) && (start.second != end.second)){
+    if((!r->IsHorizontal()) && (!r->IsVertical())){ //Invalid road
          return false;
     }
 
-    if((start.first < 0) || (end.first >= grid_->GetSizeX()) || (start.second < 0) || (end.second >= grid_->GetSizeY())){
-        return false;
-    }
+    if((r->GetStart().first < 0) || (r->GetStart().second < 0) || 
+       (r->GetEnd().first >= grid_->GetSizeX()) || (r->GetEnd().second >= grid_->GetSizeY())){
+          return false;
+       }
 
 
-    if(start.first == end.first){ //If true, road is vertical
+    if(r->IsVertical()){ 
 
         //Check that there are no buildings or other roads between the start and end coordinates
-        for(int j = start.second; j <= end.second; j++){
-            if(grid_->GetCell(j, start.first)->IsOccupied()){
+        for(int j = r->GetStart().second; j <= r->GetEnd().second; j++){
+            if(grid_->GetCell(j, r->GetStart().first)->IsOccupied()){
                 return false;
             }
         }
         
         //Make the road and add it to the grid
-        Road* road = new Road(start, end, speedLimit);
-        roads_.push_back(road);
-        road->MakeVertical(grid_, start.first, start.second, end.second);
+        roads_.push_back(r);
+        MakeRoad(r);
 
-    }else{ //Road is horizontal
+    }else{
 
         //Check that there are no buildings or other roads between the start and end coordinates
-        for(int i = start.first; i <= end.second; i++){
-            if(grid_->GetCell(start.second, i)->IsOccupied()){
+        for(int i = r->GetStart().first; i <= r->GetEnd().second; i++){
+            if(grid_->GetCell(r->GetStart().second, i)->IsOccupied()){
                 return false;
             }
         }
 
         //Make the road and add it to the grid
-        Road* road = new Road(start, end, speedLimit);
-        roads_.push_back(road);
-        road->MakeHorizontal(grid_, start.second, start.first, end.first);
+        roads_.push_back(r);
+        MakeRoad(r);
 
     }
 
     return true;
+}
+
+
+
+void City::MakeRoad(Road* r){
+    if(r->IsHorizontal()){
+        for(int i = r->GetStart().first; i <= r->GetEnd().first; i++){
+        grid_->GetCell(r->GetStart().second, i)->Occupy("Road");
+       }
+    }else{
+      for(int j = r->GetStart().second; j <= r->GetEnd().second; j++){
+        grid_->GetCell(j, r->GetStart().first)->Occupy("Road");
+      }
+    }
 }
 
 void City::PrintCity(){
@@ -68,6 +81,8 @@ void City::PrintCity(){
         for(int j = 0; j < grid_->GetSizeY(); j++){
             if(grid_->GetCell(i, j)->GetType() == "Road"){
                 std::cout << "[R]";
+            }else if(grid_->GetCell(i, j)->GetType() == "Building"){
+                std::cout << "[B]";
             }else{
                 std::cout << "[ ]";
             }
