@@ -5,7 +5,7 @@ public:
     Road(const int speedLimit, const std::pair<int, int> start, const std::pair<int, int> end) :
             speedLimit_(speedLimit), start_(start), end_(end) {}
 
-    // const std::vector<Lane*> GetLanes() const {
+    // const std::pair<Lane*, Lane*> GetLanes() const {
     //      return lanes_;
     // }
 
@@ -22,7 +22,7 @@ public:
     }
 
 private:
-    // std::vector<Lane*> lanes_;
+    // std::pair<Lane*, Lane*> lanes_;
     int speedLimit_;
     const std::pair<int, int> start_;
     const std::pair<int, int> end_; 
