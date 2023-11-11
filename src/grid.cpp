@@ -6,9 +6,9 @@ Grid::Grid(int xSize, int ySize){
     xSize_ = xSize;
     ySize_ = ySize;
     
-    for(int i = 0; i < xSize; i++){
+    for(int j = 0; j < ySize; j++){
         std::vector<Cell*> row;
-        for(int j = 0; j < ySize; j++){
+        for(int i = 0; i < xSize; i++){
             row.push_back(new Cell());
         }
         cells_.push_back(row);
@@ -37,5 +37,5 @@ int Grid::GetSizeY() const {
 
 
 Cell* Grid::GetCell(int x, int y) {
-    return cells_[x][y];
+return cells_[y][x];
 }
