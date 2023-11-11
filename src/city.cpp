@@ -14,22 +14,39 @@ City::~City(){
         delete(it);
     }
 
+    for(auto it: buildings_){
+        delete(it);
+    }
+
     delete(grid_);
 }
 
 
-bool City::AddRoad(Road* r){
+bool City::IsValidRoad(Road* r) const{
 
-    //Check if road coordinates are ok
-    if((!r->IsHorizontal()) && (!r->IsVertical())){ //Invalid road
+    //If length is zero
+    if(r->GetStart() == r->GetEnd()){
+        return false;
+    }
+
+    //Check if road is not vertical or horizontal
+    if((!r->IsHorizontal()) && (!r->IsVertical())){
          return false;
     }
 
+    //Check that road is inside the grid coordinates
     if((r->GetStart().first < 0) || (r->GetStart().second < 0) || 
-       (r->GetEnd().first >= grid_->GetSizeX()) || (r->GetEnd().second >= grid_->GetSizeY())){
+       (r->GetEnd().first < 0) || (r->GetEnd().second < 0)){
           return false;
-       }
+    }
 
+    int xMax = grid_->GetSizeX();
+    int yMax = grid_->GetSizeY();
+
+    if((r->GetStart().first >= xMax) || (r->GetStart().second >= yMax) || 
+       (r->GetEnd().first >= xMax) || (r->GetEnd().second >= yMax)){
+          return false;
+    }
 
     if(r->IsVertical()){ 
 
@@ -39,11 +56,6 @@ bool City::AddRoad(Road* r){
                 return false;
             }
         }
-        
-        //Make the road and add it to the grid
-        roads_.push_back(r);
-        MakeRoad(r);
-
     }else{
 
         //Check that there are no buildings or other roads between the start and end coordinates
@@ -52,11 +64,47 @@ bool City::AddRoad(Road* r){
                 return false;
             }
         }
+    }
 
-        //Make the road and add it to the grid
+
+  return true;
+
+}
+
+
+void City::AddRoad(Road* r){
+
+
+    if(!IsValidRoad(r)){
+        std::cout << "Invalid road. It will be deleted!" << std::endl;
+        delete(r);
+    }else{
         roads_.push_back(r);
-        MakeRoad(r);
+        if(r->IsHorizontal()){
+           for(int i = r->GetStart().first; i <= r->GetEnd().first; i++){
+               grid_->GetCell(r->GetStart().second, i)->Occupy("Road");
+            }
+        }else{
+           for(int j = r->GetStart().second; j <= r->GetEnd().second; j++){
+               grid_->GetCell(j, r->GetStart().first)->Occupy("Road");
+           }
+       }
+    }
 
+}
+
+
+bool City::IsValidBuilding(Building* b) const {
+    if(b->GetLocation().first < 0 || b->GetLocation().second < 0){
+        return false;
+    }
+
+    if(b->GetLocation().first >= grid_->GetSizeX() || b->GetLocation().second >= grid_->GetSizeY()){
+        return false;
+    }
+
+    if(grid_->GetCell(b->GetLocation().first, b->GetLocation().second)->IsOccupied()){
+        return false;
     }
 
     return true;
@@ -64,17 +112,22 @@ bool City::AddRoad(Road* r){
 
 
 
-void City::MakeRoad(Road* r){
-    if(r->IsHorizontal()){
-        for(int i = r->GetStart().first; i <= r->GetEnd().first; i++){
-        grid_->GetCell(r->GetStart().second, i)->Occupy("Road");
-       }
+void City::AddBuilding(Building* b){
+
+    std::pair<int, int> location = b->GetLocation();
+
+    //Check that the cell is not occupied or out of bounds
+    if(!IsValidBuilding(b)){
+        std::cout << "Invalid building location. It will be deleted!" << std::endl;
+        delete(b);
     }else{
-      for(int j = r->GetStart().second; j <= r->GetEnd().second; j++){
-        grid_->GetCell(j, r->GetStart().first)->Occupy("Road");
-      }
+        buildings_.push_back(b);
+        grid_->GetCell(b->GetLocation().second, b->GetLocation().first)->Occupy("Building");
     }
 }
+
+
+
 
 void City::PrintCity(){
     for(int i = 0; i < grid_->GetSizeX(); i++){

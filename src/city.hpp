@@ -5,6 +5,7 @@
 #include "grid.hpp"
 #include "cell.hpp"
 #include "road.hpp"
+#include "building.hpp"
 #include <vector>
 
 
@@ -16,11 +17,13 @@ class City{
 
     ~City();
 
-   bool AddRoad(Road* r);
+   bool IsValidRoad(Road* R) const;
 
-   void MakeRoad(Road* r);
+   void AddRoad(Road* r);
 
-   bool AddBuilding(std::pair<int, int> location);
+   bool IsValidBuilding(Building* b) const;
+
+   void AddBuilding(Building* b);
 
    void PrintCity();
 
@@ -30,6 +33,7 @@ class City{
 
     Grid* grid_;
     std::vector<Road*> roads_;
+    std::vector<Building*> buildings_;
     
 };
 
