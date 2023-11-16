@@ -9,7 +9,7 @@ class Industrial : public Building {
 
     ~Industrial();
 
-    void Display() {
+    void Display() const override {
         std::cout << "This is an industrial building" << std::endl;
     }
 };
