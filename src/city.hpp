@@ -1,11 +1,12 @@
 #ifndef CITY_H
 #define CITY_H
 
-
+#include <SFML/Graphics.hpp>
 #include "grid.hpp"
 #include "cell.hpp"
 #include "road.hpp"
 #include "building.hpp"
+#include "car.hpp"
 #include <vector>
 
 
@@ -17,7 +18,7 @@ class City{
 
     ~City();
 
-   bool IsValidRoad(Road* R) const;
+   bool IsValidRoad(Road* r) const;
 
    void AddRoad(Road* r);
 
@@ -25,7 +26,13 @@ class City{
 
    void AddBuilding(Building* b);
 
-   void PrintCity();
+   void AddCar(Car* c);
+
+   void UpdateCars(float deltaTime);
+
+   void DrawCars(sf::RenderWindow& window);
+
+   void PrintCity(sf::RenderWindow& window);
 
 
 
@@ -34,6 +41,7 @@ class City{
     Grid* grid_;
     std::vector<Road*> roads_;
     std::vector<Building*> buildings_;
+    std::vector<Car*> cars_;
     
 };
 

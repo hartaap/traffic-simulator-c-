@@ -18,6 +18,10 @@ City::~City(){
         delete(it);
     }
 
+    for(auto it: cars_){
+        delete(it);
+    }
+
     delete(grid_);
 }
 
@@ -82,11 +86,11 @@ void City::AddRoad(Road* r){
         roads_.push_back(r);
         if(r->IsHorizontal()){
            for(int i = r->GetStart().first; i <= r->GetEnd().first; i++){
-               grid_->GetCell(r->GetStart().second, i)->Occupy("Road");
+               grid_->GetCell(r->GetStart().second, i)->Occupy("Horizontal Road");
             }
         }else{
            for(int j = r->GetStart().second; j <= r->GetEnd().second; j++){
-               grid_->GetCell(j, r->GetStart().first)->Occupy("Road");
+               grid_->GetCell(j, r->GetStart().first)->Occupy("Vertical Road");
            }
        }
     }
@@ -128,8 +132,43 @@ void City::AddBuilding(Building* b){
 
 
 
+void City::AddCar(Car* c){
+    cars_.push_back(c);
+}
 
-void City::PrintCity(){
+void City::UpdateCars(float deltaTime) {
+    for (auto car : cars_) {
+        car->Update(deltaTime, false);
+    }
+}
+
+void City::DrawCars(sf::RenderWindow& window) {
+    for (const auto car : cars_) {
+        car->Draw(window);
+    }
+}
+
+
+
+
+
+void City::PrintCity(sf::RenderWindow& window){
+  
+     const int cellSize = 50;
+
+    for (int j = 0; j < grid_->GetSizeY(); j++) {
+        for (int i = 0; i < grid_->GetSizeX(); i++) {
+           grid_->GetCell(i, j)->Draw(window, cellSize, i, j);
+        }
+    }
+
+
+
+
+
+
+
+    /*
     for(int i = 0; i < grid_->GetSizeX(); i++){
         for(int j = 0; j < grid_->GetSizeY(); j++){
             if(grid_->GetCell(i, j)->GetType() == "Road"){
@@ -142,4 +181,5 @@ void City::PrintCity(){
         }
         std::cout << std::endl;
     }
+    */
 }

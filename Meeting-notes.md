@@ -91,3 +91,43 @@ The group members have started to work on the classes and they should be finishe
 4. Jiri: finish the TrafficLight and Intersection classes.
 5. Each team member should think about how the addition of the Analysis class and the Grid class will affect the classes they are implementing.
 
+# Meeting 16.11.2023 10:00-11:00
+
+**Participants:**
+Artur Brander
+Aape Hartikainen
+Jaakko Karhu
+Jiri Simell
+
+## Summary of works
+1. Aape finished the Building class and is working on Person class and started working on the Analysis class together with Artur.
+2. Artur finished working on the Road class and started working on the Analysis class with Aape
+3. Jaakko implemented the grid and cell classes. Started working on the City class. Started working on the GUI.
+4. Jiri created initial implementations of the TrafficLight and Intersection classes.
+
+## Challenges
+1. There was a problem with adding an object inherited from Building in the City class. Aape will take a look.
+2. How to integrate the SMFL-library to the existing classes.
+3. How to calculate the roads that a car should take.
+4. There were difficulties with properly implementing the TrafficLight and Intersection classes with no proper Road class implementation.
+5. How to add randomness to the simulation.
+6. How is time used in the simulation: fast forwarding/starting/pausing the simulation
+
+## Actions
+1. Artur is working on the Analysis class. Also going to look into the JSON-file and time libraries. 
+2. Aape is working on Person and Analysis classes and starts looking into the SFML library.
+3. Jaakko is working on the Car and City classes and getting them to work with the SMFL-library.
+4. Jiri is going to continue working on the TrafficLight and Intersection classes.
+
+## Project status
+Discarded the implementation of the Lane class and continued to implement these functionalities in the Road class for improved clarity.
+
+## Deviations from the plan:
+The plan did not include a Grid class or a Cell class. These were implemented to make the City implementation more clear and easy to manage. 
+
+
+## TODOs
+1. Artur: Try to obtain a .csv file from road analysis and try to output a histogram with this data. Also look into the JSON-file and time libraries.
+2. Aape: Look into the random deviation of Persons schedule and finish the Person class. Work on Analysis class.
+3. Jaakko: Finish the implementation for Car and get everything to work with the GUI.
+4. Jiri: finish the TrafficLight and Intersection classes.
