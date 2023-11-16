@@ -49,27 +49,3 @@ int main() {
 
     return 0;
 }
-
-/*
-int main() {
-
-    int columns = 10;
-    int rows = 10;
-
-    City c = City(columns, rows);
-
-    Road* r1 = new Road({0, 0}, {4, 0}, 10);
-    Road* r2 = new Road({1, 1}, {1, 5}, 10);
-    Road* r3 = new Road({1, 1}, {5, 1}, 10);
-
-    Building* b1 = new Building("Murata", {4, 2});
-    Building* b2 = new Building("ABB", {-1, -1});
-
-    c.AddRoad(r1);
-    c.AddRoad(r2);
-    c.AddRoad(r3);
-    c.AddBuilding(b1);
-    c.AddBuilding(b2);
-    c.PrintCity();
-}
-*/

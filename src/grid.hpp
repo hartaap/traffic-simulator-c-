@@ -13,6 +13,8 @@ public:
 
     Cell* GetCell(int x, int y);
 
+    std::vector<Cell*> GetNeighborCells(int x, int y);
+
     int GetSizeX() const;
 
     int GetSizeY() const;
