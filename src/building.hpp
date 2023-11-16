@@ -1,3 +1,6 @@
+#ifndef BUILDING_H
+#define BUILDING_H
+
 #include <vector>
 #include <string>
 
@@ -22,3 +25,5 @@ private:
     std::pair<int,int> location_;
         
 };
+
+#endif
