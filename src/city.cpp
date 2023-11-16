@@ -118,7 +118,6 @@ bool City::IsValidBuilding(Building* b) const {
 
 void City::AddBuilding(Building* b){
 
-    std::pair<int, int> location = b->GetLocation();
 
     //Check that the cell is not occupied or out of bounds
     if(!IsValidBuilding(b)){
@@ -138,7 +137,7 @@ void City::AddCar(Car* c){
 
 void City::UpdateCars(float deltaTime) {
     for (auto car : cars_) {
-        car->Update(deltaTime, false);
+        car->Update(deltaTime);
     }
 }
 
@@ -162,24 +161,4 @@ void City::PrintCity(sf::RenderWindow& window){
         }
     }
 
-
-
-
-
-
-
-    /*
-    for(int i = 0; i < grid_->GetSizeX(); i++){
-        for(int j = 0; j < grid_->GetSizeY(); j++){
-            if(grid_->GetCell(i, j)->GetType() == "Road"){
-                std::cout << "[R]";
-            }else if(grid_->GetCell(i, j)->GetType() == "Building"){
-                std::cout << "[B]";
-            }else{
-                std::cout << "[ ]";
-            }
-        }
-        std::cout << std::endl;
-    }
-    */
 }

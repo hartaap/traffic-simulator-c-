@@ -7,7 +7,7 @@
 class Cell {
 public:
 
-    Cell(): type_("Empty"){}
+    Cell(std::pair<int, int> location): type_("Empty"), location_(location){}
     
     bool IsOccupied() const;
 
@@ -15,13 +15,22 @@ public:
 
     void Clear();
 
-    std::string GetType() const;
+    std::string GetType();
+
+    int GetX(){
+        return location_.first;
+    }
+
+    int GetY(){
+        return location_.second;
+    }
 
     void Draw(sf::RenderWindow& window, int cellSize, int x, int y);
 
 private:
 
    std::string type_;
+   std::pair<int, int> location_;
     
 };
 

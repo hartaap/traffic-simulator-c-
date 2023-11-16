@@ -21,7 +21,7 @@ void Cell::Clear() {
 }
 
 
-std::string Cell::GetType() const {
+std::string Cell::GetType()  {
 
     return type_;
 }
