@@ -1,3 +1,6 @@
+#ifndef INTERSECTION_H
+#define INTERSECTION_H
+
 #include <vector>
 
 #include "road.hpp"
@@ -14,4 +17,6 @@ class Intersection {
  private:
   std::pair<int, int> location_;
   std::vector<Road*> roads_;
-}
+};
+
+#endif
