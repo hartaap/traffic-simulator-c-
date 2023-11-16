@@ -9,6 +9,7 @@
 #include "car.hpp"
 #include "trafficlight.hpp"
 #include "intersection.hpp"
+#include "industrial.hpp"
 #include <vector>
 
 
