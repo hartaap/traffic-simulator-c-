@@ -16,10 +16,10 @@
 
     Returns the created city.
 */
-City CreateSmallCity() {
-
+City* CreateSmallCity() {
+    
     // Initialize the city
-    City c(2, 2);
+    City city(2, 2);
 
     // Create the roads
     Road* r1 = new Road({0, 0}, {0, 2}, 10);
@@ -43,28 +43,28 @@ City CreateSmallCity() {
     Car* c1 = new Car(0.0, 0.0);
 
     // Add the objects to the city
-    c.AddRoad(r1);
-    c.AddRoad(r2);
-    c.AddRoad(r3);
-    c.AddRoad(r4);
-    c.AddRoad(r5);
-    c.AddRoad(r6);
-    c.AddBuilding(b1);    
-    c.AddIntersection(i1);
-    c.AddIntersection(i2);
-    c.AddIntersection(i3);
-    c.AddIntersection(i4);
-    c.AddIntersection(i5);
-    c.AddCar(c1);
+    city.AddRoad(r1);
+    city.AddRoad(r2);
+    city.AddRoad(r3);
+    city.AddRoad(r4);
+    city.AddRoad(r5);
+    city.AddRoad(r6);
+    city.AddBuilding(b1);    
+    city.AddIntersection(i1);
+    city.AddIntersection(i2);
+    city.AddIntersection(i3);
+    city.AddIntersection(i4);
+    city.AddIntersection(i5);
+    city.AddCar(c1);
 
-    return c;
+    return &city;
 }
 
 int main() {
     // Create an SFML window
     sf::RenderWindow window(sf::VideoMode(800, 600), "City Simulation");
 
-    City city = CreateSmallCity();
+    City* city = CreateSmallCity();
 
     sf::Clock clock;
 
@@ -81,11 +81,11 @@ int main() {
         window.clear();
 
         //Move cars
-        city.UpdateCars(deltaTime);
+        city->UpdateCars(deltaTime);
 
         //Draw the city and the cars
-        city.PrintCity(window);
-        city.DrawCars(window);
+        city->PrintCity(window);
+        city->DrawCars(window);
 
         window.display();
     }
