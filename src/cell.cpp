@@ -30,8 +30,10 @@ void Cell::Draw(sf::RenderWindow& window, int cellSize, int x, int y){
 
     sf::RectangleShape cellShape(sf::Vector2f(cellSize,cellSize));
 
+    sf::Color Gray(50, 50, 50);
+
     if(type_ == "Horizontal Road"){
-        cellShape.setFillColor(sf::Color::Black);
+        cellShape.setFillColor(Gray);
         sf::RectangleShape dot(sf::Vector2f(cellSize / 2.0f, 2.0f));
         dot.setFillColor(sf::Color::White);
         dot.setPosition(y*cellSize, x*cellSize + cellSize/2.0f);
@@ -40,7 +42,7 @@ void Cell::Draw(sf::RenderWindow& window, int cellSize, int x, int y){
         window.draw(dot);
 
     }else if(type_ == "Vertical Road"){
-        cellShape.setFillColor(sf::Color::Black);
+        cellShape.setFillColor(Gray);
         sf::RectangleShape dot(sf::Vector2f(2.0f, cellSize / 2.0f));
         dot.setFillColor(sf::Color::White);
         dot.setPosition(y*cellSize + cellSize/2.0f, x*cellSize);
