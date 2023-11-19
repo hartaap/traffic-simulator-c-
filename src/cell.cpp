@@ -54,6 +54,11 @@ void Cell::Draw(sf::RenderWindow& window, int cellSize, int x, int y){
         cellShape.setFillColor(sf::Color::Blue);
         cellShape.setPosition(y *cellSize, x * cellSize); 
         window.draw(cellShape);
+    }else if(type_ == "Intersection"){
+    cellShape.setFillColor(Gray);
+    cellShape.setPosition(y*cellSize, x*cellSize);
+    window.draw(cellShape);
+    
     }else {
         cellShape.setFillColor(sf::Color::White);
         cellShape.setPosition(y *cellSize, x * cellSize); 
