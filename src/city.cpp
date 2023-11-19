@@ -55,7 +55,7 @@ bool City::IsValidRoad(Road* r) const{
     if(r->IsVertical()){ 
 
         //Check that there are no buildings or other roads between the start and end coordinates
-        for(int j = r->GetStart().second; j <= r->GetEnd().second; j++){
+        for(int j = r->GetStart().second+1; j <= r->GetEnd().second-1; j++){
             if(grid_->GetCell(j, r->GetStart().first)->IsOccupied()){
                 return false;
             }
@@ -63,7 +63,7 @@ bool City::IsValidRoad(Road* r) const{
     }else{
 
         //Check that there are no buildings or other roads between the start and end coordinates
-        for(int i = r->GetStart().first; i <= r->GetEnd().second; i++){
+        for(int i = r->GetStart().first+1; i <= r->GetEnd().second-1; i++){
             if(grid_->GetCell(r->GetStart().second, i)->IsOccupied()){
                 return false;
             }
@@ -76,20 +76,25 @@ bool City::IsValidRoad(Road* r) const{
 }
 
 
-void City::AddRoad(Road* r){
+void City::AddRoad(Node* node1, Node* node2){
 
+    Road* r = new Road(node1->GetLocation(), node2->GetLocation(), 10);
 
     if(!IsValidRoad(r)){
         std::cout << "Invalid road. It will be deleted!" << std::endl;
         delete(r);
     }else{
+
+        node1->AddConnection(node2);
+        node2->AddConnection(node1);
+
         roads_.push_back(r);
         if(r->IsHorizontal()){
-           for(int i = r->GetStart().first; i <= r->GetEnd().first; i++){
+           for(int i = r->GetStart().first+1; i <= r->GetEnd().first-1; i++){
                grid_->GetCell(r->GetStart().second, i)->Occupy("Horizontal Road");
             }
         }else{
-           for(int j = r->GetStart().second; j <= r->GetEnd().second; j++){
+           for(int j = r->GetStart().second+1; j <= r->GetEnd().second-1; j++){
                grid_->GetCell(j, r->GetStart().first)->Occupy("Vertical Road");
            }
        }
@@ -116,8 +121,10 @@ bool City::IsValidBuilding(Building* b) const {
 
 
 
-void City::AddBuilding(Building* b){
+void City::AddBuilding(std::string name, std::pair<int, int> location){
 
+
+    Building* b = new Building(name, location);
 
     //Check that the cell is not occupied or out of bounds
     if(!IsValidBuilding(b)){
@@ -125,10 +132,20 @@ void City::AddBuilding(Building* b){
         delete(b);
     }else{
         buildings_.push_back(b);
+        nodes_.push_back(new Node(NodeType::Building, location));
         grid_->GetCell(b->GetLocation().second, b->GetLocation().first)->Occupy("Building");
     }
 }
 
+
+Node* City::GetNode(std::pair<int, int> location){
+    for(auto node: nodes_){
+        if(node->GetLocation() == location){
+            return node;
+        }
+    }
+    return nullptr;
+}
 
 
 void City::AddCar(Car* c){

@@ -8,7 +8,8 @@
 #include "building.hpp"
 #include "car.hpp"
 #include <vector>
-
+#include "node.hpp"
+#include "intersection.hpp"
 
 class City{
 
@@ -20,13 +21,17 @@ class City{
 
    bool IsValidRoad(Road* r) const;
 
-   void AddRoad(Road* r);
+   void AddRoad(Node* node1, Node* node2);
 
    bool IsValidBuilding(Building* b) const;
 
-   void AddBuilding(Building* b);
+   void AddBuilding(std::string name, std::pair<int, int> location);
+
+   Node* GetNode(std::pair<int, int> location);
 
    void AddCar(Car* c);
+
+   void AddIntersection(Intersection* i);
 
    void UpdateCars(float deltaTime);
 
@@ -42,6 +47,7 @@ class City{
     std::vector<Road*> roads_;
     std::vector<Building*> buildings_;
     std::vector<Car*> cars_;
+    std::vector<Node*> nodes_;
     
 };
 
