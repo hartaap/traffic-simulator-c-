@@ -7,20 +7,24 @@ int main() {
     
     City c(10, 10); 
 
-    Road* r1 = new Road({0, 0}, {4, 0}, 10);
-    Road* r2 = new Road({1, 1}, {1, 5}, 10);
-    Road* r3 = new Road({1, 1}, {5, 1}, 10);
+   // Road* r1 = new Road({0, 0}, {4, 0}, 10);
+    //Road* r2 = new Road({1, 1}, {1, 5}, 10);
+    //Road* r3 = new Road({1, 1}, {5, 1}, 10);
 
-    Car* c1 = new Car(0.0, 0.0);
+    Car* c1 = new Car(4.0, 2.0);
 
-    Building* b1 = new Building("Murata", {4, 2});
-    Building* b2 = new Building("ABB", {-1, -1});
+   // Building* b1 = new Building("Murata", {4, 2});
+   // Building* b2 = new Building("ABB", {8, 2});
 
-    c.AddRoad(r1);
-    c.AddRoad(r2);
-    c.AddRoad(r3);
-    c.AddBuilding(b1);
-    c.AddBuilding(b2);
+    c.AddBuilding("Murata", {4, 2});
+    c.AddBuilding("ABB", {8, 2});
+    c.AddBuilding("Store", {8, 9});
+
+    c1->SetDestination(c.GetNode({8,2}));
+
+    c.AddRoad(c.GetNode({4,2}), c.GetNode({8,2}));
+    c.AddRoad(c.GetNode({8,2}), c.GetNode({8,9}));
+
     c.AddCar(c1);
 
      sf::Clock clock;
