@@ -16,6 +16,7 @@
 
     Returns the created city.
 */
+/*
 City* CreateSmallCity() {
     
     // Initialize the city
@@ -59,14 +60,14 @@ City* CreateSmallCity() {
 
     return &city;
 }
+*/
 
 int main() {
     // Create an SFML window
     sf::RenderWindow window(sf::VideoMode(800, 600), "City Simulation");
 
-    City* city = CreateSmallCity();
+    City c(10, 10);
 
-<<<<<<< HEAD
    // Road* r1 = new Road({0, 0}, {4, 0}, 10);
     //Road* r2 = new Road({1, 1}, {1, 5}, 10);
     //Road* r3 = new Road({1, 1}, {5, 1}, 10);
@@ -96,9 +97,6 @@ int main() {
     c.AddCar(c2);
 
      sf::Clock clock;
-=======
-    sf::Clock clock;
->>>>>>> refs/remotes/origin/master
 
     // Main loop
     while (window.isOpen()) {
@@ -113,11 +111,11 @@ int main() {
         window.clear();
 
         //Move cars
-        city->UpdateCars(deltaTime);
+        c.UpdateCars(deltaTime);
 
         //Draw the city and the cars
-        city->PrintCity(window);
-        city->DrawCars(window);
+        c.PrintCity(window);
+        c.DrawCars(window);
 
         window.display();
     }
