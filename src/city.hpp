@@ -31,7 +31,7 @@ class City{
 
    void AddCar(Car* c);
 
-   void AddIntersection(Intersection* i);
+   void AddIntersection(std::pair<int, int> location);
 
    void UpdateCars(float deltaTime);
 
@@ -46,6 +46,7 @@ class City{
     Grid* grid_;
     std::vector<Road*> roads_;
     std::vector<Building*> buildings_;
+    std::vector<Intersection*> intersections_;
     std::vector<Car*> cars_;
     std::vector<Node*> nodes_;
     

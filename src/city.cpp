@@ -91,11 +91,11 @@ void City::AddRoad(Node* node1, Node* node2){
         roads_.push_back(r);
         if(r->IsHorizontal()){
            for(int i = r->GetStart().first+1; i <= r->GetEnd().first-1; i++){
-               grid_->GetCell(r->GetStart().second, i)->Occupy("Horizontal Road");
+               grid_->GetCell(i, r->GetStart().second)->Occupy("Horizontal Road");
             }
         }else{
            for(int j = r->GetStart().second+1; j <= r->GetEnd().second-1; j++){
-               grid_->GetCell(j, r->GetStart().first)->Occupy("Vertical Road");
+               grid_->GetCell(r->GetStart().first, j)->Occupy("Vertical Road");
            }
        }
     }
@@ -133,8 +133,14 @@ void City::AddBuilding(std::string name, std::pair<int, int> location){
     }else{
         buildings_.push_back(b);
         nodes_.push_back(new Node(NodeType::Building, location));
-        grid_->GetCell(b->GetLocation().second, b->GetLocation().first)->Occupy("Building");
+        grid_->GetCell(b->GetLocation().first, b->GetLocation().second)->Occupy("Building");
     }
+}
+
+void City::AddIntersection(std::pair<int, int> location){
+    intersections_.push_back(new Intersection(location));
+    nodes_.push_back(new Node(NodeType::Intersection, location));
+    grid_->GetCell(location.first, location.second)->Occupy("Intersection");
 }
 
 
@@ -172,8 +178,8 @@ void City::PrintCity(sf::RenderWindow& window){
   
      const int cellSize = 50;
 
-    for (int j = 0; j < grid_->GetSizeY(); j++) {
-        for (int i = 0; i < grid_->GetSizeX(); i++) {
+    for (int i = 0; i < grid_->GetSizeX(); i++) {
+        for (int j = 0; j < grid_->GetSizeY(); j++) {
            grid_->GetCell(i, j)->Draw(window, cellSize, i, j);
         }
     }
