@@ -158,11 +158,6 @@ void City::AddCar(Car* c){
     cars_.push_back(c);
 }
 
-void City::AddIntersection(Intersection* i) {
-    intersections_.push_back(i);
-    grid_->GetCell(i->GetLocation().second, i->GetLocation().first)->Occupy("Intersection");
-}
-
 void City::AddTrafficLight(TrafficLight* t) {
     trafficLights_.push_back(t);
 }
