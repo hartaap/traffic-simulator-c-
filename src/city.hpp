@@ -7,6 +7,9 @@
 #include "road.hpp"
 #include "building.hpp"
 #include "car.hpp"
+#include "trafficlight.hpp"
+#include "intersection.hpp"
+#include "industrial.hpp"
 #include <vector>
 #include "node.hpp"
 #include "intersection.hpp"
@@ -19,25 +22,27 @@ class City{
 
     ~City();
 
-   bool IsValidRoad(Road* r) const;
+    bool IsValidRoad(Road* r) const;
 
-   void AddRoad(Node* node1, Node* node2);
+    void AddRoad(Node* node1, Node* node2);
 
-   bool IsValidBuilding(Building* b) const;
+    bool IsValidBuilding(Building* b) const;
 
-   void AddBuilding(std::string name, std::pair<int, int> location);
+    void AddBuilding(std::string name, std::pair<int, int> location);
 
    Node* GetNode(std::pair<int, int> location);
 
-   void AddCar(Car* c);
+    void AddCar(Car* c);
 
-   void AddIntersection(std::pair<int, int> location);
+    void AddIntersection(std::pair<int, int> location);
 
-   void UpdateCars(float deltaTime);
+    void AddTrafficLight(TrafficLight* t);
 
-   void DrawCars(sf::RenderWindow& window);
+    void UpdateCars(float deltaTime);
 
-   void PrintCity(sf::RenderWindow& window);
+    void DrawCars(sf::RenderWindow& window);
+
+    void PrintCity(sf::RenderWindow& window);
 
 
 
@@ -47,6 +52,7 @@ class City{
     std::vector<Road*> roads_;
     std::vector<Building*> buildings_;
     std::vector<Intersection*> intersections_;
+    std::vector<TrafficLight*> trafficLights_;
     std::vector<Car*> cars_;
     std::vector<Node*> nodes_;
     
