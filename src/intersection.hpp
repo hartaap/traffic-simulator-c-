@@ -7,8 +7,8 @@
 
 class Intersection {
  public:
-  Intersection(std::pair<int, int> location, std::vector<Road*> roads)
-      : location_(location), roads_(roads) {}
+  Intersection(std::pair<int, int> location)
+      : location_(location){}
 
   std::vector<Road*> GetRoads() const { return roads_; }
 
