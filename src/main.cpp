@@ -11,21 +11,29 @@ int main() {
     //Road* r2 = new Road({1, 1}, {1, 5}, 10);
     //Road* r3 = new Road({1, 1}, {5, 1}, 10);
 
-    Car* c1 = new Car(4.0, 2.0);
+    Car* c1 = new Car(4.0, 0.0);
+    Car* c2 = new Car(0.0, 0.0);
 
    // Building* b1 = new Building("Murata", {4, 2});
    // Building* b2 = new Building("ABB", {8, 2});
 
-    c.AddBuilding("Murata", {4, 2});
-    c.AddBuilding("ABB", {8, 2});
-    c.AddBuilding("Store", {8, 9});
+    c.AddBuilding("Murata", {4, 5});
+    //c.AddBuilding("ABB", {8, 2});
+    //c.AddBuilding("Store", {8, 9});
 
-    c1->SetDestination(c.GetNode({8,2}));
+    c.AddIntersection({4,0});
 
-    c.AddRoad(c.GetNode({4,2}), c.GetNode({8,2}));
-    c.AddRoad(c.GetNode({8,2}), c.GetNode({8,9}));
+    c.AddIntersection({0,0});
+
+
+    c.AddRoad(c.GetNode({4,0}), c.GetNode({4,5}));
+    c.AddRoad(c.GetNode({0,0}), c.GetNode({4,0}));
+
+    c1->SetDestination(c.GetNode({4,5}));
+    c2->SetDestination(c.GetNode({4,0}));
 
     c.AddCar(c1);
+    c.AddCar(c2);
 
      sf::Clock clock;
 
