@@ -36,8 +36,8 @@ void Cell::Draw(sf::RenderWindow& window, int cellSize, int x, int y){
         cellShape.setFillColor(Gray);
         sf::RectangleShape dot(sf::Vector2f(cellSize / 2.0f, 2.0f));
         dot.setFillColor(sf::Color::White);
-        dot.setPosition(y*cellSize, x*cellSize + cellSize/2.0f);
-        cellShape.setPosition(y *cellSize, x * cellSize); 
+        dot.setPosition(x*cellSize, y*cellSize + cellSize/2.0f);
+        cellShape.setPosition(x *cellSize, y * cellSize); 
         window.draw(cellShape);
         window.draw(dot);
 
@@ -45,18 +45,22 @@ void Cell::Draw(sf::RenderWindow& window, int cellSize, int x, int y){
         cellShape.setFillColor(Gray);
         sf::RectangleShape dot(sf::Vector2f(2.0f, cellSize / 2.0f));
         dot.setFillColor(sf::Color::White);
-        dot.setPosition(y*cellSize + cellSize/2.0f, x*cellSize);
-        cellShape.setPosition(y *cellSize, x * cellSize); 
+        dot.setPosition(x*cellSize + cellSize/2.0f, y*cellSize);
+        cellShape.setPosition(x *cellSize, y * cellSize); 
         window.draw(cellShape);
         window.draw(dot);
 
     }else if(type_ == "Building"){
         cellShape.setFillColor(sf::Color::Blue);
-        cellShape.setPosition(y *cellSize, x * cellSize); 
+        cellShape.setPosition(x *cellSize, y * cellSize); 
+        window.draw(cellShape);
+    }else if(type_ == "Intersection"){
+        cellShape.setFillColor(Gray);
+        cellShape.setPosition(x*cellSize, y*cellSize);
         window.draw(cellShape);
     }else {
         cellShape.setFillColor(sf::Color::White);
-        cellShape.setPosition(y *cellSize, x * cellSize); 
-        window.draw(cellShape);
+        cellShape.setPosition(x *cellSize, y * cellSize); 
+        window.draw(cellShape); 
     }
 }

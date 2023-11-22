@@ -6,12 +6,12 @@ Grid::Grid(int xSize, int ySize){
     xSize_ = xSize;
     ySize_ = ySize;
     
-    for(int j = 0; j < ySize; j++){
-        std::vector<Cell*> row;
-        for(int i = 0; i < xSize; i++){
-            row.push_back(new Cell({i, j}));
+    for(int i = 0; i < xSize; i++){
+        std::vector<Cell*> column;
+        for(int j = 0; j < ySize; j++){
+            column.push_back(new Cell({i, j}));
         }
-        cells_.push_back(row);
+        cells_.push_back(column);
     }
 }
 
@@ -37,7 +37,7 @@ int Grid::GetSizeY() const {
 
 
 Cell* Grid::GetCell(int x, int y) {
-return cells_[y][x];
+return cells_[x][y];
 }
 
 std::vector<Cell*> Grid::GetNeighborCells(int x, int y) {
