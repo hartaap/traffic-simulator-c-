@@ -98,6 +98,8 @@ int main() {
 
      sf::Clock clock;
 
+     float previousTime = 0;
+
     // Main loop
     while (window.isOpen()) {
         sf::Event event;
@@ -106,7 +108,11 @@ int main() {
                 window.close();
         }
 
-       float deltaTime = clock.restart().asSeconds();
+       float currentTime = clock.getElapsedTime().asSeconds();
+
+       float deltaTime = currentTime - previousTime;
+
+       previousTime = currentTime;
 
         window.clear();
 
