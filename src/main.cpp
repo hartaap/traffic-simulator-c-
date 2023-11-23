@@ -87,8 +87,8 @@ int main() {
     c.AddIntersection({0,0});
 
 
-    c.AddRoad(c.GetNode({4,0}), c.GetNode({4,5}));
-    c.AddRoad(c.GetNode({0,0}), c.GetNode({4,0}));
+    c.AddRoad({4,5}, {4,0});
+    c.AddRoad({4,0}, {0,0});
 
     c1->SetDestination(c.GetNode({4,5}));
     c2->SetDestination(c.GetNode({4,0}));
