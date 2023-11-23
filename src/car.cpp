@@ -69,6 +69,9 @@ void Car::Update(float deltaTime) {
     //carShape.move(dx, dy);
 }
 
+void Car::AddEvent(int time, std::string buildingName){
+    schedule_.insert({time, buildingName});
+}
 
 
 void Car::Draw(sf::RenderWindow& window) {
