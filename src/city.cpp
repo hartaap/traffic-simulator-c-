@@ -1,13 +1,13 @@
 #include "city.hpp"
 #include <iostream>
 
-
+// Constructor
 City::City(int sizeX, int sizeY){
     grid_ = new Grid(sizeX, sizeY);
 }
 
 
-
+// Destructor
 City::~City(){
 
     for(auto it: roads_){
@@ -26,47 +26,66 @@ City::~City(){
 }
 
 
-bool City::IsValidRoad(Road* r) const{
+bool City::IsValidRoad(std::pair<int, int> start, std::pair<int, int> end) const{
 
     //If length is zero
-    if(r->GetStart() == r->GetEnd()){
+    if(start == end){
         return false;
     }
 
     //Check if road is not vertical or horizontal
-    if((!r->IsHorizontal()) && (!r->IsVertical())){
+    if((start.first != end.first) && (start.second != end.second)){
          return false;
     }
 
     //Check that road is inside the grid coordinates
-    if((r->GetStart().first < 0) || (r->GetStart().second < 0) || 
-       (r->GetEnd().first < 0) || (r->GetEnd().second < 0)){
+    if((start.first < 0) || (start.second < 0) || 
+       (end.first < 0) || (end.second < 0)){
           return false;
     }
 
     int xMax = grid_->GetSizeX();
     int yMax = grid_->GetSizeY();
 
-    if((r->GetStart().first >= xMax) || (r->GetStart().second >= yMax) || 
-       (r->GetEnd().first >= xMax) || (r->GetEnd().second >= yMax)){
+    if((start.first >= xMax) || (end.second >= yMax) || 
+       (end.first >= xMax) || (end.second >= yMax)){
           return false;
     }
 
-    if(r->IsVertical()){ 
+    if(start.first == end.first){ //vertical
 
-        //Check that there are no buildings or other roads between the start and end coordinates
-        for(int j = r->GetStart().second+1; j <= r->GetEnd().second-1; j++){
-            if(grid_->GetCell(j, r->GetStart().first)->IsOccupied()){
+       //Check that there are no buildings or other roads between the start and end coordinates
+
+       if(start.second > end.second){
+
+          for(int j = start.second+1; j <= end.second-1; j++){
+            if(grid_->GetCell(j, start.first)->IsOccupied()){
                 return false;
             }
-        }
-    }else{
-
-        //Check that there are no buildings or other roads between the start and end coordinates
-        for(int i = r->GetStart().first+1; i <= r->GetEnd().second-1; i++){
-            if(grid_->GetCell(r->GetStart().second, i)->IsOccupied()){
+          }
+       }else{
+          for(int j = end.second+1; j <= start.second-1; j++){
+            if(grid_->GetCell(j, end.first)->IsOccupied()){
                 return false;
             }
+          }
+       }
+    }else{ //Horizontal
+
+        //Check that there are no buildings or other roads between the start and end coordinates
+        if(start.first > end.first){
+
+           for(int i = start.first+1; i <= end.first-1; i++){
+              if(grid_->GetCell(start.second, i)->IsOccupied()){
+                return false;
+             }
+           }
+        }else {
+           for(int i = end.first+1; i <= start.first-1; i++){
+              if(grid_->GetCell(start.second, i)->IsOccupied()){
+                return false;
+             }
+           }           
         }
     }
 
@@ -76,28 +95,59 @@ bool City::IsValidRoad(Road* r) const{
 }
 
 
-void City::AddRoad(Node* node1, Node* node2){
+void City::AddRoad(std::pair<int, int> start, std::pair<int, int> end){
 
-    Road* r = new Road(node1->GetLocation(), node2->GetLocation(), 10);
 
-    if(!IsValidRoad(r)){
-        std::cout << "Invalid road. It will be deleted!" << std::endl;
-        delete(r);
-    }else{
+    // Check that the road connects two nodes
 
-        node1->AddConnection(node2);
-        node2->AddConnection(node1);
+    if(GetNode(start) != nullptr && GetNode(end) != nullptr){
 
-        roads_.push_back(r);
-        if(r->IsHorizontal()){
-           for(int i = r->GetStart().first+1; i <= r->GetEnd().first-1; i++){
-               grid_->GetCell(i, r->GetStart().second)->Occupy("Horizontal Road");
-            }
-        }else{
-           for(int j = r->GetStart().second+1; j <= r->GetEnd().second-1; j++){
-               grid_->GetCell(r->GetStart().first, j)->Occupy("Vertical Road");
+        if(IsValidRoad(start, end)){
+
+          auto node1 = GetNode(start);
+          auto node2 = GetNode(end);
+          node1->AddConnection(node2);
+          node2->AddConnection(node1);
+          roads_.push_back(new Road(start, end, 10));
+
+        // Occupy the cells with the new road
+
+              if(start.first == end.first){ //vertical
+
+                 
+
+                  if(start.second < end.second){
+
+                    for(int j = start.second+1; j <= end.second-1; j++){
+                        grid_->GetCell(start.first, j)->Occupy("Vertical Road");
+                    }
+                 }else{
+
+                    for(int j = end.second+1; j <= start.second-1; j++){
+                        grid_->GetCell(start.first, j)->Occupy("Vertical Road");
+                    }
+                 }
+
+              }else{ //Horizontal
+
+                 
+                if(start.first < end.first){
+
+                   for(int i = start.first+1; i <= end.first-1; i++){
+                      grid_->GetCell(i, start.second)->Occupy("Horizontal Road");
+                  }
+
+               }else {
+
+                  for(int i = end.first+1; i <= start.first-1; i++){
+                     grid_->GetCell(i, start.second)->Occupy("Horizontal Road");
+                  }           
+              }
            }
-       }
+
+        }
+
+
     }
 
 }

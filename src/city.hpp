@@ -14,6 +14,8 @@
 #include "node.hpp"
 #include "intersection.hpp"
 
+
+
 class City{
 
     public:
@@ -22,15 +24,15 @@ class City{
 
     ~City();
 
-    bool IsValidRoad(Road* r) const;
+    bool IsValidRoad(std::pair<int, int> start, std::pair<int, int> end) const;
 
-    void AddRoad(Node* node1, Node* node2);
+    void AddRoad(std::pair<int, int> start, std::pair<int, int> end);
 
     bool IsValidBuilding(Building* b) const;
 
     void AddBuilding(std::string name, std::pair<int, int> location);
 
-   Node* GetNode(std::pair<int, int> location);
+    Node* GetNode(std::pair<int, int> location);
 
     void AddCar(Car* c);
 
