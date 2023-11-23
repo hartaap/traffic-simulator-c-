@@ -138,9 +138,11 @@ void City::AddBuilding(std::string name, std::pair<int, int> location){
 }
 
 void City::AddIntersection(std::pair<int, int> location){
-    intersections_.push_back(new Intersection(location));
-    nodes_.push_back(new Node(NodeType::Intersection, location));
-    grid_->GetCell(location.first, location.second)->Occupy("Intersection");
+    if(!grid_->GetCell(location.first, location.second)->IsOccupied()){
+       intersections_.push_back(new Intersection(location));
+       nodes_.push_back(new Node(NodeType::Intersection, location));
+       grid_->GetCell(location.first, location.second)->Occupy("Intersection");
+    }
 }
 
 
