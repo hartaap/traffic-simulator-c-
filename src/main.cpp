@@ -97,8 +97,11 @@ int main() {
 */
 
 c1->AddEvent(10, c.GetNode({4, 5}));
+c1->AddEvent(25, c.GetNode({4, 0}));
+c1->AddEvent(40, c.GetNode({0, 0}));
 
 c2->AddEvent(12, c.GetNode({4, 0}));
+c2->AddEvent(27, c.GetNode({4, 5}));
 
     c.AddCar(c1);
     c.AddCar(c2);
