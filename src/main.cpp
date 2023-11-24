@@ -90,15 +90,22 @@ int main() {
     c.AddRoad({4,5}, {4,0});
     c.AddRoad({4,0}, {0,0});
 
+/*
     c1->SetDestination(c.GetNode({4,5}));
     c2->SetDestination(c.GetNode({4,0}));
+
+*/
+
+c1->AddEvent(10, c.GetNode({4, 5}));
+
+c2->AddEvent(12, c.GetNode({4, 0}));
 
     c.AddCar(c1);
     c.AddCar(c2);
 
      sf::Clock clock;
 
-     float previousTime = 0;
+     float previousTime = 0.0;
 
     // Main loop
     while (window.isOpen()) {
@@ -108,16 +115,23 @@ int main() {
                 window.close();
         }
 
+
        float currentTime = clock.getElapsedTime().asSeconds();
 
        float deltaTime = currentTime - previousTime;
 
        previousTime = currentTime;
 
-        window.clear();
+       std::cout << "Delta time: " << deltaTime << std::endl;
+
+       std::cout << "Total time: " << currentTime << std::endl;
 
         //Move cars
-        c.UpdateCars(deltaTime);
+        c.UpdateCars(deltaTime, currentTime);
+
+        window.clear();
+
+
 
         //Draw the city and the cars
         c.PrintCity(window);
