@@ -106,15 +106,14 @@ void City::AddRoad(std::pair<int, int> start, std::pair<int, int> end){
 
           auto node1 = GetNode(start);
           auto node2 = GetNode(end);
-          node1->AddConnection(node2);
-          node2->AddConnection(node1);
           roads_.push_back(new Road(start, end, 10));
 
         // Occupy the cells with the new road
 
               if(start.first == end.first){ //vertical
 
-                 
+                 node1->AddConnection(node2, abs(start.second - end.second));
+                 node2->AddConnection(node1, abs(start.second - end.second));
 
                   if(start.second < end.second){
 
@@ -130,7 +129,9 @@ void City::AddRoad(std::pair<int, int> start, std::pair<int, int> end){
 
               }else{ //Horizontal
 
-                 
+                 node1->AddConnection(node2, abs(start.first - end.first));
+                 node2->AddConnection(node1, abs(start.first - end.first));        
+
                 if(start.first < end.first){
 
                    for(int i = start.first+1; i <= end.first-1; i++){
