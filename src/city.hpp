@@ -40,7 +40,7 @@ class City{
 
     void AddTrafficLight(TrafficLight* t);
 
-    void UpdateCars(float deltaTime);
+    void UpdateCars(float deltaTime, float currentTime);
 
     void DrawCars(sf::RenderWindow& window);
 

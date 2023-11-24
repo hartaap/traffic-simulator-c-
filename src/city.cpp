@@ -214,9 +214,9 @@ void City::AddTrafficLight(TrafficLight* t) {
     trafficLights_.push_back(t);
 }
 
-void City::UpdateCars(float deltaTime) {
+void City::UpdateCars(float deltaTime, float currentTime) {
     for (auto car : cars_) {
-        car->Update(deltaTime);
+        car->Update(deltaTime, currentTime);
     }
 }
 

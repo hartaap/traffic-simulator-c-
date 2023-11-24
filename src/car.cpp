@@ -8,6 +8,7 @@ Car::Car(float x, float y) {
     location_ = {x, y};
     speed = 0.6; 
     direction_ = "None";
+    destination_ = nullptr;
 
     sf::Color LightBlue(173, 216, 230);
 
@@ -19,6 +20,8 @@ Car::Car(float x, float y) {
     leftFrontLight.setFillColor(sf::Color::Yellow);
     frontWindow.setFillColor(LightBlue);
      //carShape.setPosition(location_.first*cellSize, location_.second*cellSize);
+
+     index_ = 0;
 }
 
 
@@ -28,18 +31,23 @@ void Car::SetDestination(Node* destination){
 
 
 
-void Car::Update(float deltaTime) {
+void Car::Update(float deltaTime, float currentTime) {
 
-    if((fabs(destination_->GetLocation().first - location_.first) <= 0.01) && (fabs(destination_->GetLocation().second - location_.second) <= 0.01)){
-        if(destination_->GetConnections().size() > 1){
-            location_ = destination_->GetLocation();
-            SetDestination(destination_->GetConnections()[1]);
-            direction_ = "None";
-        }else{
-           location_ = destination_->GetLocation();
-           SetDestination(destination_->GetConnections()[0]);
-           direction_ = "None";
+    if(direction_ == "None"){
+
+        auto next = schedule_.find(round(currentTime));
+
+        if(next != schedule_.end()){
+            destination_ = next->second;
         }
+        
+    }
+    
+    if(destination_ == nullptr){
+
+    }else if ((fabs(destination_->GetLocation().first - location_.first) <= 0.01) && (fabs(destination_->GetLocation().second - location_.second) <= 0.01)){
+        location_ = destination_->GetLocation();
+        direction_ = "None";
     }else if(destination_->GetLocation().first - location_.first > 1.0){
         direction_ = "Right";
     }else if(destination_->GetLocation().first - location_.first < -1.0){
@@ -69,8 +77,8 @@ void Car::Update(float deltaTime) {
     //carShape.move(dx, dy);
 }
 
-void Car::AddEvent(int time, std::string buildingName){
-    schedule_.insert({time, buildingName});
+void Car::AddEvent(int time, Node* node){
+    schedule_.insert({time, node});
 }
 
 

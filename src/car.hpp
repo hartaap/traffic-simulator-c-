@@ -10,10 +10,10 @@ class Car {
 public:
     Car(float x, float y);
 
-    void Update(float deltaTime);
+    void Update(float deltaTime, float currentTime);
     void SetDestination(Node* destination);
     void Draw(sf::RenderWindow& window);
-    void AddEvent(int time, std::string buildingName);
+    void AddEvent(int time, Node* node);
 
 
 private:
@@ -31,7 +31,8 @@ private:
     std::pair<float, float> location_;
     Node* destination_;
     std::vector<Node*> path_;
-    std::map<int, std::string> schedule_;
+    std::map<int, Node*> schedule_;
+    int index_;
 };
 
 #endif
