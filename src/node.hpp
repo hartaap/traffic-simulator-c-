@@ -15,16 +15,16 @@ class Node {
 
     NodeType GetType() const;
 
-    std::vector<Node*> GetConnections() const;
+    std::vector<std::pair<Node*, int>> GetConnections() const;
 
-    void AddConnection(Node* node);
+    void AddConnection(Node* node, int weight);
 
     std::pair<int, int> GetLocation() const;
 
     private:
     NodeType type_;
     std::pair<int, int> location_;
-    std::vector<Node*> connections_;
+    std::vector<std::pair<Node*, int>> connections_;
     
 };
 

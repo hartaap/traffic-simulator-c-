@@ -12,10 +12,10 @@ NodeType Node::GetType() const {
     return type_;
 }
 
- std::vector<Node*> Node::GetConnections() const {
+ std::vector<std::pair<Node*, int>> Node::GetConnections() const {
     return connections_;
 }
 
-void Node::AddConnection(Node* node) {
-    connections_.push_back(node);
+void Node::AddConnection(Node* node, int weight) {
+    connections_.push_back({node, weight});
 }
