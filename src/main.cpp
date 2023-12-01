@@ -72,16 +72,16 @@ int main() {
     //Road* r2 = new Road({1, 1}, {1, 5}, 10);
     //Road* r3 = new Road({1, 1}, {5, 1}, 10);
 
-    Car* c1 = new Car(4.0, 0.0);
-    Car* c2 = new Car(0.0, 0.0);
+
+    //Car* c2 = new Car(0.0, 0.0);
 
    // Building* b1 = new Building("Murata", {4, 2});
    // Building* b2 = new Building("ABB", {8, 2});
 
     c.AddBuilding("Murata", {4, 5});
-    //c.AddBuilding("ABB", {8, 2});
+    c.AddBuilding("ABB", {0, 4});
     //c.AddBuilding("Store", {8, 9});
-
+ 
     c.AddIntersection({4,0});
 
     c.AddIntersection({0,0});
@@ -89,22 +89,23 @@ int main() {
 
     c.AddRoad({4,5}, {4,0});
     c.AddRoad({4,0}, {0,0});
+    c.AddRoad({0, 4}, {0, 0});
 
 /*
     c1->SetDestination(c.GetNode({4,5}));
     c2->SetDestination(c.GetNode({4,0}));
 
 */
+Car* c1 = new Car(4.0, 5.0, c.GetNode({4, 5}));
+//c1->AddEvent(10, c.GetNode({4, 5}));
+//c1->AddEvent(25, c.GetNode({4, 0}));
+c1->AddEvent(10, c.GetNode({0, 4}));
 
-c1->AddEvent(10, c.GetNode({4, 5}));
-c1->AddEvent(25, c.GetNode({4, 0}));
-c1->AddEvent(40, c.GetNode({0, 0}));
-
-c2->AddEvent(12, c.GetNode({4, 0}));
-c2->AddEvent(27, c.GetNode({4, 5}));
+//c2->AddEvent(12, c.GetNode({4, 0}));
+//c2->AddEvent(27, c.GetNode({4, 5}));
 
     c.AddCar(c1);
-    c.AddCar(c2);
+    //c.AddCar(c2);
 
      sf::Clock clock;
 
