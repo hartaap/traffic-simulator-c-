@@ -2,13 +2,15 @@
 #include <string>
 #include <cmath>
 
-Car::Car(float x, float y) {
+Car::Car(float x, float y, Node* startingNode) {
     
     int cellSize = 50;
     location_ = {x, y};
     speed = 0.6; 
     direction_ = "None";
     destination_ = nullptr;
+
+    previous_ = startingNode;
 
     sf::Color LightBlue(173, 216, 230);
 
@@ -21,7 +23,6 @@ Car::Car(float x, float y) {
     frontWindow.setFillColor(LightBlue);
      //carShape.setPosition(location_.first*cellSize, location_.second*cellSize);
 
-     index_ = 0;
 }
 
 
@@ -29,17 +30,41 @@ void Car::SetDestination(Node* destination){
     destination_ = destination;
 }
 
+void Car::SetDirection(std::pair<int, int> current, std::pair<int, int> destination){
+    if(destination.first < current.first){
+        direction_ = "Left";
+    }else if(destination.first > current.first){
+        direction_ = "Right";
+    }else if(destination.second < current.second){
+        direction_ = "Up";
+    }else if(destination.second > current.second){
+        direction_ = "Down";
+    }
+}
 
 
-void Car::Update(float deltaTime, float currentTime) {
+
+void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes) {
 
     if(direction_ == "None"){
 
-        auto next = schedule_.find(round(currentTime));
+        if(path_.empty()){
 
-        if(next != schedule_.end()){
-            destination_ = next->second;
-        }
+           auto next = schedule_.find(round(currentTime));
+
+           if(next != schedule_.end()){
+               path_ = Dijkstra(previous_, next->second, allNodes);
+               destination_ = path_.back();
+               path_.pop_back();
+               location_ = previous_->GetLocation();
+               SetDirection(location_, destination_->GetLocation());
+           }
+
+       }else{
+           destination_ = path_.back();
+           location_ = previous_->GetLocation();
+           SetDirection(location_, destination_->GetLocation());
+       }
         
     }
     
@@ -48,14 +73,10 @@ void Car::Update(float deltaTime, float currentTime) {
     }else if ((fabs(destination_->GetLocation().first - location_.first) <= 0.01) && (fabs(destination_->GetLocation().second - location_.second) <= 0.01)){
         location_ = destination_->GetLocation();
         direction_ = "None";
-    }else if(destination_->GetLocation().first - location_.first > 1.0){
-        direction_ = "Right";
-    }else if(destination_->GetLocation().first - location_.first < -1.0){
-        direction_ = "Left";
-    }else if(destination_->GetLocation().second - location_.second > 1.0){
-        direction_ = "Down";
-    }else if(destination_->GetLocation().second - location_.second < -1.0){
-        direction_ = "Up";
+        path_.pop_back();
+        previous_ = destination_;
+    }else{
+        SetDirection(location_, destination_->GetLocation());
     }
 
 
@@ -80,6 +101,57 @@ void Car::Update(float deltaTime, float currentTime) {
 void Car::AddEvent(int time, Node* node){
     schedule_.insert({time, node});
 }
+
+std::vector<Node*> Car::Dijkstra(Node* source, Node* destination, std::vector<Node*> allNodes){
+
+    std::priority_queue<std::pair<int, Node*>, std::vector<std::pair<int, Node*>>, std::greater<>> priority_queue;
+
+    std::unordered_map<Node*, int> distances;
+
+    std::unordered_map<Node*, Node*> previous_list;
+
+
+    priority_queue.push({0, source});
+
+    for(auto it: allNodes){
+        distances[it] = 1000;
+    }
+
+    distances[source] = 0;
+
+    while(!priority_queue.empty()){
+
+        Node* currentNode = priority_queue.top().second;
+        priority_queue.pop();
+
+        for(auto it: currentNode->GetConnections()){
+
+            int currentDistance = distances[currentNode] + it.second;
+
+            if(currentDistance < distances[it.first]){
+                distances[it.first] = currentDistance;
+                previous_list[it.first] = currentNode;
+                priority_queue.push({currentDistance, it.first});
+            }
+        }
+    }
+
+
+    std::vector<Node*> result;
+
+    Node* current = destination;
+
+    while(current != nullptr){
+        result.push_back(current);
+        current = previous_list[current];
+    }
+
+    result.pop_back();
+
+    return result;
+
+}
+
 
 
 void Car::Draw(sf::RenderWindow& window) {

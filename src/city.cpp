@@ -217,7 +217,7 @@ void City::AddTrafficLight(TrafficLight* t) {
 
 void City::UpdateCars(float deltaTime, float currentTime) {
     for (auto car : cars_) {
-        car->Update(deltaTime, currentTime);
+        car->Update(deltaTime, currentTime, nodes_);
     }
 }
 
