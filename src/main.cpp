@@ -80,16 +80,23 @@ int main() {
 
     c.AddBuilding("Murata", {4, 5});
     c.AddBuilding("ABB", {0, 4});
+    c.AddBuilding("Alepa", {2, 4});
+    c.AddBuilding("Lidl", {8, 8});
     //c.AddBuilding("Store", {8, 9});
  
     c.AddIntersection({4,0});
 
     c.AddIntersection({0,0});
 
+    c.AddIntersection({2, 8});
+
 
     c.AddRoad({4,5}, {4,0});
     c.AddRoad({4,0}, {0,0});
     c.AddRoad({0, 4}, {0, 0});
+    c.AddRoad({0, 4}, {2, 4});
+    c.AddRoad({2, 4}, {2, 8});
+    c.AddRoad({2, 8}, {8, 8});
 
 /*
     c1->SetDestination(c.GetNode({4,5}));
@@ -100,7 +107,8 @@ Car* c1 = new Car(4.0, 5.0, c.GetNode({4, 5}));
 //c1->AddEvent(10, c.GetNode({4, 5}));
 //c1->AddEvent(25, c.GetNode({4, 0}));
 c1->AddEvent(10, c.GetNode({0, 4}));
-
+c1->AddEvent(50, c.GetNode({8, 8}));
+c1->AddEvent(80, c.GetNode({4, 5}));
 //c2->AddEvent(12, c.GetNode({4, 0}));
 //c2->AddEvent(27, c.GetNode({4, 5}));
 
