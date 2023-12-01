@@ -62,6 +62,7 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
 
        }else{
            destination_ = path_.back();
+           path_.pop_back();
            location_ = previous_->GetLocation();
            SetDirection(location_, destination_->GetLocation());
        }
@@ -70,14 +71,18 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
     
     if(destination_ == nullptr){
 
+    } else if((direction_ == "Left") && (fabs(destination_->GetLocation().first - location_.first) <= 0.01) && (fabs(destination_->GetLocation().second - location_.second) <= 0.01)){
+        location_ = destination_->GetLocation();
+        direction_ = "None";
+        previous_ = destination_;    
+        
     }else if ((fabs(destination_->GetLocation().first - location_.first) <= 0.01) && (fabs(destination_->GetLocation().second - location_.second) <= 0.01)){
         location_ = destination_->GetLocation();
         direction_ = "None";
-        path_.pop_back();
         previous_ = destination_;
-    }else{
-        SetDirection(location_, destination_->GetLocation());
-    }
+    } //else{  
+     //   SetDirection(location_, destination_->GetLocation());
+   // }
 
 
     float distance = speed * deltaTime;
