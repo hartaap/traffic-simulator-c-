@@ -55,6 +55,7 @@ void Simulator::InitializeSimulation(const json::value& jsonData) {
         auto carPositionArray = json::as_array(car[2]);
         int carPosX = json::to_number<int>(carPositionArray[0]);
         int carPosY = json::to_number<int>(carPositionArray[1]);
+        // cars[0] since only one car used in testing now
         cars[0] = new Car(carX, carY, c.GetNode({carPosX, carPosY}));
     }
 
@@ -65,6 +66,8 @@ void Simulator::InitializeSimulation(const json::value& jsonData) {
         auto eventPositionArray = json::as_array(event[1]);
         int eventX = json::to_number<float>(eventPositionArray[0]);
         int eventY = json::to_number<float>(eventPositionArray[1]);
+        // cars[0] since only one car used in testing now
+        // how to add events to specific cars?
         cars[0]->AddEvent(eventTime, c.GetNode({eventX, eventY}));
     }
 }
