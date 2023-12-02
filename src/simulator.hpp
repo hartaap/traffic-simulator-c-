@@ -3,9 +3,13 @@
 
 #include <fstream>
 #include <iostream>
+#include <iterator>
 #include <vector>
 #include <chrono>
 #include <thread>
+#include "../libs/cpp-json/json.h"
+#include "city.hpp"
+#include "car.hpp"
 
 class Simulator {
 public:
@@ -28,7 +32,7 @@ private:
     bool isPaused;
     int simulationSpeed; // 1x, 2x, 4x, etc.
 
-    void InitializeSimulation();
+    void InitializeSimulation(const json::value& jsonData);
     void UpdateSimulation();
     void DrawSimulation();
 };
