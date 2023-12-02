@@ -90,6 +90,8 @@ int main() {
 
     c.AddIntersection({2, 8});
 
+    c.AddIntersection({8, 5});
+
 
     c.AddRoad({4,5}, {4,0});
     c.AddRoad({4,0}, {0,0});
@@ -97,6 +99,8 @@ int main() {
     c.AddRoad({0, 4}, {2, 4});
     c.AddRoad({2, 4}, {2, 8});
     c.AddRoad({2, 8}, {8, 8});
+    c.AddRoad({8, 8}, {8, 5});
+    c.AddRoad({8, 5}, {4, 5});
 
 /*
     c1->SetDestination(c.GetNode({4,5}));

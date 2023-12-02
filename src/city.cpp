@@ -223,7 +223,7 @@ void City::UpdateCars(float deltaTime, float currentTime) {
 
 void City::DrawCars(sf::RenderWindow& window) {
     for (const auto car : cars_) {
-        car->Draw(window);
+        car->Draw(window, 50);
     }
 }
 

@@ -164,9 +164,9 @@ std::vector<Node*> Car::Dijkstra(Node* source, Node* destination, std::vector<No
 
 
 /*Draw the car-shape according to its direction*/
-void Car::Draw(sf::RenderWindow& window) {
+void Car::Draw(sf::RenderWindow& window, int cellSize) {
 
-    int cellSize = 50;
+
 
 
     carShape.setFillColor(sf::Color::Red);
