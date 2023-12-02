@@ -14,15 +14,11 @@ public:
     Commercial(const std::string& buildingName, const std::pair<int, int>& location, CommercialType type);
 
     int GetMaxPeopleCapacity() const override;
+
     int GetMaxCarCapacity() const override;
-    
-    // Additional functions for common behavior
-    void CommonCommercialFunction() const;
 
 private:
     CommercialType type_;
-
-    // Commercial-specific members
     int maxPeopleCapacity_;
     int maxCarCapacity_;
 };
