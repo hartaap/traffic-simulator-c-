@@ -64,7 +64,7 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
                SetDirection(location_, destination_->GetLocation());
            }
 
-       }else{ //Car is on the way
+       }else{ //Car is on the way to final destination
            destination_ = path_.back();
            path_.pop_back();
            location_ = previous_->GetLocation();
@@ -76,18 +76,11 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
     //Check if current destination has been reached
     if(destination_ == nullptr){
 
-    } else if((direction_ == "Left") && (fabs(destination_->GetLocation().first - location_.first) <= 0.01) && (fabs(destination_->GetLocation().second - location_.second) <= 0.01)){
-        location_ = destination_->GetLocation();
-        direction_ = "None";
-        previous_ = destination_;    
-        
     }else if ((fabs(destination_->GetLocation().first - location_.first) <= 0.01) && (fabs(destination_->GetLocation().second - location_.second) <= 0.01)){
         location_ = destination_->GetLocation();
         direction_ = "None";
         previous_ = destination_;
-    } //else{  
-     //   SetDirection(location_, destination_->GetLocation());
-   // }
+    }
 
     //Update cars location
     float distance = speed * deltaTime;
@@ -156,7 +149,7 @@ std::vector<Node*> Car::Dijkstra(Node* source, Node* destination, std::vector<No
     std::vector<Node*> result;
 
     Node* current = destination;
-    
+
     //Reconstruct the path to destination node
     while(current != nullptr){
         result.push_back(current);
