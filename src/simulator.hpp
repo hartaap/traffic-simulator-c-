@@ -3,11 +3,18 @@
 
 #include <fstream>
 #include <iostream>
+#include <vector>
+#include <chrono>
+#include <thread>
 
 class Simulator {
 
     public:
-    Simulator();
+    Simulator(int simulationTime)
+    : simulationTime(simulationTime) {
+
+    }
+
     ~Simulator();
 
     void StartSimulation();
@@ -22,6 +29,11 @@ class Simulator {
 
     private:
     std::ifstream file;
+    int simulationTime;
+
+    void InitializeSimulation();
+    void UpdateSimulation();
+    void RenderSimulation();
 
 };
 
