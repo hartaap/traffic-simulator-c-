@@ -15,7 +15,7 @@ public:
     void Update(float deltaTime, float currentTime, std::vector<Node*> allNodes);
     void SetDestination(Node* destination);
     void SetDirection(std::pair<int, int> current, std::pair<int, int> destination);
-    void Draw(sf::RenderWindow& window);
+    void Draw(sf::RenderWindow& window, int cellSize);
     void AddEvent(int time, Node* node);
 
     std::vector<Node*> Dijkstra(Node* source, Node* destination, std::vector<Node*> allNodes);
