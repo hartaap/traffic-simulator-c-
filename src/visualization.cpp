@@ -8,3 +8,10 @@ void Visualization::PrintGrid(Grid* grid){
         }
     }
 }
+
+
+void Visualization::PrintCars(std::vector<Car*> cars){
+    for(auto car: cars){
+        car->Draw(window_, cellSize_);
+    }
+}
