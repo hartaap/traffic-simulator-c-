@@ -2,6 +2,7 @@
 #include <string>
 #include <cmath>
 
+/*Constructor: Create a Car object and initialize its variables*/
 Car::Car(float x, float y, Node* startingNode) {
     
     int cellSize = 50;
@@ -25,11 +26,12 @@ Car::Car(float x, float y, Node* startingNode) {
 
 }
 
-
+//Set destination for car
 void Car::SetDestination(Node* destination){
     destination_ = destination;
 }
 
+//Set direction for car
 void Car::SetDirection(std::pair<int, int> current, std::pair<int, int> destination){
     if(destination.first < current.first){
         direction_ = "Left";
@@ -43,15 +45,17 @@ void Car::SetDirection(std::pair<int, int> current, std::pair<int, int> destinat
 }
 
 
-
+//Update the cars location and destination
 void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes) {
 
+//Car has found current destination
     if(direction_ == "None"){
 
-        if(path_.empty()){
+        if(path_.empty()){ //Car is idle
+           //Check if car is supposed to go somewhere
+           auto next = schedule_.find(round(currentTime)); 
 
-           auto next = schedule_.find(round(currentTime));
-
+           //If car has a destination node, find the best path
            if(next != schedule_.end()){
                path_ = Dijkstra(previous_, next->second, allNodes);
                destination_ = path_.back();
@@ -60,7 +64,7 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
                SetDirection(location_, destination_->GetLocation());
            }
 
-       }else{
+       }else{ //Car is on the way to final destination
            destination_ = path_.back();
            path_.pop_back();
            location_ = previous_->GetLocation();
@@ -69,22 +73,16 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
         
     }
     
+    //Check if current destination has been reached
     if(destination_ == nullptr){
 
-    } else if((direction_ == "Left") && (fabs(destination_->GetLocation().first - location_.first) <= 0.01) && (fabs(destination_->GetLocation().second - location_.second) <= 0.01)){
-        location_ = destination_->GetLocation();
-        direction_ = "None";
-        previous_ = destination_;    
-        
     }else if ((fabs(destination_->GetLocation().first - location_.first) <= 0.01) && (fabs(destination_->GetLocation().second - location_.second) <= 0.01)){
         location_ = destination_->GetLocation();
         direction_ = "None";
         previous_ = destination_;
-    } //else{  
-     //   SetDirection(location_, destination_->GetLocation());
-   // }
+    }
 
-
+    //Update cars location
     float distance = speed * deltaTime;
     float dx = 0.0;
     float dy = 0.0;
@@ -103,27 +101,33 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
     //carShape.move(dx, dy);
 }
 
+//Add an event to the cars schedule
 void Car::AddEvent(int time, Node* node){
     schedule_.insert({time, node});
 }
 
+//Dijkstras algorithm to find the best path from source node to destination node
 std::vector<Node*> Car::Dijkstra(Node* source, Node* destination, std::vector<Node*> allNodes){
 
+    //Priority queue for finding the path with shortest distance
     std::priority_queue<std::pair<int, Node*>, std::vector<std::pair<int, Node*>>, std::greater<>> priority_queue;
 
+    //Map every node with its distance from source node
     std::unordered_map<Node*, int> distances;
 
+    //Linked list for reconstructing the path
     std::unordered_map<Node*, Node*> previous_list;
-
 
     priority_queue.push({0, source});
 
+    //Initialize distances
     for(auto it: allNodes){
         distances[it] = 1000;
     }
 
     distances[source] = 0;
 
+    //Loop to get distances and previous nodes for all nodes
     while(!priority_queue.empty()){
 
         Node* currentNode = priority_queue.top().second;
@@ -146,6 +150,7 @@ std::vector<Node*> Car::Dijkstra(Node* source, Node* destination, std::vector<No
 
     Node* current = destination;
 
+    //Reconstruct the path to destination node
     while(current != nullptr){
         result.push_back(current);
         current = previous_list[current];
@@ -158,7 +163,7 @@ std::vector<Node*> Car::Dijkstra(Node* source, Node* destination, std::vector<No
 }
 
 
-
+/*Draw the car-shape according to its direction*/
 void Car::Draw(sf::RenderWindow& window) {
 
     int cellSize = 50;
