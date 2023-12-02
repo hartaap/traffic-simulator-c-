@@ -20,11 +20,7 @@ class Visualization {
 
     void PrintGrid(Grid* grid);
 
-    void PrintCars(std::vector<Car*> cars){
-        for(auto car : cars){
-            car->Draw(window_, cellSize_);
-        }
-    }
+    void PrintCars(std::vector<Car*> cars);
 
 
     private:
