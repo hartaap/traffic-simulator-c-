@@ -12,7 +12,8 @@ public:
     Simulator(int simulationTime);
     ~Simulator();
 
-    void StartSimulation();
+    void SimulatorThread();
+    void ResumeSimulation();
     void PauseSimulation();
     void EndSimulation();
     void SpeedUpSimulation();
@@ -29,7 +30,7 @@ private:
 
     void InitializeSimulation();
     void UpdateSimulation();
-    void RenderSimulation();
+    void DrawSimulation();
 };
 
 #endif

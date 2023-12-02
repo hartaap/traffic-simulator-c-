@@ -13,25 +13,27 @@ void Simulator::InitializeSimulation() {
 }
 
 void Simulator::UpdateSimulation() {
-    std::this_thread::sleep_for(std::chrono::milliseconds(500 / simulationSpeed)); // delay based on speed
     // logic here
 }
 
-void Simulator::RenderSimulation() {
-    std::this_thread::sleep_for(std::chrono::milliseconds(500 / simulationSpeed)); // delay based on speed
-    // Add your rendering logic here
+void Simulator::DrawSimulation() {
+    // logic here
 }
 
-void Simulator::StartSimulation() {
-    InitializeSimulation();
-
+void Simulator::SimulatorThread() {
     for (int timeStep = 0; timeStep < simulationTime && !isPaused; ++timeStep) {
         UpdateSimulation();
-        RenderSimulation();
+        DrawSimulation();
+        std::this_thread::sleep_for(std::chrono::milliseconds(500 / simulationSpeed)); // delay based on speed
     }
 
     // have to think about when the simulation completes! now just according to user's input
     std::cout << "Simulation complete." << std::endl;
+}
+
+void Simulator::ResumeSimulation() {
+    isPaused = false;
+    std::cout << "Simulation resumed." << std::endl;
 }
 
 void Simulator::PauseSimulation() {
