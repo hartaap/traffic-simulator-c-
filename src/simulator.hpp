@@ -8,13 +8,8 @@
 #include <thread>
 
 class Simulator {
-
-    public:
-    Simulator(int simulationTime)
-    : simulationTime(simulationTime) {
-
-    }
-
+public:
+    Simulator(int simulationTime);
     ~Simulator();
 
     void StartSimulation();
@@ -25,17 +20,16 @@ class Simulator {
 
     void LoadFile();
     void UserInput();
-    
 
-    private:
+private:
     std::ifstream file;
     int simulationTime;
+    bool isPaused;
+    int simulationSpeed; // 1x, 2x, 4x, etc.
 
     void InitializeSimulation();
     void UpdateSimulation();
     void RenderSimulation();
-
 };
-
 
 #endif
