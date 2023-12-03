@@ -8,10 +8,10 @@ int main() {
 
   City c(10, 10);
 
-  c.AddIndustrial("Murata", {4, 5});
-  c.AddIndustrial("ABB", {0, 4});
-  c.AddCommercial("Alepa", {2, 4}, SHOP);
-  c.AddCommercial("Lidl", {8, 8}, SHOP);
+  c.AddBuilding("Murata", {4, 5}, "Industrial");
+  c.AddBuilding("ABB", {0, 4}, "Industrial");
+  c.AddBuilding("Alepa", {2, 4}, "SHOP");
+  c.AddBuilding("Lidl", {8, 8}, "ShoP");
 
   c.AddIntersection({4, 0});
   c.AddIntersection({0, 0});
