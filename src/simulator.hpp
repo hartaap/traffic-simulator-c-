@@ -3,14 +3,21 @@
 
 #include <fstream>
 #include <iostream>
+#include <iterator>
+#include <vector>
+#include <chrono>
+#include <thread>
+#include "../libs/cpp-json/json.h"
+#include "city.hpp"
+#include "car.hpp"
 
 class Simulator {
-
-    public:
-    Simulator();
+public:
+    Simulator(int simulationTime);
     ~Simulator();
 
-    void StartSimulation();
+    void SimulatorThread();
+    void ResumeSimulation();
     void PauseSimulation();
     void EndSimulation();
     void SpeedUpSimulation();
@@ -18,12 +25,16 @@ class Simulator {
 
     void LoadFile();
     void UserInput();
-    
 
-    private:
+private:
     std::ifstream file;
+    int simulationTime;
+    bool isPaused;
+    int simulationSpeed; // 1x, 2x, 4x, etc.
 
+    void InitializeSimulation(const json::value& jsonData);
+    void UpdateSimulation();
+    void DrawSimulation();
 };
-
 
 #endif

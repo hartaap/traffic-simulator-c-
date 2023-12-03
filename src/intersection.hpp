@@ -7,11 +7,14 @@
 
 class Intersection {
  public:
-  Intersection(std::pair<int, int> location)
-      : location_(location){}
+  // Constructor
+  Intersection(std::pair<int, int> location, std::vector<Road*> roads)
+      : location_(location), roads_(roads) {}
 
+  // Returns the roads that are connected to this intersection
   std::vector<Road*> GetRoads() const { return roads_; }
 
+  // Returns the coordinates of the intersection
   std::pair<int, int> GetLocation() const { return location_; }
 
       TrafficLight* GetTrafficLightUp(){
