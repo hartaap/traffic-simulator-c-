@@ -12,9 +12,13 @@ class Building {
     
     virtual ~Building();
     
-    virtual int GetMaxPeopleCapacity() const = 0; 
+    int GetMaxPeopleCapacity() const {
+      return maxPersonCapacity_;
+    }
 
-    virtual int GetMaxCarCapacity() const = 0; 
+    int GetMaxCarCapacity() const {
+      return maxCarCapacity_;
+    }
 
     virtual void Info() const = 0;
 
@@ -25,12 +29,12 @@ class Building {
     bool isFull() const {
       return ((maxPersonCapacity_ - personAmount_) > 0);
     }
-    
+
     const std::string& GetName() const;
 
     const std::pair<int, int>& GetLocation() const;
 
- private:
+ protected:
     std::string buildingName_;
     std::pair<int, int> location_;
     int personAmount_;
