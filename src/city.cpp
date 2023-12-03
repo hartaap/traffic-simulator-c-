@@ -153,7 +153,7 @@ bool City::IsValidBuilding(Building* b) const {
 }
 
 void City::AddCommercial(std::string name, std::pair<int, int> location, CommercialType type) {
-  Building* b = new Commercial(name, location, type);
+  Building* b = new Commercial(name, location, type); // Adds a new commercial building
 
   // Check that the cell is not occupied or out of bounds
   if (!IsValidBuilding(b)) {
@@ -168,7 +168,7 @@ void City::AddCommercial(std::string name, std::pair<int, int> location, Commerc
 }
 
 void City::AddResidential(std::string name, std::pair<int, int> location) {
-  Building* b = new Residential(name, location);
+  Building* b = new Residential(name, location); // Adds a new residential building
 
   // Check that the cell is not occupied or out of bounds
   if (!IsValidBuilding(b)) {
@@ -183,7 +183,7 @@ void City::AddResidential(std::string name, std::pair<int, int> location) {
 }
 
 void City::AddIndustrial(std::string name, std::pair<int, int> location) {
-  Building* b = new Industrial(name, location);
+  Building* b = new Industrial(name, location); // Adds a new Industrial building
 
   // Check that the cell is not occupied or out of bounds
   if (!IsValidBuilding(b)) {
