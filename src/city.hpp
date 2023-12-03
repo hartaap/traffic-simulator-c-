@@ -35,7 +35,7 @@ class City{
 
     void AddIndustrial(std::string name, std::pair<int, int> location);
 
-    void AddCommercial(std::string name, std::pair<int, int> location, CommercialType type);
+    void AddCommercial(std::string name, std::pair<int, int> location, CommercialType type); // types are SHOP, RESTAURANT and GYM
 
     Node* GetNode(std::pair<int, int> location);
 
