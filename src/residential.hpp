@@ -1,20 +1,19 @@
-#ifndef RESIDENTIAL_H
-#define RESIDENTIAL_H
+#ifndef INDUSTRIAL_H
+#define INDUSTRIAL_H
 
 #include "building.hpp"
 
-class Residential : public Building {
+class Industrial : public Building {
  public:
-    Residential(const std::string& buildingName, const std::pair<int, int>& location)
+    Industrial(const std::string& buildingName, const std::pair<int, int>& location)
     : Building(buildingName, location) {
-        maxPersonCapacity_ = 5;
-        maxCarCapacity_ = 2;
+        maxPersonCapacity_ = 30;
+        maxCarCapacity_ = 25;
     }
-
+    
     void Info() const override {
-        std::cout << GetName() << " is a residential building!" << std::endl;
+        std::cout << GetName() << " is an industrial building!" << std::endl;
     }
-
 };
 
 #endif
