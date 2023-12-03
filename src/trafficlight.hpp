@@ -2,6 +2,7 @@
 #define TRAFFICLIGHT_H
 
 #include <utility>
+#include <iostream>
 
 class TrafficLight {
  public:
@@ -44,6 +45,17 @@ class TrafficLight {
     isRed_ = false;
     isYellow_ = false;
     isGreen_ = true;
+  }
+
+  // Returns the current color of the traffic light as a string ("red", "yellow", or "green")
+  std::string GetStatus() const {
+    if (isRed_) {
+      return "red";
+    } else if (isYellow_) {
+      return "yellow";
+    } else {
+      return "green";
+    }
   }
 
  private:
