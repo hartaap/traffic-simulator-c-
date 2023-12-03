@@ -19,3 +19,14 @@ Commercial::Commercial(const std::string& buildingName, const std::pair<int, int
     }
 }
 
+void Commercial::Info() const {
+        std::cout << GetName() << " is a perfect place for ";
+        if (type_ == GYM) {
+            std::cout << "training!" << std::endl;
+         } else if (type_== RESTAURANT) {
+            std::cout << "eating!" << std::endl;
+         } else {
+            std::cout << "shopping!" << std::endl;
+         }
+    }
+
