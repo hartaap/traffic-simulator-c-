@@ -178,7 +178,7 @@ void City::AddBuilding(std::string name, std::pair<int, int> location, const std
     buildings_.push_back(b);
     nodes_.push_back(new Node(NodeType::Building, location));
     grid_->GetCell(b->GetLocation().first, b->GetLocation().second)
-        ->Occupy("Building");
+        ->Occupy(lowertype);
   }
 }
 
