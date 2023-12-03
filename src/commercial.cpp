@@ -16,6 +16,8 @@ Commercial::Commercial(const std::string& buildingName, const std::pair<int, int
             maxPersonCapacity_ = 35;
             maxCarCapacity_ = 30;
             break;
+        default:
+            throw std::invalid_argument("Unvalid type");
     }
 }
 
