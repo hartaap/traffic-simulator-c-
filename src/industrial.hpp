@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 
+/*
 class Industrial : public Building {
     public:
     Industrial(const std::string& buildingName, std::pair<int,int> location) :
@@ -13,3 +14,5 @@ class Industrial : public Building {
         std::cout << "This is an industrial building" << std::endl;
     }
 };
+
+*/
