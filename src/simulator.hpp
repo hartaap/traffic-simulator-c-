@@ -1,41 +1,40 @@
 #ifndef SIMULATOR_H
 #define SIMULATOR_H
 
+#include <chrono>
 #include <fstream>
 #include <iostream>
 #include <iterator>
-#include <vector>
-#include <chrono>
 #include <thread>
+#include <vector>
+
 #include "../libs/cpp-json/json.h"
-#include "city.hpp"
 #include "car.hpp"
+#include "city.hpp"
 
 class Simulator {
-public:
-    Simulator(int simulationTime);
-    ~Simulator();
+ public:
+  Simulator();
+  ~Simulator();
 
-    void ResumeSimulation();
-    void PauseSimulation();
-    void EndSimulation();
-    void SpeedUpSimulation();
-    void SlowDownSimulation();
-    void StartSimulation();
+  void ResumeSimulation();
+  void PauseSimulation();
+  void EndSimulation();
+  void SpeedUpSimulation();
+  void SlowDownSimulation();
+  City StartSimulation();
 
-    void LoadFile();
-    void UserInput();
+  City LoadFile();
+  void UserInput();
 
-private:
-    std::ifstream file;
-    int simulationTime;
-    bool isPaused;
-    int simulationSpeed; // 1x, 2x, 4x, etc.
+ private:
+  std::ifstream file;
+  bool isPaused;
+  int simulationSpeed;  // 1x, 2x, 4x, etc.
 
-    void SimulatorThread();
-    void InitializeSimulation(const json::value& jsonData);
-    void UpdateSimulation();
-    void DrawSimulation();
+  void SimulatorThread();
+  void UpdateSimulation();
+  void DrawSimulation();
 };
 
 #endif

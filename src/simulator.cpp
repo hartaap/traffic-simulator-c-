@@ -1,15 +1,8 @@
 #include "simulator.hpp"
 
-Simulator::Simulator(int simulationTime)
-    : simulationTime(simulationTime), isPaused(false), simulationSpeed(1) {}
+Simulator::Simulator() : isPaused(false), simulationSpeed(1) {}
 
 Simulator::~Simulator() {}
-
-void Simulator::InitializeSimulation(const json::value& jsonData) {
-  std::cout << "Initializing simulation..." << std::endl;
-
-  
-}
 
 void Simulator::UpdateSimulation() {
   // City::UpdateCars();
@@ -19,13 +12,15 @@ void Simulator::DrawSimulation() {
   // logic here
 }
 
-void Simulator::StartSimulation() {
+City Simulator::StartSimulation() {
   std::cout << "Starting simulation..." << std::endl;
-  LoadFile();
+  City c = LoadFile();
+  return c;
 }
 
 void Simulator::SimulatorThread() {
-  for (int timeStep = 0; timeStep < simulationTime && !isPaused; ++timeStep) {
+  // need to change
+  for (int timeStep = 0; timeStep < 1000 && !isPaused; ++timeStep) {
     UpdateSimulation();
     DrawSimulation();
     std::this_thread::sleep_for(std::chrono::milliseconds(
@@ -66,7 +61,7 @@ void Simulator::SlowDownSimulation() {
             << "x" << std::endl;
 }
 
-void Simulator::LoadFile() {
+City Simulator::LoadFile() {
   // logic here
   std::string filename;
   std::cout << "Please enter JSON file name:" << std::endl;
@@ -74,7 +69,6 @@ void Simulator::LoadFile() {
   std::ifstream file("src/" + filename);
   if (!file.is_open()) {
     std::cerr << "Error: Unable to open file " << filename << std::endl;
-    return;
   }
 
   // Load the file into a string
@@ -98,20 +92,19 @@ void Simulator::LoadFile() {
     auto buildingObject = json::as_object(building);
 
     if (!buildingObject.empty()) {
-        // Assuming there's only one key in the building object
-        std::string name = buildingObject.begin()->first;
-        auto buildingData = json::as_array(buildingObject.begin()->second);
+      // Assuming there's only one key in the building object
+      std::string name = buildingObject.begin()->first;
+      auto buildingData = json::as_array(buildingObject.begin()->second);
 
-        std::string buildingType = buildingData[0].as_string();
-        auto positionArray = json::as_array(buildingData[1]);
+      std::string buildingType = buildingData[0].as_string();
+      auto positionArray = json::as_array(buildingData[1]);
 
-        int buildingX = json::to_number<int>(positionArray[0]);
-        int buildingY = json::to_number<int>(positionArray[1]);
+      int buildingX = json::to_number<int>(positionArray[0]);
+      int buildingY = json::to_number<int>(positionArray[1]);
 
-        c.AddBuilding(name, {buildingX, buildingY}, buildingType);
+      c.AddBuilding(name, {buildingX, buildingY}, buildingType);
     } else {
-         std::cerr << "Invalid building object in the array." << std::endl;
-
+      std::cerr << "Invalid building object in the array." << std::endl;
     }
   }
 
@@ -157,8 +150,12 @@ void Simulator::LoadFile() {
     cars[0]->AddEvent(eventTime, c.GetNode({eventX, eventY}));
   }
 
+  c.AddCar(cars[0]);
+
   // close file
   file.close();
+
+  return c;
 }
 
 void Simulator::UserInput() {
