@@ -16,12 +16,12 @@ public:
     Simulator(int simulationTime);
     ~Simulator();
 
-    void SimulatorThread();
     void ResumeSimulation();
     void PauseSimulation();
     void EndSimulation();
     void SpeedUpSimulation();
     void SlowDownSimulation();
+    void StartSimulation();
 
     void LoadFile();
     void UserInput();
@@ -32,6 +32,7 @@ private:
     bool isPaused;
     int simulationSpeed; // 1x, 2x, 4x, etc.
 
+    void SimulatorThread();
     void InitializeSimulation(const json::value& jsonData);
     void UpdateSimulation();
     void DrawSimulation();

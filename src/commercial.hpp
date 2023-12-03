@@ -2,6 +2,7 @@
 #define COMMERCIAL_H
 
 #include "building.hpp"
+#include <algorithm>
 
 class Commercial : public Building {
  public:
