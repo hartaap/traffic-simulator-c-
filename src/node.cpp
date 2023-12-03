@@ -22,48 +22,10 @@ void Node::AddConnection(Node* node, int weight) {
 
 
 
-    TrafficLight* Node::GetTrafficLightUp(){
-
-        auto it = trafficLights_.find("Up");
-
-        if(it != trafficLights_.end()){
-            return it->second;
-        }else{
-            return nullptr;
-        }
-    }
-
-    TrafficLight* Node::GetTrafficLightDown(){
-
-        auto it = trafficLights_.find("Down");
-
-        if(it != trafficLights_.end()){
-            return it->second;
-        }else{
-            return nullptr;
-        }
-    }
 
 
-    TrafficLight* Node::GetTrafficLightRight(){
 
-        auto it = trafficLights_.find("Right");
 
-        if(it != trafficLights_.end()){
-            return it->second;
-        }else{
-            return nullptr;
-        }
-    }
 
-    TrafficLight* Node::GetTrafficLightLeft(){
 
-        auto it = trafficLights_.find("Left");
-
-        if(it != trafficLights_.end()){
-            return it->second;
-        }else{
-            return nullptr;
-        }
-    }
 

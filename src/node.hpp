@@ -23,14 +23,6 @@ class Node {
 
     std::pair<int, int> GetLocation() const;
 
-    TrafficLight* GetTrafficLightUp();
-
-    TrafficLight* GetTrafficLightDown();
-
-
-    TrafficLight* GetTrafficLightRight();
-
-    TrafficLight* GetTrafficLightLeft();
 
 
 
@@ -39,7 +31,6 @@ class Node {
     std::pair<int, int> location_;
     std::vector<std::pair<Node*, int>> connections_;
 
-    std::map<std::string, TrafficLight*> trafficLights_;
     
 };
 
