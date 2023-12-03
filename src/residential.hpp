@@ -14,6 +14,9 @@ class Residential : public Building {
     int GetMaxCarCapacity() const override {
         return maxCarCapacity_;
     }
+    void Info() const override {
+        std::cout << GetName() << " is a residential building!" << std::endl;
+    }
 
  private:
     int maxPeopleCapacity_;
