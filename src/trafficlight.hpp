@@ -2,6 +2,7 @@
 #define TRAFFICLIGHT_H
 
 #include <utility>
+#include <string>
 
 class TrafficLight {
  public:
@@ -17,6 +18,7 @@ class TrafficLight {
   int GetRedDuration() const { return redDuration_; }
 
   int GetYellowDuration() const { return yellowDuration_; }
+
 
  private:
   std::pair<int, int> location_;

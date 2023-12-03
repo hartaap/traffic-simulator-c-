@@ -39,6 +39,8 @@ class City{
 
     void AddIntersection(std::pair<int, int> location);
 
+    Intersection* GetIntersection(std::pair<int, int> location);
+
     void AddTrafficLight(TrafficLight* t);
 
     void UpdateCars(float deltaTime, float currentTime);

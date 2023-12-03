@@ -215,6 +215,15 @@ void City::AddTrafficLight(TrafficLight* t) {
     trafficLights_.push_back(t);
 }
 
+Intersection* City::GetIntersection(std::pair<int, int> location){
+    for(auto it: intersections_){
+        if(it->GetLocation() == location){
+            return it;
+        }
+    }
+    return nullptr;
+}
+
 void City::UpdateCars(float deltaTime, float currentTime) {
     for (auto car : cars_) {
         car->Update(deltaTime, currentTime, nodes_);
