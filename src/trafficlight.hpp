@@ -49,8 +49,8 @@ class TrafficLight {
  private:
   std::pair<int, int> location_;
   int redDuration_;
+  int yellowDuration_;  
   int greenDuration_;
-  int yellowDuration_;
   bool isRed_ = false;
   bool isYellow_ = false;
   bool isGreen_ = true;  // In the beginning, the light is green by default
