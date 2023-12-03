@@ -78,10 +78,10 @@ int main() {
    // Building* b1 = new Building("Murata", {4, 2});
    // Building* b2 = new Building("ABB", {8, 2});
 
-    c.AddBuilding("Murata", {4, 5});
-    c.AddBuilding("ABB", {0, 4});
-    c.AddBuilding("Alepa", {2, 4});
-    c.AddBuilding("Lidl", {8, 8});
+    c.AddIndustrial("Murata", {4, 5});
+    c.AddIndustrial("ABB", {0, 4});
+    c.AddCommercial("Alepa", {2, 4}, SHOP);
+    c.AddCommercial("Lidl", {8, 8}, SHOP);
     //c.AddBuilding("Store", {8, 9});
  
     c.AddIntersection({4,0});
