@@ -168,3 +168,36 @@ The plan did not include a Node class. Node class was implemented in order to ma
 4. Jiri: Implement the handling of situations where the JSON file contains an invalid city.
 Each team member should be able to run & compile the project
 
+# Meeting 3.12.2023 11:30-12:30
+**Participants:**
+Artur Brander
+Aape Hartikainen
+Jaakko Karhu
+Jiri Simell
+
+## Summary of works 
+1. Aape has worked on building profiles, adding different types of buildings with their own properties.
+2. Artur integrated the JSON-library into the project and made unit tests for it. Additionally, added an initial implementation of the simulator class to decouple the GUI from the simulator itself. Looked a bit into analysis as well.
+3. Jaakko implemented the car movement. Cars calculate shortest paths using Dijkstras algorithm. Added a visualization class to decouple the simulation and GUI.
+4. Jiri improved the implementations of the TrafficLight and Intersection classes, and modified the City class according to the changes. Additionally, Jiri spent time on solving the configuration issues of the project.
+
+## Challenges
+1. The code finally compiled with modifications to the CMake configuration.
+2. How to make cars not crash into each other, how to integrate traffic lights. 
+
+## Actions
+1. Artur is working on the Simulator class.
+2. Aape is working on Building and Person profiles.
+3. Jaakko is working on the the visualization class and how traffic lights and other cars affect car movement.
+4. Jiri: Look into testing.
+
+## Project status
+## Deviations from the plan:
+Created new Simulator & Visualization classes for the project to decouple the GUI and simulation.
+
+
+## TODOs
+1. Artur: Try to progress with the Simulator class as much as possible. Create the text interface for the user to enter commands to start/pause/stop/load the simulation. Finish the JSON file loading.
+2. Aape: Modify City class function AddBuilding so it functions with building profiles. Figure out what a person does when it has no event on schedule and is in some building other than home.
+3. Jaakko: Finish the visualization class, integrate traffic lights to the city and make cars move according to them. Also make cars avoid crashes.
+4. Jiri: Implement some tests.
