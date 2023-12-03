@@ -152,8 +152,38 @@ bool City::IsValidBuilding(Building* b) const {
   return true;
 }
 
-void City::AddBuilding(std::string name, std::pair<int, int> location) {
-  Building* b = new Building(name, location);
+void City::AddCommercial(std::string name, std::pair<int, int> location, CommercialType type) {
+  Building* b = new Commercial(name, location, type);
+
+  // Check that the cell is not occupied or out of bounds
+  if (!IsValidBuilding(b)) {
+    std::cout << "Invalid building location. It will be deleted!" << std::endl;
+    delete (b);
+  } else {
+    buildings_.push_back(b);
+    nodes_.push_back(new Node(NodeType::Building, location));
+    grid_->GetCell(b->GetLocation().first, b->GetLocation().second)
+        ->Occupy("Building");
+  }
+}
+
+void City::AddResidential(std::string name, std::pair<int, int> location) {
+  Building* b = new Residential(name, location);
+
+  // Check that the cell is not occupied or out of bounds
+  if (!IsValidBuilding(b)) {
+    std::cout << "Invalid building location. It will be deleted!" << std::endl;
+    delete (b);
+  } else {
+    buildings_.push_back(b);
+    nodes_.push_back(new Node(NodeType::Building, location));
+    grid_->GetCell(b->GetLocation().first, b->GetLocation().second)
+        ->Occupy("Building");
+  }
+}
+
+void City::AddIndustrial(std::string name, std::pair<int, int> location) {
+  Building* b = new Industrial(name, location);
 
   // Check that the cell is not occupied or out of bounds
   if (!IsValidBuilding(b)) {
