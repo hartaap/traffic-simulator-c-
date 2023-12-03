@@ -6,7 +6,7 @@
 class Industrial : public Building {
  public:
     Industrial(const std::string& buildingName, const std::pair<int, int>& location)
-    : Building(buildingName, location) {
+    : Building(buildingName, location, "Industrial") {
         maxPersonCapacity_ = 30;
         maxCarCapacity_ = 25;
     }
