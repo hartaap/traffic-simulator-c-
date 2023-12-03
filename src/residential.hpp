@@ -6,7 +6,7 @@
 class Residential : public Building {
  public:
     Residential(const std::string& buildingName, const std::pair<int, int>& location)
-    : Building(buildingName, location) {
+    : Building(buildingName, location, "Residential") {
         maxPersonCapacity_ = 5;
         maxCarCapacity_ = 2;
     }
