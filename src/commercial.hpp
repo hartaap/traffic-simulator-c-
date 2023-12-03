@@ -14,10 +14,6 @@ class Commercial : public Building {
  public:
     Commercial(const std::string& buildingName, const std::pair<int, int>& location, CommercialType type);
 
-    int GetMaxPeopleCapacity() const override;
-
-    int GetMaxCarCapacity() const override;
-
     void Info() const override {
         std::cout << GetName() << " is a perfect place for ";
         if (type_ == GYM) {
@@ -31,8 +27,7 @@ class Commercial : public Building {
 
  private:
     CommercialType type_;
-    int maxPeopleCapacity_;
-    int maxCarCapacity_;
+   
 };
 
 #endif
