@@ -4,7 +4,7 @@
 #include "building.hpp"
 
 class Industrial : public Building {
-public:
+ public:
     Industrial(const std::string& buildingName, const std::pair<int, int>& location)
     : Building(buildingName, location), maxPeopleCapacity_(30), maxCarCapacity_(25) {}
     
@@ -14,8 +14,11 @@ public:
     int GetMaxCarCapacity() const override {
         return maxCarCapacity_;
     }
+    void Info() const override {
+        std::cout << GetName() << " is an industrial building!" << std::endl;
+    }
 
-private:
+ private:
     int maxPeopleCapacity_;
     int maxCarCapacity_;
 };
