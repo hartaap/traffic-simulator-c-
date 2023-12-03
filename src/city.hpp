@@ -10,6 +10,8 @@
 #include "trafficlight.hpp"
 #include "intersection.hpp"
 #include "industrial.hpp"
+#include "commercial.hpp"
+#include "residential.hpp"
 #include <vector>
 #include "node.hpp"
 #include "intersection.hpp"
