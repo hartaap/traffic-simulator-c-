@@ -28,6 +28,9 @@ class Person {
     bool isBusy() const {
         return status_;
     }
+    std::pair<int,int> GetLocation() const {
+        return location_;
+    }
     
  private:
     std::string name_;
@@ -39,3 +42,5 @@ class Person {
 };
 
 #endif
+
+
