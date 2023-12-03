@@ -14,16 +14,7 @@ class Commercial : public Building {
  public:
     Commercial(const std::string& buildingName, const std::pair<int, int>& location, CommercialType type);
 
-    void Info() const override {
-        std::cout << GetName() << " is a perfect place for ";
-        if (type_ == GYM) {
-            std::cout << "training!" << std::endl;
-         } else if (type_== RESTAURANT) {
-            std::cout << "eating!" << std::endl;
-         } else {
-            std::cout << "shopping!" << std::endl;
-         }
-    }
+    void Info() const override;
 
  private:
     CommercialType type_;
@@ -31,3 +22,4 @@ class Commercial : public Building {
 };
 
 #endif
+
