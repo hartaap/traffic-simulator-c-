@@ -8,7 +8,8 @@
 
 class Building {
  public:
-    Building(const std::string& buildingName, const std::pair<int, int>& location);
+    Building(const std::string& buildingName, const std::pair<int, int>& location, const std::string& type);
+    
     
     virtual ~Building();
     
@@ -41,6 +42,7 @@ class Building {
     int carAmount_;
     int maxPersonCapacity_;
     int maxCarCapacity_;
+    const std::string type_;
 };
 
 #endif
