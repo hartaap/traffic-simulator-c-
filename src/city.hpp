@@ -31,7 +31,11 @@ class City{
 
     bool IsValidBuilding(Building* b) const;
 
-    void AddBuilding(std::string name, std::pair<int, int> location);
+    void AddResidential(std::string name, std::pair<int, int> location);
+
+    void AddIndustrial(std::string name, std::pair<int, int> location);
+
+    void AddCommercial(std::string name, std::pair<int, int> location, CommercialType type);
 
     Node* GetNode(std::pair<int, int> location);
 
