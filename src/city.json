@@ -2,10 +2,10 @@
 	"x": 10,
 	"y": 10,
 	"buildings": [
-		{"Murata": [4,5]},
-        {"ABB": [0,4]},
-        {"Alepa": [2,4]},
-        {"Lidl": [8,8]}
+		{"Murata": ["Industrial",[4,5]]},
+        {"ABB": ["Industrial",[0,4]]},
+        {"Alepa": ["Shop",[2,4]]},
+        {"Lidl": ["Shop",[8,8]]}
     ],
     "intersections": [
         [4,0],
