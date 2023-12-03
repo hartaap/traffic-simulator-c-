@@ -3,21 +3,14 @@
 
 #include "building.hpp"
 
-
-enum CommercialType {
-    GYM,
-    RESTAURANT,
-    SHOP
-};
-
 class Commercial : public Building {
  public:
-    Commercial(const std::string& buildingName, const std::pair<int, int>& location, CommercialType type);
+    Commercial(const std::string& buildingName, const std::pair<int, int>& location, const std::string& commercialType);
 
     void Info() const override;
 
  private:
-    CommercialType type_;
+    const std::string type_;
    
 };
 
