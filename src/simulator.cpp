@@ -83,7 +83,7 @@ City Simulator::LoadFile() {
   int y = json::to_number<int>(jsonData["y"]);
 
   // init to max 5 cars for now; using 1 car right now
-  Car* cars[5];
+  std::vector<Car*> cars;
   City c(x, y);
 
   // Extract buildings
@@ -134,23 +134,27 @@ City Simulator::LoadFile() {
     auto carPositionArray = json::as_array(car[2]);
     int carPosX = json::to_number<int>(carPositionArray[0]);
     int carPosY = json::to_number<int>(carPositionArray[1]);
-    // cars[0] since only one car used in testing now
-    cars[0] = new Car(carX, carY, c.GetNode({carPosX, carPosY}));
+    cars.push_back(new Car(carX, carY, c.GetNode({carPosX, carPosY})));
   }
 
   // Extract events
+  int i = 0;
   auto eventsArray = json::as_array(jsonData["events"]);
-  for (const auto& event : eventsArray) {
-    int eventTime = json::to_number<int>(event[0]);
-    auto eventPositionArray = json::as_array(event[1]);
-    int eventX = json::to_number<float>(eventPositionArray[0]);
-    int eventY = json::to_number<float>(eventPositionArray[1]);
-    // cars[0] since only one car used in testing now
-    // how to add events to specific cars?
-    cars[0]->AddEvent(eventTime, c.GetNode({eventX, eventY}));
+  for (const auto& events : eventsArray) {
+    for (const auto& event : events.as_array()) {
+      int eventTime = json::to_number<int>(event[0]);
+      auto eventPositionArray = json::as_array(event[1]);
+      int eventX = json::to_number<float>(eventPositionArray[0]);
+      int eventY = json::to_number<float>(eventPositionArray[1]);
+      cars[i]->AddEvent(eventTime, c.GetNode({eventX, eventY}));
+    }
+    i++;
   }
 
-  c.AddCar(cars[0]);
+  // add cars into city
+  for (auto car : cars) {
+    c.AddCar(car);
+  }
 
   // close file
   file.close();
