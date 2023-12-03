@@ -70,15 +70,6 @@ void Cell::Draw(sf::RenderWindow& window, int cellSize, int x, int y){
         cellShape.setFillColor(sf::Color::Red);
         cellShape.setPosition(x *cellSize, y * cellSize); 
         window.draw(cellShape);
-        
-    }else if(type_ == "Intersection"){
-        cellShape.setFillColor(Gray);
-        cellShape.setPosition(x*cellSize, y*cellSize);
-        window.draw(cellShape);
-    }else {
-        cellShape.setFillColor(sf::Color::White);
-        cellShape.setPosition(x *cellSize, y * cellSize); 
-        window.draw(cellShape); 
     }else if(type_ == "Intersection"){
         cellShape.setFillColor(Gray);
         cellShape.setPosition(x*cellSize, y*cellSize);
