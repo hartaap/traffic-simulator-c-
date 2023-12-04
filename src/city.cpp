@@ -193,17 +193,11 @@ void City::AddBuilding(std::string name, std::pair<int, int> location,
   }
 }
 
+/* Attempts to create an intersection to the given location.
+   Returns an InvalidCityException if the location is occupied already */
 void City::AddIntersection(std::pair<int, int> location) {
   if (!grid_->GetCell(location.first, location.second)->IsOccupied()) {
-    // Find the roads that intersect in the given location (needed for creating
-    // the Intersection instance)
-    std::vector<Road*> roads;
-    for (auto it : roads_) {
-      if (it->GetStart() == location || it->GetEnd() == location)
-        roads.push_back(it);
-    }
-    // Create an intersection into the given location
-    Intersection* i = new Intersection(location, roads);
+    Intersection* i = new Intersection(location);
     intersections_.push_back(i);
     nodes_.push_back(new Node(NodeType::Intersection, location));
     grid_->GetCell(location.first, location.second)->Occupy("Intersection");
@@ -214,14 +208,14 @@ void City::AddIntersection(std::pair<int, int> location) {
   }
 }
 
-void City::UpdateIntersections(float deltaTime){
-  for(auto it : intersections_){
+void City::UpdateIntersections(float deltaTime) {
+  for (auto it : intersections_) {
     it->Update(deltaTime);
   }
 }
 
-void City::DrawIntersections(sf::RenderWindow& window){
-  for(auto it: intersections_){
+void City::DrawIntersections(sf::RenderWindow& window) {
+  for (auto it : intersections_) {
     it->Draw(window, 50);
   }
 }
@@ -237,13 +231,12 @@ Node* City::GetNode(std::pair<int, int> location) {
 
 void City::AddCar(Car* c) { cars_.push_back(c); }
 
-void City::AddTrafficLight(TrafficLight* t) { 
-
+void City::AddTrafficLight(TrafficLight* t) {
   auto intersection = GetIntersection(t->GetLocation());
 
-  if(intersection != nullptr){
+  if (intersection != nullptr) {
     trafficLights_.push_back(t);
-    intersection->AddTrafficLight(t); 
+    intersection->AddTrafficLight(t);
   }
 }
 
