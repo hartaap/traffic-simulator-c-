@@ -38,9 +38,7 @@ void Simulator::StartSimulation() {
 }
 
 void Simulator::SimulatorThread() {
-  // Create an SFML window
   Visualization* gui = new Visualization(50);
-  gui->InitializeGUI();
   sf::Clock clock;
 
   float previousTime = 0.0;

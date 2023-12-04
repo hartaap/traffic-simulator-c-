@@ -13,8 +13,3 @@ void Visualization::PrintCars(std::vector<Car*> cars) {
     car->Draw(window_, cellSize_);
   }
 }
-
-void Visualization::InitializeGUI() {
-    GetWindow();
-    
-}

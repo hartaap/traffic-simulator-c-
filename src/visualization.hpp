@@ -18,7 +18,6 @@ class Visualization {
       : window_(sf::VideoMode(800, 600), "Traffic Simulation"),
         cellSize_(cellSize) {}
 
-  void InitializeGUI();
   sf::RenderWindow& GetWindow() { return window_; }
 
   void PrintGrid(Grid* grid);
