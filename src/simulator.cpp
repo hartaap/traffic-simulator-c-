@@ -7,6 +7,7 @@ Simulator::~Simulator() { delete c_; }
 
 void Simulator::UpdateSimulation(float deltaTime, float currentTime) {
   c_->UpdateCars(deltaTime, currentTime);
+  c_->UpdateIntersections(deltaTime);
 }
 
 void Simulator::DrawSimulation(Visualization* gui) {
@@ -19,6 +20,7 @@ void Simulator::DrawSimulation(Visualization* gui) {
 
   // Draw the city and the cars
   c_->PrintCity(gui->GetWindow());
+  c_->DrawIntersections(gui->GetWindow());
   c_->DrawCars(gui->GetWindow());
 
   gui->GetWindow().display();

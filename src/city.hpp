@@ -42,6 +42,10 @@ class City {
 
   Intersection* GetIntersection(std::pair<int, int> location);
 
+  void UpdateIntersections(float deltaTime);
+
+  void DrawIntersections(sf::RenderWindow& window);
+
   void AddTrafficLight(TrafficLight* t);
 
   void UpdateCars(float deltaTime, float currentTime);

@@ -214,6 +214,18 @@ void City::AddIntersection(std::pair<int, int> location) {
   }
 }
 
+void City::UpdateIntersections(float deltaTime){
+  for(auto it : intersections_){
+    it->Update(deltaTime);
+  }
+}
+
+void City::DrawIntersections(sf::RenderWindow& window){
+  for(auto it: intersections_){
+    it->Draw(window, 50);
+  }
+}
+
 Node* City::GetNode(std::pair<int, int> location) {
   for (auto node : nodes_) {
     if (node->GetLocation() == location) {
@@ -225,7 +237,15 @@ Node* City::GetNode(std::pair<int, int> location) {
 
 void City::AddCar(Car* c) { cars_.push_back(c); }
 
-void City::AddTrafficLight(TrafficLight* t) { trafficLights_.push_back(t); }
+void City::AddTrafficLight(TrafficLight* t) { 
+
+  auto intersection = GetIntersection(t->GetLocation());
+
+  if(intersection != nullptr){
+    trafficLights_.push_back(t);
+    intersection->AddTrafficLight(t); 
+  }
+}
 
 Intersection* City::GetIntersection(std::pair<int, int> location) {
   for (auto it : intersections_) {
