@@ -37,43 +37,44 @@ void Simulator::StartSimulation() {
   SetCity(c);
 }
 
-  void Simulator::SimulatorThread() {
-    Visualization* gui = new Visualization(50);
-    sf::Clock clock;
+void Simulator::SimulatorThread() {
+  Visualization* gui = new Visualization(50);
+  sf::Clock clock;
 
-    float previousTime = 0.0;
+  float previousTime = 0.0;
 
-    // Start input thread
-    std::promise<void> exitSignal;
-    auto inputFuture = std::async(std::launch::async, &Simulator::InputThread, this, std::move(exitSignal));
+  // Start input thread
+  std::promise<void> exitSignal;
+  auto inputFuture = std::async(std::launch::async, &Simulator::InputThread,
+                                this, std::move(exitSignal));
 
-    // Main loop
-    while (true) {
-      float currentTime = clock.getElapsedTime().asSeconds();
-      float deltaTime = currentTime - previousTime;
-      previousTime = currentTime;
+  // Main loop
+  while (true) {
+    float currentTime = clock.getElapsedTime().asSeconds();
+    float deltaTime = simulationSpeed_ * (currentTime - previousTime);
+    previousTime = currentTime;
 
-      if(!isPaused_) {
-        UpdateSimulation(deltaTime, currentTime);
-      }
-
-      if (guiEnabled_) {
-        DrawSimulation(gui);
-      }
-
-      std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    if (!isPaused_) {
+      UpdateSimulation(deltaTime, currentTime);
     }
 
-    // input thread exits
-    exitSignal.set_value();
+    if (guiEnabled_) {
+      DrawSimulation(gui);
+    }
 
-    // input thread finishes
-    inputFuture.get();
-
-    // create a finish simulation function
-
-    std::cout << "Simulation complete." << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
   }
+
+  // input thread exits
+  exitSignal.set_value();
+
+  // input thread finishes
+  inputFuture.get();
+
+  // create a finish simulation function
+
+  std::cout << "Simulation complete." << std::endl;
+}
 
 void Simulator::ResumeSimulation() {
   isPaused_ = false;
@@ -100,8 +101,13 @@ void Simulator::SpeedUpSimulation() {
 void Simulator::SlowDownSimulation() {
   // currently just arbitrary coefficient of 2
   simulationSpeed_ /= 2;
-  std::cout << "Simulation speed decreased. Current speed: " << simulationSpeed_
-            << "x" << std::endl;
+  if (simulationSpeed_ == 0) {
+    std::cout << "Can't go below 1x speed!" << std::endl;
+    simulationSpeed_ = 1;
+  } else {
+    std::cout << "Simulation speed decreased. Current speed: "
+              << simulationSpeed_ << "x" << std::endl;
+  }
 }
 
 City Simulator::LoadFile() {
@@ -219,30 +225,35 @@ City Simulator::LoadFile() {
 }
 
 std::string Simulator::UserInput() {
-  std::cout << "Enter a command (e.g., pause, resume, exit): ";
+  std::cout << "Enter a command (e.g., pause, resume, faster, slower, exit): ";
   std::string command;
   std::cin >> command;
 
   return command;
 }
 
-  void Simulator::InputThread(std::promise<void> exitSignal) {
-    std::string command;
-    while (true) {
-      std::cout << "Enter a command (e.g., pause, resume, exit): ";
-      std::cin >> command;
+void Simulator::InputThread(std::promise<void> exitSignal) {
+  std::string command;
+  while (true) {
+    std::cout
+        << "Enter a command (e.g., pause, resume, faster, slower, exit): ";
+    std::cin >> command;
 
-      if (command == "pause") {
-        PauseSimulation();
-      } else if (command == "resume") {
-        ResumeSimulation();
-      } else if (command == "exit") {
-        EndSimulation();
-        // Signal the main thread to exit
-        exitSignal.set_value();
-        break;
-      } else {
-        std::cout << "Invalid command. Try again." << std::endl;
-      }
+    if (command == "pause") {
+      PauseSimulation();
+    } else if (command == "resume") {
+      ResumeSimulation();
+    } else if (command == "faster") {
+      SpeedUpSimulation();
+    } else if (command == "slower") {
+      SlowDownSimulation();
+    } else if (command == "exit") {
+      EndSimulation();
+      // Signal the main thread to exit
+      exitSignal.set_value();
+      break;
+    } else {
+      std::cout << "Invalid command. Try again." << std::endl;
     }
   }
+}
