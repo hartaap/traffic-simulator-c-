@@ -11,6 +11,7 @@
 #include "../libs/cpp-json/json.h"
 #include "car.hpp"
 #include "city.hpp"
+#include "visualization.hpp"
 
 class Simulator {
  public:
@@ -25,6 +26,9 @@ class Simulator {
   void StartSimulation();
   void SimulatorThread();
 
+  void UpdateSimulation(float deltaTime, float currentTime);
+  void DrawSimulation(Visualization* gui);
+
   City LoadFile();
   void UserInput();
 
@@ -32,11 +36,9 @@ class Simulator {
 
  private:
   bool isPaused_;
+  bool guiEnabled_;
   int simulationSpeed_;  // 1x, 2x, 4x, etc.
   City* c_;
-
-  void UpdateSimulation();
-  void DrawSimulation();
 };
 
 #endif

@@ -1,30 +1,30 @@
 #include <SFML/Graphics.hpp>
-#include "grid.hpp"
-#include "cell.hpp"
-#include "road.hpp"
+#include <cstdlib>
+#include <vector>
+
 #include "building.hpp"
 #include "car.hpp"
-#include "trafficlight.hpp"
-#include "intersection.hpp"
+#include "cell.hpp"
+#include "grid.hpp"
 #include "industrial.hpp"
-#include <vector>
-#include "node.hpp"
 #include "intersection.hpp"
-#include <cstdlib>
+#include "node.hpp"
+#include "road.hpp"
+#include "trafficlight.hpp"
 
 class Visualization {
+ public:
+  Visualization(int cellSize)
+      : window_(sf::VideoMode(800, 600), "Traffic Simulation"),
+        cellSize_(cellSize) {}
 
-    public:
+  void InitializeGUI();
+  sf::RenderWindow& GetWindow() { return window_; }
 
-    Visualization(int cellSize): window_(sf::VideoMode(800, 600), "Traffic Simulation"), cellSize_(cellSize){}
+  void PrintGrid(Grid* grid);
+  void PrintCars(std::vector<Car*> cars);
 
-    void PrintGrid(Grid* grid);
-
-    void PrintCars(std::vector<Car*> cars);
-
-
-    private:
-
-    sf::RenderWindow window_;
-    int cellSize_;
+ private:
+  sf::RenderWindow window_;
+  int cellSize_;
 };

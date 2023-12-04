@@ -1,15 +1,27 @@
 #include "simulator.hpp"
 
-Simulator::Simulator() : isPaused_(false), simulationSpeed_(1) {}
+Simulator::Simulator()
+    : isPaused_(false), guiEnabled_(true), simulationSpeed_(1) {}
 
 Simulator::~Simulator() { delete c_; }
 
-void Simulator::UpdateSimulation() {
-  // City::UpdateCars();
+void Simulator::UpdateSimulation(float deltaTime, float currentTime) {
+  c_->UpdateCars(deltaTime, currentTime);
 }
 
-void Simulator::DrawSimulation() {
-  // logic here
+void Simulator::DrawSimulation(Visualization* gui) {
+  sf::Event event;
+  while (gui->GetWindow().pollEvent(event)) {
+    if (event.type == sf::Event::Closed) gui->GetWindow().setVisible(false);
+  }
+
+  gui->GetWindow().clear();
+
+  // Draw the city and the cars
+  c_->PrintCity(gui->GetWindow());
+  c_->DrawCars(gui->GetWindow());
+
+  gui->GetWindow().display();
 }
 
 void Simulator::StartSimulation() {
@@ -27,37 +39,26 @@ void Simulator::StartSimulation() {
 
 void Simulator::SimulatorThread() {
   // Create an SFML window
-  sf::RenderWindow window(sf::VideoMode(800, 600), "City Simulation");
+  Visualization* gui = new Visualization(50);
+  gui->InitializeGUI();
   sf::Clock clock;
 
   float previousTime = 0.0;
 
   // Main loop
-  while (window.isOpen()) {
-    sf::Event event;
-    while (window.pollEvent(event)) {
-      if (event.type == sf::Event::Closed) window.close();
-    }
-
+  while (true) {
     float currentTime = clock.getElapsedTime().asSeconds();
-
     float deltaTime = currentTime - previousTime;
-
     previousTime = currentTime;
 
     std::cout << "Delta time: " << deltaTime << std::endl;
     std::cout << "Total time: " << currentTime << std::endl;
+    
+    UpdateSimulation(deltaTime, currentTime);
 
-    // Move cars
-    c_->UpdateCars(deltaTime, currentTime);
-
-    window.clear();
-
-    // Draw the city and the cars
-    c_->PrintCity(window);
-    c_->DrawCars(window);
-
-    window.display();
+    if (guiEnabled_) {
+      DrawSimulation(gui);
+    }
   }
   std::cout << "Simulation complete." << std::endl;
 }
