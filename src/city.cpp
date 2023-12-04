@@ -24,12 +24,12 @@ City::~City() {
 
 bool City::IsValidRoad(std::pair<int, int> start,
                        std::pair<int, int> end) const {
-  // If length is zero
+  // Check that the length of the road is not zero
   if (start == end) {
     return false;
   }
 
-  // Check if road is not vertical or horizontal
+  // Check that road is not diagonal (only vertical or horizontal roads allowed)
   if ((start.first != end.first) && (start.second != end.second)) {
     return false;
   }
@@ -52,7 +52,6 @@ bool City::IsValidRoad(std::pair<int, int> start,
 
     // Check that there are no buildings or other roads between the start and
     // end coordinates
-
     if (start.second > end.second) {
       for (int j = start.second + 1; j <= end.second - 1; j++) {
         if (grid_->GetCell(j, start.first)->IsOccupied()) {
@@ -66,6 +65,7 @@ bool City::IsValidRoad(std::pair<int, int> start,
         }
       }
     }
+
   } else {  // Horizontal
 
     // Check that there are no buildings or other roads between the start and
@@ -88,49 +88,56 @@ bool City::IsValidRoad(std::pair<int, int> start,
   return true;
 }
 
+// Adds a road to the city.
+// Throws an InvalidCityException if the road is invalid.
 void City::AddRoad(std::pair<int, int> start, std::pair<int, int> end) {
-  // Check that the road connects two nodes
+  // Check that the road is valid and that it connects two nodes.
+  // If not, thwrow an InvalidCityException
+  if (IsValidRoad(start, end) && GetNode(start) != nullptr &&
+      GetNode(end) != nullptr) {
+    auto node1 = GetNode(start);
+    auto node2 = GetNode(end);
+    roads_.push_back(new Road(start, end, 10));
 
-  if (GetNode(start) != nullptr && GetNode(end) != nullptr) {
-    if (IsValidRoad(start, end)) {
-      auto node1 = GetNode(start);
-      auto node2 = GetNode(end);
-      roads_.push_back(new Road(start, end, 10));
+    // Occupy the cells with the new road
+    if (start.first == end.first) {  // vertical
 
-      // Occupy the cells with the new road
+      node1->AddConnection(node2, abs(start.second - end.second));
+      node2->AddConnection(node1, abs(start.second - end.second));
 
-      if (start.first == end.first) {  // vertical
-
-        node1->AddConnection(node2, abs(start.second - end.second));
-        node2->AddConnection(node1, abs(start.second - end.second));
-
-        if (start.second < end.second) {
-          for (int j = start.second + 1; j <= end.second - 1; j++) {
-            grid_->GetCell(start.first, j)->Occupy("Vertical Road");
-          }
-        } else {
-          for (int j = end.second + 1; j <= start.second - 1; j++) {
-            grid_->GetCell(start.first, j)->Occupy("Vertical Road");
-          }
+      if (start.second < end.second) {
+        for (int j = start.second + 1; j <= end.second - 1; j++) {
+          grid_->GetCell(start.first, j)->Occupy("Vertical Road");
         }
+      } else {
+        for (int j = end.second + 1; j <= start.second - 1; j++) {
+          grid_->GetCell(start.first, j)->Occupy("Vertical Road");
+        }
+      }
 
-      } else {  // Horizontal
+    } else {  // Horizontal
 
-        node1->AddConnection(node2, abs(start.first - end.first));
-        node2->AddConnection(node1, abs(start.first - end.first));
+      node1->AddConnection(node2, abs(start.first - end.first));
+      node2->AddConnection(node1, abs(start.first - end.first));
 
-        if (start.first < end.first) {
-          for (int i = start.first + 1; i <= end.first - 1; i++) {
-            grid_->GetCell(i, start.second)->Occupy("Horizontal Road");
-          }
-
-        } else {
-          for (int i = end.first + 1; i <= start.first - 1; i++) {
-            grid_->GetCell(i, start.second)->Occupy("Horizontal Road");
-          }
+      if (start.first < end.first) {
+        for (int i = start.first + 1; i <= end.first - 1; i++) {
+          grid_->GetCell(i, start.second)->Occupy("Horizontal Road");
+        }
+      } else {
+        for (int i = end.first + 1; i <= start.first - 1; i++) {
+          grid_->GetCell(i, start.second)->Occupy("Horizontal Road");
         }
       }
     }
+  } else {
+    std::string startX = std::to_string(start.first);
+    std::string startY = std::to_string(start.second);
+    std::string endX = std::to_string(end.first);
+    std::string endY = std::to_string(end.second);
+    throw InvalidCityException(("road starting from {" + startX + ", " +
+                                startY + "} and ending to {" + endX + ", " +
+                                endY + "} is invalid"));
   }
 }
 
@@ -152,28 +159,32 @@ bool City::IsValidBuilding(Building* b) const {
   return true;
 }
 
-void City::AddBuilding(std::string name, std::pair<int, int> location, const std::string& buildingType) {
+void City::AddBuilding(std::string name, std::pair<int, int> location,
+                       const std::string& buildingType) {
   Building* b = nullptr;
   std::string lowertype = buildingType;
   // Compare two strings in a case-insensitive manner
-  std::transform(lowertype.begin(), lowertype.end(), lowertype.begin(), [](unsigned char c){ return std::tolower(c); });
+  std::transform(lowertype.begin(), lowertype.end(), lowertype.begin(),
+                 [](unsigned char c) { return std::tolower(c); });
 
   // Check the building type and create the corresponding building
   if (lowertype == "industrial") {
-      b = new Industrial(name, location);
+    b = new Industrial(name, location);
   } else if (lowertype == "residential") {
-      b = new Residential(name, location);
-  } else if (lowertype == "shop" || lowertype == "gym" || lowertype == "restaurant") {
-      b = new Commercial(name, location, buildingType);
+    b = new Residential(name, location);
+  } else if (lowertype == "shop" || lowertype == "gym" ||
+             lowertype == "restaurant") {
+    b = new Commercial(name, location, buildingType);
   } else {
-      std::cerr << "Unknown building type!" << std::endl;
-      return;
+    throw InvalidCityException("building type " + lowertype + " is unknown");
   }
 
   // Check that the cell is not occupied or out of bounds
   if (!IsValidBuilding(b)) {
-    std::cout << "Invalid building location. It will be deleted!" << std::endl;
     delete (b);
+    throw InvalidCityException("invalid building location at: {" +
+                               std::to_string(location.first) + ", " +
+                               std::to_string(location.second) + "}");
   } else {
     buildings_.push_back(b);
     nodes_.push_back(new Node(NodeType::Building, location));
@@ -181,7 +192,6 @@ void City::AddBuilding(std::string name, std::pair<int, int> location, const std
         ->Occupy(lowertype);
   }
 }
-
 
 void City::AddIntersection(std::pair<int, int> location) {
   if (!grid_->GetCell(location.first, location.second)->IsOccupied()) {
@@ -197,6 +207,10 @@ void City::AddIntersection(std::pair<int, int> location) {
     intersections_.push_back(i);
     nodes_.push_back(new Node(NodeType::Intersection, location));
     grid_->GetCell(location.first, location.second)->Occupy("Intersection");
+  } else {
+    throw InvalidCityException("invalid intersection location at: {" +
+                               std::to_string(location.first) + ", " +
+                               std::to_string(location.second) + "}");
   }
 }
 
@@ -213,13 +227,13 @@ void City::AddCar(Car* c) { cars_.push_back(c); }
 
 void City::AddTrafficLight(TrafficLight* t) { trafficLights_.push_back(t); }
 
-Intersection* City::GetIntersection(std::pair<int, int> location){
-    for(auto it: intersections_){
-        if(it->GetLocation() == location){
-            return it;
-        }
+Intersection* City::GetIntersection(std::pair<int, int> location) {
+  for (auto it : intersections_) {
+    if (it->GetLocation() == location) {
+      return it;
     }
-    return nullptr;
+  }
+  return nullptr;
 }
 
 void City::UpdateCars(float deltaTime, float currentTime) {

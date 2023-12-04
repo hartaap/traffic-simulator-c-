@@ -150,7 +150,13 @@ City Simulator::LoadFile() {
       int buildingX = json::to_number<int>(positionArray[0]);
       int buildingY = json::to_number<int>(positionArray[1]);
 
-      c.AddBuilding(name, {buildingX, buildingY}, buildingType);
+      try {
+        c.AddBuilding(name, {buildingX, buildingY}, buildingType);
+      } catch (InvalidCityException& e) {
+        std::cout << "Could not load the city from the JSON file." << std::endl;
+        std::cout << e.GetError() << std::endl;
+        exit(1);
+      }
     } else {
       std::cerr << "Invalid building object in the array." << std::endl;
     }
@@ -171,7 +177,13 @@ City Simulator::LoadFile() {
     int start_y = json::to_number<int>(road[1]);
     int end_x = json::to_number<int>(road[2]);
     int end_y = json::to_number<int>(road[3]);
-    c.AddRoad({start_x, start_y}, {end_x, end_y});
+    try {
+      c.AddRoad({start_x, start_y}, {end_x, end_y});
+    } catch (InvalidCityException& e) {
+      std::cout << "Could not load the city from the JSON file." << std::endl;
+      std::cout << e.GetError() << std::endl;
+      exit(1);
+    }
   }
 
   // Extract cars
@@ -213,8 +225,14 @@ City Simulator::LoadFile() {
     int yellowDuration = json::to_number<int>(trafficLight[2]);
     int greenDuration = json::to_number<int>(trafficLight[3]);
 
-    c.AddTrafficLight(new TrafficLight({posX, posY}, redDuration,
-                                       yellowDuration, greenDuration));
+    try {
+      c.AddTrafficLight(new TrafficLight({posX, posY}, redDuration,
+                                         yellowDuration, greenDuration));
+    } catch (InvalidCityException& e) {
+      std::cout << "Could not load the city from the JSON file." << std::endl;
+      std::cout << e.GetError() << std::endl;
+      exit(1);
+    }
   }
 
   // close file
