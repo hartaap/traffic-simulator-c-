@@ -1,8 +1,8 @@
 #include "simulator.hpp"
 
-Simulator::Simulator() : isPaused(false), simulationSpeed(1) {}
+Simulator::Simulator() : isPaused_(false), simulationSpeed_(1) {}
 
-Simulator::~Simulator() {}
+Simulator::~Simulator() { delete c_; }
 
 void Simulator::UpdateSimulation() {
   // City::UpdateCars();
@@ -12,33 +12,63 @@ void Simulator::DrawSimulation() {
   // logic here
 }
 
-City Simulator::StartSimulation() {
+void Simulator::StartSimulation() {
   std::cout << "Starting simulation..." << std::endl;
-  City c = LoadFile();
-  return c;
+  City* c = new City(LoadFile());
+
+  if (c == nullptr) {
+    std::cerr << "Error: Failed to load City. Simulation cannot start."
+              << std::endl;
+    exit(1);
+  }
+
+  SetCity(c);
 }
 
 void Simulator::SimulatorThread() {
-  // need to change
-  for (int timeStep = 0; timeStep < 1000 && !isPaused; ++timeStep) {
-    UpdateSimulation();
-    DrawSimulation();
-    std::this_thread::sleep_for(std::chrono::milliseconds(
-        500 / simulationSpeed));  // delay based on speed
-  }
+  // Create an SFML window
+  sf::RenderWindow window(sf::VideoMode(800, 600), "City Simulation");
+  sf::Clock clock;
 
-  // have to think about when the simulation completes! now just according to
-  // user's input
+  float previousTime = 0.0;
+
+  // Main loop
+  while (window.isOpen()) {
+    sf::Event event;
+    while (window.pollEvent(event)) {
+      if (event.type == sf::Event::Closed) window.close();
+    }
+
+    float currentTime = clock.getElapsedTime().asSeconds();
+
+    float deltaTime = currentTime - previousTime;
+
+    previousTime = currentTime;
+
+    std::cout << "Delta time: " << deltaTime << std::endl;
+    std::cout << "Total time: " << currentTime << std::endl;
+
+    // Move cars
+    c_->UpdateCars(deltaTime, currentTime);
+
+    window.clear();
+
+    // Draw the city and the cars
+    c_->PrintCity(window);
+    c_->DrawCars(window);
+
+    window.display();
+  }
   std::cout << "Simulation complete." << std::endl;
 }
 
 void Simulator::ResumeSimulation() {
-  isPaused = false;
+  isPaused_ = false;
   std::cout << "Simulation resumed." << std::endl;
 }
 
 void Simulator::PauseSimulation() {
-  isPaused = true;
+  isPaused_ = true;
   std::cout << "Simulation paused." << std::endl;
 }
 
@@ -49,15 +79,15 @@ void Simulator::EndSimulation() {
 
 void Simulator::SpeedUpSimulation() {
   // currently just arbitrary coefficient of 2
-  simulationSpeed *= 2;
-  std::cout << "Simulation speed increased. Current speed: " << simulationSpeed
+  simulationSpeed_ *= 2;
+  std::cout << "Simulation speed increased. Current speed: " << simulationSpeed_
             << "x" << std::endl;
 }
 
 void Simulator::SlowDownSimulation() {
   // currently just arbitrary coefficient of 2
-  simulationSpeed /= 2;
-  std::cout << "Simulation speed decreased. Current speed: " << simulationSpeed
+  simulationSpeed_ /= 2;
+  std::cout << "Simulation speed decreased. Current speed: " << simulationSpeed_
             << "x" << std::endl;
 }
 

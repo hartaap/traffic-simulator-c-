@@ -22,17 +22,19 @@ class Simulator {
   void EndSimulation();
   void SpeedUpSimulation();
   void SlowDownSimulation();
-  City StartSimulation();
+  void StartSimulation();
+  void SimulatorThread();
 
   City LoadFile();
   void UserInput();
 
- private:
-  std::ifstream file;
-  bool isPaused;
-  int simulationSpeed;  // 1x, 2x, 4x, etc.
+  void SetCity(City* c) { c_ = c; }
 
-  void SimulatorThread();
+ private:
+  bool isPaused_;
+  int simulationSpeed_;  // 1x, 2x, 4x, etc.
+  City* c_;
+
   void UpdateSimulation();
   void DrawSimulation();
 };
