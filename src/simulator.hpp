@@ -12,6 +12,7 @@
 #include "car.hpp"
 #include "city.hpp"
 #include "visualization.hpp"
+#include <future>
 
 class Simulator {
  public:
@@ -30,7 +31,8 @@ class Simulator {
   void DrawSimulation(Visualization* gui);
 
   City LoadFile();
-  void UserInput();
+  std::string UserInput();
+  void InputThread(std::promise<void> exitSignal);
 
   void SetCity(City* c) { c_ = c; }
 

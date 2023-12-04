@@ -37,29 +37,43 @@ void Simulator::StartSimulation() {
   SetCity(c);
 }
 
-void Simulator::SimulatorThread() {
-  Visualization* gui = new Visualization(50);
-  sf::Clock clock;
+  void Simulator::SimulatorThread() {
+    Visualization* gui = new Visualization(50);
+    sf::Clock clock;
 
-  float previousTime = 0.0;
+    float previousTime = 0.0;
 
-  // Main loop
-  while (true) {
-    float currentTime = clock.getElapsedTime().asSeconds();
-    float deltaTime = currentTime - previousTime;
-    previousTime = currentTime;
+    // Start input thread
+    std::promise<void> exitSignal;
+    auto inputFuture = std::async(std::launch::async, &Simulator::InputThread, this, std::move(exitSignal));
 
-    std::cout << "Delta time: " << deltaTime << std::endl;
-    std::cout << "Total time: " << currentTime << std::endl;
-    
-    UpdateSimulation(deltaTime, currentTime);
+    // Main loop
+    while (true) {
+      float currentTime = clock.getElapsedTime().asSeconds();
+      float deltaTime = currentTime - previousTime;
+      previousTime = currentTime;
 
-    if (guiEnabled_) {
-      DrawSimulation(gui);
+      if(!isPaused_) {
+        UpdateSimulation(deltaTime, currentTime);
+      }
+
+      if (guiEnabled_) {
+        DrawSimulation(gui);
+      }
+
+      std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
+
+    // input thread exits
+    exitSignal.set_value();
+
+    // input thread finishes
+    inputFuture.get();
+
+    // create a finish simulation function
+
+    std::cout << "Simulation complete." << std::endl;
   }
-  std::cout << "Simulation complete." << std::endl;
-}
 
 void Simulator::ResumeSimulation() {
   isPaused_ = false;
@@ -204,7 +218,31 @@ City Simulator::LoadFile() {
   return c;
 }
 
-void Simulator::UserInput() {
-  std::cout << "Waiting for user input..." << std::endl;
-  // logic here
+std::string Simulator::UserInput() {
+  std::cout << "Enter a command (e.g., pause, resume, exit): ";
+  std::string command;
+  std::cin >> command;
+
+  return command;
 }
+
+  void Simulator::InputThread(std::promise<void> exitSignal) {
+    std::string command;
+    while (true) {
+      std::cout << "Enter a command (e.g., pause, resume, exit): ";
+      std::cin >> command;
+
+      if (command == "pause") {
+        PauseSimulation();
+      } else if (command == "resume") {
+        ResumeSimulation();
+      } else if (command == "exit") {
+        EndSimulation();
+        // Signal the main thread to exit
+        exitSignal.set_value();
+        break;
+      } else {
+        std::cout << "Invalid command. Try again." << std::endl;
+      }
+    }
+  }
