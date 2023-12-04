@@ -62,7 +62,6 @@ void Simulator::SimulatorThread() {
       DrawSimulation(gui);
     }
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
   }
 
   // input thread exits
