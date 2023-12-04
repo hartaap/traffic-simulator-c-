@@ -2,6 +2,7 @@
 #define INTERSECTION_H
 
 #include <vector>
+#include <SFML/Graphics.hpp>
 
 #include "road.hpp"
 
@@ -9,7 +10,7 @@ class Intersection {
  public:
   // Constructor
   Intersection(std::pair<int, int> location, std::vector<Road*> roads)
-      : location_(location), roads_(roads) {}
+      : location_(location), roads_(roads), allowVertical_(true), allowHorizontal_(false) {}
 
   // Returns the roads that are connected to this intersection
   std::vector<Road*> GetRoads() const { return roads_; }
@@ -17,55 +18,101 @@ class Intersection {
   // Returns the coordinates of the intersection
   std::pair<int, int> GetLocation() const { return location_; }
 
-      TrafficLight* GetTrafficLightUp(){
 
-        auto it = trafficLights_.find("Up");
+   void Update(float deltaTime){
 
-        if(it != trafficLights_.end()){
-            return it->second;
-        }else{
-            return nullptr;
+
+    if(trafficLight_ != nullptr){
+
+        timePassed_ = timePassed_ + deltaTime;
+
+        
+        if(yellow_){
+            if(timePassed_ >= trafficLight_->GetYellowDuration()){
+                if(allowVertical_){
+                    allowVertical_ = false;
+                    allowHorizontal_ = true;
+                }else{
+                    allowHorizontal_ = false;
+                    allowVertical_ = true;
+                }
+                yellow_ = false;
+                timePassed_ = 0;
+            }
+        }else {
+            if(timePassed_ >= trafficLight_->GetGreenDuration()){
+                yellow_ = true;
+                timePassed_ = 0;
+            }
         }
+
+    }
+            
+
+   }
+
+   void AddTrafficLight(TrafficLight* t){
+    trafficLight_ = t;
+   }
+
+
+void Draw(sf::RenderWindow& window, int cellSize) {
+
+    sf::Color Gray(50, 50, 50);
+
+    //Draw the cell
+    sf::RectangleShape cellShape(sf::Vector2f(cellSize,cellSize));
+    cellShape.setPosition(location_.first * cellSize, location_.second * cellSize);
+    cellShape.setFillColor(Gray);
+    window.draw(cellShape);
+
+    if(trafficLight_ != nullptr){
+
+        //Shapes for the traffic lights
+        sf::RectangleShape up(sf::Vector2f(10, 10));
+        sf::RectangleShape down(sf::Vector2f(10, 10));
+        sf::RectangleShape left(sf::Vector2f(10, 10));
+        sf::RectangleShape right(sf::Vector2f(10, 10));
+
+        if(yellow_){
+            up.setFillColor(sf::Color::Yellow);
+            down.setFillColor(sf::Color::Yellow);
+            left.setFillColor(sf::Color::Yellow);
+            right.setFillColor(sf::Color::Yellow);
+        }else if(allowHorizontal_){
+            up.setFillColor(sf::Color::Red);
+            down.setFillColor(sf::Color::Red);
+            left.setFillColor(sf::Color::Green);
+            right.setFillColor(sf::Color::Green);
+        }else{
+            up.setFillColor(sf::Color::Green);
+            down.setFillColor(sf::Color::Green);
+            left.setFillColor(sf::Color::Red);
+            right.setFillColor(sf::Color::Red);
+        }
+
+        up.setPosition(location_.first * cellSize, location_.second * cellSize - 10);
+        down.setPosition(location_.first * cellSize + (cellSize - 10), location_.second * cellSize + cellSize);
+        left.setPosition(location_.first * cellSize - 10, location_.second * cellSize + (cellSize - 10));
+        right.setPosition(location_.first * cellSize + cellSize, location_.second * cellSize);
+        window.draw(up);
+        window.draw(down);
+        window.draw(left);
+        window.draw(right);
     }
 
-    TrafficLight* GetTrafficLightDown(){
-
-        auto it = trafficLights_.find("Down");
-
-        if(it != trafficLights_.end()){
-            return it->second;
-        }else{
-            return nullptr;
-        }
-    }
+}
 
 
-    TrafficLight* GetTrafficLightRight(){
-
-        auto it = trafficLights_.find("Right");
-
-        if(it != trafficLights_.end()){
-            return it->second;
-        }else{
-            return nullptr;
-        }
-    }
-
-    TrafficLight* GetTrafficLightLeft(){
-
-        auto it = trafficLights_.find("Left");
-
-        if(it != trafficLights_.end()){
-            return it->second;
-        }else{
-            return nullptr;
-        }
-    }
 
  private:
   std::pair<int, int> location_;
   std::vector<Road*> roads_;
-  std::map<std::string, TrafficLight*> trafficLights_;
+  TrafficLight* trafficLight_;
+  bool allowVertical_;
+  bool allowHorizontal_;
+  float timePassed_ = 0.0;
+  bool yellow_ = false;
 };
 
 #endif
