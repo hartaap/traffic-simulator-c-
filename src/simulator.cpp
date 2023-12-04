@@ -156,6 +156,19 @@ City Simulator::LoadFile() {
     c.AddCar(car);
   }
 
+  auto trafficLightsArray = json::as_array(jsonData["trafficLights"]);
+  for (const auto& trafficLight : trafficLightsArray) {
+    auto trafficLightPosArray = json::as_array(trafficLight[0]);
+    int posX = json::to_number<int>(trafficLightPosArray[0]);
+    int posY = json::to_number<int>(trafficLightPosArray[1]);
+    int redDuration = json::to_number<int>(trafficLight[1]);
+    int yellowDuration = json::to_number<int>(trafficLight[2]);
+    int greenDuration = json::to_number<int>(trafficLight[3]);
+
+    c.AddTrafficLight(new TrafficLight({posX, posY}, redDuration,
+                                       yellowDuration, greenDuration));
+  }
+
   // close file
   file.close();
 
