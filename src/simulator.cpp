@@ -93,9 +93,13 @@ void Simulator::EndSimulation() {
 
 void Simulator::SpeedUpSimulation() {
   // currently just arbitrary coefficient of 2
-  simulationSpeed_ *= 2;
-  std::cout << "Simulation speed increased. Current speed: " << simulationSpeed_
+  if (simulationSpeed_ <= 8) {
+    simulationSpeed_ *= 2;
+    std::cout << "Simulation speed increased. Current speed: " << simulationSpeed_
             << "x" << std::endl;
+  } else {
+    std::cout << "Can't go faster! 16x is the maximum speed." << std::endl;
+  }
 }
 
 void Simulator::SlowDownSimulation() {
