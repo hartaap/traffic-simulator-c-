@@ -40,7 +40,7 @@ void Simulator::StartSimulation() {
 }
 
 void Simulator::SimulatorThread() {
-  Visualization* gui = new Visualization(50);
+  Visualization* gui = new Visualization(50, c_->GetGrid());
   sf::Clock clock;
 
   float previousTime = 0.0;
@@ -63,7 +63,6 @@ void Simulator::SimulatorThread() {
     if (guiEnabled_) {
       DrawSimulation(gui);
     }
-
   }
 
   // input thread exits
