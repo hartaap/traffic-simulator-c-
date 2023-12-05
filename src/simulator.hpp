@@ -13,6 +13,7 @@
 #include "city.hpp"
 #include "visualization.hpp"
 #include <future>
+#include "simulationClock.hpp"
 
 class Simulator {
  public:

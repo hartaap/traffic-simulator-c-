@@ -41,7 +41,7 @@ void Simulator::StartSimulation() {
 
 void Simulator::SimulatorThread() {
   Visualization* gui = new Visualization(50, c_->GetGrid());
-  sf::Clock clock;
+  SimulationClock clock;
 
   float previousTime = 0.0;
 
@@ -51,8 +51,9 @@ void Simulator::SimulatorThread() {
                                 this, std::move(exitSignal));
 
   // Main loop
+  clock.Start();
   while (true) {
-    float currentTime = clock.getElapsedTime().asSeconds();
+    float currentTime = clock.GetElapsedTime();
     float deltaTime = simulationSpeed_ * (currentTime - previousTime);
     previousTime = currentTime;
 
