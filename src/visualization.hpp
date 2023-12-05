@@ -15,7 +15,7 @@
 class Visualization {
  public:
   Visualization(int cellSize)
-      : window_(sf::VideoMode(800, 600), "Traffic Simulation"),
+      : window_(sf::VideoMode(750, 750), "Traffic Simulation"),
         cellSize_(cellSize) {}
 
   sf::RenderWindow& GetWindow() { return window_; }
