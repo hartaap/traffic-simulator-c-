@@ -37,7 +37,7 @@ target_include_directories(main PUBLIC src)
 # Set SFML directory based on the operating system
 if(APPLE)
     # macOS
-    set(SFML_DIR ${CMAKE_SOURCE_DIR}/libs/SFML-2.6.1-macOS/Frameworks/SFML.framework/Resources/CMake)
+    set(SFML_DIR ${CMAKE_SOURCE_DIR}/libs/SFML-2.6.1-macOS/lib)
 elseif(UNIX AND NOT APPLE)
     # Linux
     set(SFML_DIR ${CMAKE_SOURCE_DIR}/libs/SFML-2.6.1-linux/lib/cmake/SFML)
