@@ -270,3 +270,5 @@ void City::PrintCity(sf::RenderWindow& window) {
     }
   }
 }
+
+Grid* City::GetGrid() const { return grid_; }

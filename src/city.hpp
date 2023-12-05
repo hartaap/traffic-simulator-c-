@@ -54,6 +54,8 @@ class City {
 
   void PrintCity(sf::RenderWindow& window);
 
+  Grid* GetGrid() const;
+
  private:
   Grid* grid_;
   std::vector<Road*> roads_;
