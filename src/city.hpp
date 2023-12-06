@@ -56,6 +56,8 @@ class City {
 
   Grid* GetGrid() const;
 
+  std::vector<Road*> GetRoads() const;
+
  private:
   Grid* grid_;
   std::vector<Road*> roads_;
