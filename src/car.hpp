@@ -8,17 +8,21 @@
 #include <queue>
 #include <limits>
 #include "intersection.hpp"
+#include <algorithm>
 
 class Car {
 public:
     Car(float x, float y, Node* startingNode);
 
-    void Update(float deltaTime, float currentTime, std::vector<Node*> allNodes, std::vector<Intersection*> intersections);
+    void Update(float deltaTime, float currentTime, std::vector<Node*> allNodes, std::vector<Intersection*> intersections, std::vector<Car*> cars);
     Intersection* GetIntersection(std::pair<int, int> location, std::vector<Intersection*> intersections);
     void SetDestination(Node* destination);
     void SetDirection(std::pair<int, int> current, std::pair<int, int> destination);
+    std::string& GetDirection();
     void Draw(sf::RenderWindow& window, int cellSize);
     void AddEvent(int time, Node* node);
+    bool CarInFront(std::vector<Car*> cars);
+    std::pair<int, int> GetLocation();
 
     std::vector<Node*> Dijkstra(Node* source, Node* destination, std::vector<Node*> allNodes);
 
@@ -33,7 +37,9 @@ private:
     sf::RectangleShape rightFrontLight;
     sf::RectangleShape frontWindow;
 
-    float speed;
+    float maxSpeed_;
+    float acceleration_;
+    float currentSpeed_;
     std::string direction_;
     std::pair<float, float> location_;
     Node* destination_;
