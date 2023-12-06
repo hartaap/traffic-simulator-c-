@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "city.hpp"
+#include "simulator.hpp"
 
 class Analysis {
 public:
@@ -28,8 +28,11 @@ public:
     void FindAndHighlightCongestion();
 
 private:
-    
+    // string for now, need to change
+    std::string currentRoad_;
 
+    // key tells the day, values tell the hourly data
+    std::map<int, std::vector<int>> roadHourlyCounts_;
 };
 
 #endif  // ANALYSIS_HPP
