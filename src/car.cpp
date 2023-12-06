@@ -44,9 +44,18 @@ void Car::SetDirection(std::pair<int, int> current, std::pair<int, int> destinat
     }
 }
 
+Intersection* Car::GetIntersection(std::pair<int, int> location, std::vector<Intersection*> intersections){
+    for(auto it : intersections){
+        if(it->GetLocation() == location){
+            return it;
+        }
+    }
+    return nullptr;
+}
+
 
 //Update the cars location and destination
-void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes) {
+void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes, std::vector<Intersection*> intersections) {
 
 //Car has found current destination
     if(direction_ == "None"){
@@ -89,17 +98,36 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
 
 
     if (direction_ == "Up") {
-        dy = -distance;
+
+        auto intersection = GetIntersection({round(location_.first), round(location_.second - 1)}, intersections);
+
+        if(intersection != nullptr){
+            if(intersection->AllowVertical()){
+                dy = -distance;
+            }
+        }else{
+            dy = -distance;
+        }
     } else if(direction_ == "Down") {
         dy = distance;
     }else if(direction_ == "Right"){
-        dx = distance;
+        auto intersection = GetIntersection({round(location_.first), round(location_.second)}, intersections);
+
+        if(intersection != nullptr){
+            if(intersection->AllowHorizontal()){
+                dx = distance;
+            }
+        }else{
+            dx = distance;
+        }
     }else if(direction_ == "Left"){
         dx = -distance;
     }
     location_ = {location_.first+dx, location_.second+dy};
     //carShape.move(dx, dy);
 }
+
+
 
 //Add an event to the cars schedule
 void Car::AddEvent(int time, Node* node){

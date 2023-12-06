@@ -7,12 +7,14 @@
 #include <map>
 #include <queue>
 #include <limits>
+#include "intersection.hpp"
 
 class Car {
 public:
     Car(float x, float y, Node* startingNode);
 
-    void Update(float deltaTime, float currentTime, std::vector<Node*> allNodes);
+    void Update(float deltaTime, float currentTime, std::vector<Node*> allNodes, std::vector<Intersection*> intersections);
+    Intersection* GetIntersection(std::pair<int, int> location, std::vector<Intersection*> intersections);
     void SetDestination(Node* destination);
     void SetDirection(std::pair<int, int> current, std::pair<int, int> destination);
     void Draw(sf::RenderWindow& window, int cellSize);
