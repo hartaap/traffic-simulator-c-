@@ -1,26 +1,13 @@
 #include "simulationClock.hpp"
 
-SimulationClock::SimulationClock() : isRunning_(false) {}
+SimulationClock::SimulationClock() {}
 
 void SimulationClock::Start() {
-    if (!isRunning_) {
-        startTime_ = std::chrono::high_resolution_clock::now();
-        isRunning_ = true;
-    }
+  startTime_ = std::chrono::high_resolution_clock::now();
 }
 
-void SimulationClock::Stop() {
-    if (isRunning_) {
-        stopTime_ = std::chrono::high_resolution_clock::now();
-        isRunning_ = false;
-    }
-}
-
-double SimulationClock::GetElapsedTime() const {
-    if (isRunning_) {
-        auto currentTime = std::chrono::high_resolution_clock::now();
-        return std::chrono::duration<double>(currentTime - startTime_).count();
-    } else {
-        return std::chrono::duration<double>(stopTime_ - startTime_).count();
-    }
+double SimulationClock::GetElapsedTime() {
+    auto currentTime = std::chrono::high_resolution_clock::now();
+    auto elapsedTime = std::chrono::duration_cast<std::chrono::duration<double>>(currentTime - startTime_);
+    return elapsedTime.count();
 }

@@ -59,7 +59,7 @@ void Simulator::SimulatorThread() {
 
     if (!isPaused_) {
       UpdateSimulation(deltaTime, currentTime);
-    }
+    } 
 
     if (guiEnabled_) {
       DrawSimulation(gui);
