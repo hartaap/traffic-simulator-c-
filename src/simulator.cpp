@@ -41,7 +41,7 @@ void Simulator::StartSimulation() {
 
 void Simulator::SimulatorThread() {
   Visualization* gui = new Visualization(50, c_->GetGrid());
-  sf::Clock clock;
+  SimulationClock clock;
 
   float previousTime = 0.0;
 
@@ -51,8 +51,9 @@ void Simulator::SimulatorThread() {
                                 this, std::move(exitSignal));
 
   // Main loop
+  clock.Start();
   while (true) {
-    float currentTime = clock.getElapsedTime().asSeconds();
+    float currentTime = clock.GetElapsedTime();
     float deltaTime = simulationSpeed_ * (currentTime - previousTime);
     previousTime = currentTime;
 
@@ -93,9 +94,13 @@ void Simulator::EndSimulation() {
 
 void Simulator::SpeedUpSimulation() {
   // currently just arbitrary coefficient of 2
-  simulationSpeed_ *= 2;
-  std::cout << "Simulation speed increased. Current speed: " << simulationSpeed_
+  if (simulationSpeed_ <= 8) {
+    simulationSpeed_ *= 2;
+    std::cout << "Simulation speed increased. Current speed: " << simulationSpeed_
             << "x" << std::endl;
+  } else {
+    std::cout << "Can't go faster! 16x is the maximum speed." << std::endl;
+  }
 }
 
 void Simulator::SlowDownSimulation() {
