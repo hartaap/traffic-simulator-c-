@@ -32,7 +32,6 @@ class Simulator {
   void DrawSimulation(Visualization* gui);
 
   City LoadFile();
-  std::string UserInput();
   void InputThread(std::promise<void> exitSignal);
 
   void SetCity(City* c) { c_ = c; }
@@ -41,7 +40,9 @@ class Simulator {
   bool isPaused_;
   bool guiEnabled_;
   int simulationSpeed_;  // 1x, 2x, 4x, etc.
+
   City* c_;
+  SimulationClock* clock_;
 };
 
 #endif
