@@ -5,7 +5,6 @@
 /*Constructor: Create a Car object and initialize its variables*/
 Car::Car(float x, float y, Node* startingNode) {
     
-    int cellSize = 50;
     location_ = {x, y};
     speed = 0.6; 
     direction_ = "None";
@@ -109,9 +108,18 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
             dy = -distance;
         }
     } else if(direction_ == "Down") {
-        dy = distance;
+
+        auto intersection = GetIntersection({round(location_.first), round(location_.second + 0.5)}, intersections);
+
+        if(intersection != nullptr){
+            if(intersection->AllowVertical()){
+                dy = distance;
+            }
+        }else{
+            dy = distance;
+        }
     }else if(direction_ == "Right"){
-        auto intersection = GetIntersection({round(location_.first), round(location_.second)}, intersections);
+        auto intersection = GetIntersection({round(location_.first + 0.5), round(location_.second)}, intersections);
 
         if(intersection != nullptr){
             if(intersection->AllowHorizontal()){
@@ -121,7 +129,15 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
             dx = distance;
         }
     }else if(direction_ == "Left"){
-        dx = -distance;
+        auto intersection = GetIntersection({round(location_.first - 1), round(location_.second)}, intersections);
+
+        if(intersection != nullptr){
+            if(intersection->AllowHorizontal()){
+                dx = -distance;
+            }
+        }else{
+            dx = -distance;
+        }
     }
     location_ = {location_.first+dx, location_.second+dy};
     //carShape.move(dx, dy);
