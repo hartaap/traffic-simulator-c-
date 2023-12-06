@@ -8,7 +8,7 @@ class Intersection {
  public:
   // Constructor
   Intersection(std::pair<int, int> location)
-      : location_(location), allowVertical_(true), allowHorizontal_(false) {}
+      : location_(location), allowVertical_(true), allowHorizontal_(true) {}
 
   // Returns the coordinates of the intersection
   std::pair<int, int> GetLocation() const { return location_; }
@@ -39,6 +39,14 @@ class Intersection {
   }
 
   void AddTrafficLight(TrafficLight* t) { trafficLight_ = t; }
+
+  bool AllowVertical(){
+    return allowVertical_;
+  }
+
+  bool AllowHorizontal(){
+    return allowHorizontal_;
+  }
 
   void Draw(sf::RenderWindow& window, int cellSize) {
     sf::Color Gray(50, 50, 50);
