@@ -7,7 +7,7 @@
 
 class Analysis {
 public:
-    Analysis();
+    Analysis(City* city);
 
     // Specify a road to analyze; where to acquire roadID -> changes to road class or?
     void SpecifyRoad(const std::string& roadID);
@@ -33,6 +33,8 @@ private:
 
     // key tells the day, values tell the hourly data
     std::map<int, std::vector<int>> roadHourlyCounts_;
+
+    City* city_;
 };
 
 #endif  // ANALYSIS_HPP
