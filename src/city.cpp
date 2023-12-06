@@ -251,7 +251,7 @@ Intersection* City::GetIntersection(std::pair<int, int> location) {
 
 void City::UpdateCars(float deltaTime, float currentTime) {
   for (auto car : cars_) {
-    car->Update(deltaTime, currentTime, nodes_, intersections_);
+    car->Update(deltaTime, currentTime, nodes_, intersections_, cars_);
   }
 }
 
