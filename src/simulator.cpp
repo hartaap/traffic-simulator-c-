@@ -1,7 +1,10 @@
 #include "simulator.hpp"
 
 Simulator::Simulator()
-    : isPaused_(false), guiEnabled_(true), simulationSpeed_(1) {}
+    : isPaused_(false),
+      guiEnabled_(true),
+      simulationSpeed_(1),
+      clock_(new SimulationClock()) {}
 
 Simulator::~Simulator() { delete c_; }
 
@@ -41,7 +44,6 @@ void Simulator::StartSimulation() {
 
 void Simulator::SimulatorThread() {
   Visualization* gui = new Visualization(50, c_->GetGrid());
-  SimulationClock clock;
 
   float previousTime = 0.0;
 
@@ -49,11 +51,10 @@ void Simulator::SimulatorThread() {
   std::promise<void> exitSignal;
   auto inputFuture = std::async(std::launch::async, &Simulator::InputThread,
                                 this, std::move(exitSignal));
-
   // Main loop
-  clock.Start();
+  clock_->Start();
   while (true) {
-    float currentTime = clock.GetElapsedTime();
+    float currentTime = clock_->GetElapsedTime();
     float deltaTime = simulationSpeed_ * (currentTime - previousTime);
     previousTime = currentTime;
 
@@ -96,8 +97,8 @@ void Simulator::SpeedUpSimulation() {
   // currently just arbitrary coefficient of 2
   if (simulationSpeed_ <= 8) {
     simulationSpeed_ *= 2;
-    std::cout << "Simulation speed increased. Current speed: " << simulationSpeed_
-            << "x" << std::endl;
+    std::cout << "Simulation speed increased. Current speed: "
+              << simulationSpeed_ << "x" << std::endl;
   } else {
     std::cout << "Can't go faster! 16x is the maximum speed." << std::endl;
   }
@@ -247,34 +248,19 @@ City Simulator::LoadFile() {
   return c;
 }
 
-std::string Simulator::UserInput() {
-  std::cout << "Enter a command (e.g., pause, resume, faster, slower, exit): ";
-  std::string command;
-  std::cin >> command;
-
-  return command;
-}
-
 void Simulator::InputThread(std::promise<void> exitSignal) {
   std::string command;
   while (true) {
-    std::cout
-        << "Enter a command (e.g., pause, resume, faster, slower, exit): ";
+    std::cout << "Enter a command (e.g., status, exit): ";
     std::cin >> command;
 
-    if (command == "pause") {
-      PauseSimulation();
-    } else if (command == "resume") {
-      ResumeSimulation();
-    } else if (command == "faster") {
-      SpeedUpSimulation();
-    } else if (command == "slower") {
-      SlowDownSimulation();
-    } else if (command == "exit") {
+    if (command == "exit") {
       EndSimulation();
       // Signal the main thread to exit
       exitSignal.set_value();
       break;
+    } else if (command == "status") {
+      std::cout << "Day: " << clock_->GetDayNumber() << " | Time is: " << clock_->GetSimulationTime() << std::endl;
     } else {
       std::cout << "Invalid command. Try again." << std::endl;
     }

@@ -2,6 +2,9 @@
 #define CLOCK_HPP
 
 #include <chrono>
+#include <iostream>
+#include <iomanip>
+#include <sstream>
 
 class SimulationClock {
 public:
@@ -10,16 +13,16 @@ public:
     // Start the clock
     void Start();
 
-    // Stop the clock
-    void Stop();
-
     // Get the elapsed time in seconds
-    double GetElapsedTime() const;
+    double GetElapsedTime();
+
+    int GetDayNumber();
+
+    std::string GetSimulationTime();
 
 private:
-    bool isRunning_;
     std::chrono::time_point<std::chrono::high_resolution_clock> startTime_;
-    std::chrono::time_point<std::chrono::high_resolution_clock> stopTime_;
+    int dayNumber_;
 };
 
 #endif  // CLOCK_HPP
