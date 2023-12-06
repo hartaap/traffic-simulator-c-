@@ -1,9 +1,13 @@
 #include "simulationClock.hpp"
 
-SimulationClock::SimulationClock() {}
+SimulationClock::SimulationClock() : dayNumber_(0) {}
 
 void SimulationClock::Start() {
   startTime_ = std::chrono::high_resolution_clock::now();
+}
+
+int SimulationClock::GetDayNumber() {
+    return dayNumber_;
 }
 
 double SimulationClock::GetElapsedTime() {
@@ -24,6 +28,7 @@ std::string SimulationClock::GetSimulationTime() {
   if (hours >= 24) {
     hours = 0;
     minutes = 0;
+    dayNumber_++;
   }
 
   // Format the time as "hours:minutes"

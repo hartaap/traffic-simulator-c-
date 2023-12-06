@@ -260,7 +260,7 @@ void Simulator::InputThread(std::promise<void> exitSignal) {
       exitSignal.set_value();
       break;
     } else if (command == "status") {
-      std::cout << "Time is: " << clock_->GetSimulationTime() << std::endl;
+      std::cout << "Day: " << clock_->GetDayNumber() << " | Time is: " << clock_->GetSimulationTime() << std::endl;
     } else {
       std::cout << "Invalid command. Try again." << std::endl;
     }
