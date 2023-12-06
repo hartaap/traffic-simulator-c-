@@ -38,12 +38,12 @@ void Car::SetDirection(std::pair<int, int> current, std::pair<int, int> destinat
         direction_ = "Left";
     }else if(destination.first > current.first){
         direction_ = "Right";
-        location_.first += 0.5;
+        location_.first += 0.2;
     }else if(destination.second < current.second){
         direction_ = "Up";
     }else if(destination.second > current.second){
         direction_ = "Down";
-        location_.second += 0.5;
+        location_.second += 0.2;
     }
 }
 
@@ -67,31 +67,60 @@ Intersection* Car::GetIntersection(std::pair<int, int> location, std::vector<Int
 bool Car::CarInFront(std::vector<Car*> cars) {
     for (auto car : cars) {
         if (car == this) {
-            continue; // Skip self-comparison
+            continue; 
         }
 
         // Check if cars are in the same lane
         if (car->GetDirection() == direction_) {
             auto l = car->GetLocation();
 
-            // Adjust the distance threshold as needed (e.g., 1 unit)
-            float distanceThreshold = 1.0;
 
-            // Check if the other car is almost colliding in the same lane
-            if (direction_ == "Up" && (l.second - location_.second) < -distanceThreshold && l.first == location_.first) {
-                return true;
-            } else if (direction_ == "Down" && (l.second - location_.second) > distanceThreshold && l.first == location_.first) {
-                return true;
-            } else if (direction_ == "Left" && (l.first - location_.first) < -distanceThreshold && l.second == location_.second) {
-                return true;
-            } else if (direction_ == "Right" && (l.first - location_.first) > distanceThreshold && l.second == location_.second) {
-                return true;
+            float minDistance = 1;
+
+            if (direction_ == "Up" && l.first == location_.first){
+                if(location_.second - l.second <= minDistance && location_.second - l.second >= 0){
+                    return true;
+                }
+            } else if (direction_ == "Down" && l.first == location_.first) {
+                if(((l.second - location_.second) <= minDistance) && ((l.second - location_.second) >= 0)){
+                    return true;
+                }
+            } else if (direction_ == "Left" && l.second == location_.second) {
+                if(((location_.first - l.first) <= minDistance) && ((location_.first - l.first) >= 0)){
+                    return true;
+                }
+            } else if (direction_ == "Right" && l.second == location_.second) {
+                if(((l.first - location_.first) <= minDistance) && ((l.first - location_.first) >= 0)){
+                    return true;
+                }
             }
         }
     }
 
-    return false; // No collision detected
+    return false; 
 }
+
+bool Car::AtDestination(float destinationX, float destinationY){
+    if(direction_ == "Up"){
+        if((location_.first == destinationX) && (location_.second - destinationY) < 0.5 ){
+            return true;
+        }
+    }else if(direction_ == "Down"){
+        if((location_.first == destinationX) && (destinationY - location_.second) < 0.1 ){
+            return true;
+        }
+    }else if(direction_ == "Right"){
+        if((location_.second == destinationY) && (destinationX - location_.first) < 0.1){
+            return true;
+        }
+    }else if(direction_ == "Left"){
+        if((location_.second == destinationY) && (location_.first - destinationX) < 0.5){
+            return true;
+        }
+    }
+    return false;
+}
+
 
 
 //Update the cars location and destination
@@ -125,11 +154,11 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
     //Check if current destination has been reached
     if(destination_ == nullptr){
 
-    }else if ((fabs(destination_->GetLocation().first - location_.first) <= 0.01) && (fabs(destination_->GetLocation().second - location_.second) <= 0.01)){
+    }else if (AtDestination(destination_->GetLocation().first, destination_->GetLocation().second)){
         location_ = destination_->GetLocation();
         direction_ = "None";
         previous_ = destination_;
-        currentSpeed_ = 0;
+        currentSpeed_ = 0.0;
     }
 
     //Update cars location
@@ -141,7 +170,7 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
 
 
     if(CarInFront(cars)){
-
+        currentSpeed_ = 0;
     }else if (direction_ == "Up") {
         auto intersection = GetIntersection({round(location_.first), round(location_.second - 1)}, intersections);
 
