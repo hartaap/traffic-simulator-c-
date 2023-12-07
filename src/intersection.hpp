@@ -7,13 +7,27 @@
 
 class Intersection {
  public:
-  // Constructor
+  /**
+   * @brief Construct a new Intersection object.
+   *
+   * @param location the coordinates of the intersection as std::pair<int, int>
+   */
   Intersection(std::pair<int, int> location)
       : location_(location), allowVertical_(true), allowHorizontal_(true) {}
 
-  // Returns the coordinates of the intersection
+  /**
+   * @brief Get the location of the intersection.
+   *
+   * @return The coordinates of the intersection as std::pair<int, int>
+   */
   std::pair<int, int> GetLocation() const { return location_; }
 
+  /**
+   * @brief Attempts to update the status of the traffic lights in the
+   * intersection, if there are any.
+   *
+   * @param deltaTime
+   */
   void Update(float deltaTime) {
     if (trafficLight_ != nullptr) {
       timePassed_ = timePassed_ + deltaTime;
@@ -39,17 +53,36 @@ class Intersection {
     }
   }
 
+  /**
+   * @brief Adds a traffic light to the intersection.
+   *
+   * @param t A pointer to a TrafficLight object
+   */
   void AddTrafficLight(TrafficLight* t) { trafficLight_ = t; }
 
-  bool AllowVertical(){
-    return allowVertical_;
-  }
+  /**
+   * @brief ?
+   * 
+   * @return true 
+   * @return false 
+   */
+  bool AllowVertical() { return allowVertical_; }
 
-  bool AllowHorizontal(){
-    return allowHorizontal_;
-  }
+  /**
+   * @brief ?
+   * 
+   * @return true 
+   * @return false 
+   */
+  bool AllowHorizontal() { return allowHorizontal_; }
 
-  void Draw(sf::RenderWindow& window, int cellSize, Grid* grid) {
+  /**
+   * @brief Draws the intersection into the SFML window given as parameter.
+   * 
+   * @param window The SFML window to draw the intersection to
+   * @param cellSize The size of a single cell in the window
+   */
+  void Draw(sf::RenderWindow& window, int cellSize) {
     sf::Color Gray(50, 50, 50);
 
     // Draw the cell
