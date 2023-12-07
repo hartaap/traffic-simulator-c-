@@ -61,7 +61,7 @@ class Intersection {
   void AddTrafficLight(TrafficLight* t) { trafficLight_ = t; }
 
   /**
-   * @brief ?
+   * @brief Returns a boolean value indicating if cars are currently allowed to move vertically through the intersection
    * 
    * @return true 
    * @return false 
@@ -69,7 +69,7 @@ class Intersection {
   bool AllowVertical() { return allowVertical_; }
 
   /**
-   * @brief ?
+   * @brief Returns a boolean value indicating if cars are currently allowed to move horizontally through the intersection
    * 
    * @return true 
    * @return false 
