@@ -38,12 +38,12 @@ void Car::SetDirection(std::pair<int, int> current, std::pair<int, int> destinat
         direction_ = "Left";
     }else if(destination.first > current.first){
         direction_ = "Right";
-        location_.first += 0.2;
+        location_.first += 0.4;
     }else if(destination.second < current.second){
         direction_ = "Up";
     }else if(destination.second > current.second){
         direction_ = "Down";
-        location_.second += 0.2;
+        location_.second += 0.4;
     }
 }
 
