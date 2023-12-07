@@ -46,8 +46,7 @@ class Intersection {
    * @brief Returns a boolean value indicating if cars are currently allowed to
    * move vertically through the intersection.
    *
-   * @return true
-   * @return false
+   * @return bool
    */
   bool AllowVertical();
 
@@ -55,8 +54,7 @@ class Intersection {
    * @brief Returns a boolean value indicating if cars are currently allowed to
    * move horizontally through the intersection.
    *
-   * @return true
-   * @return false
+   * @return bool
    */
   bool AllowHorizontal();
 

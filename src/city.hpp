@@ -50,8 +50,7 @@ class City {
    *
    * @param start The start coordinates of the road
    * @param end The end coordinates of the road
-   * @return true if the road is valid
-   * @return false otherwise
+   * @return true if the road is valid, false otherwise
    */
   bool IsValidRoad(std::pair<int, int> start, std::pair<int, int> end) const;
 
@@ -73,8 +72,7 @@ class City {
    * - the location of the building must be unoccupied
    *
    * @param b A pointer to a building object
-   * @return true if the building is valid
-   * @return false otherwise
+   * @return true if the building is valid, false otherwise
    */
   bool IsValidBuilding(Building* b) const;
 
@@ -95,7 +93,7 @@ class City {
    *
    * @param location The location of the node
    * @return A pointer to a Node object if there is a Node in the given location
-   * @return A nullptr otherwise
+   * or a nullptr otherwise
    */
   Node* GetNode(std::pair<int, int> location) const;
 
@@ -118,9 +116,9 @@ class City {
    * @brief Get the a pointer to the Intersection object in the given location.
    *
    * @param location The location of the intersection
-   * @return A pointer to a Intersection object if there is an Intersection in
-   * the given location
-   * @return A nullptr otherwise
+   * @return A pointer to an Intersection object if there is an Intersection in
+   * the given location, or a nullptr if there is no Intersection in the given
+   * location.
    */
   Intersection* GetIntersection(std::pair<int, int> location) const;
 
