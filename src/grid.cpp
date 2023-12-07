@@ -37,7 +37,10 @@ int Grid::GetSizeY() const {
 
 
 Cell* Grid::GetCell(int x, int y) {
-return cells_[x][y];
+    if(x < xSize_ && y < ySize_){  
+       return cells_[x][y];
+    }
+    return nullptr;
 }
 
 std::vector<Cell*> Grid::GetNeighborCells(int x, int y) {
