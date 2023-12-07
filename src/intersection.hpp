@@ -82,7 +82,7 @@ class Intersection {
    * @param window The SFML window to draw the intersection to
    * @param cellSize The size of a single cell in the window
    */
-  void Draw(sf::RenderWindow& window, int cellSize) {
+  void Draw(sf::RenderWindow& window, int cellSize, Grid* grid) {
     sf::Color Gray(50, 50, 50);
 
     // Draw the cell
