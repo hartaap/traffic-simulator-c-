@@ -2,10 +2,8 @@
 
 #include <iostream>
 
-// Constructor
 City::City(int sizeX, int sizeY) { grid_ = new Grid(sizeX, sizeY); }
 
-// Destructor
 City::~City() {
   for (auto it : roads_) {
     delete (it);
@@ -88,8 +86,6 @@ bool City::IsValidRoad(std::pair<int, int> start,
   return true;
 }
 
-// Adds a road to the city.
-// Throws an InvalidCityException if the road is invalid.
 void City::AddRoad(std::pair<int, int> start, std::pair<int, int> end) {
   // Check that the road is valid and that it connects two nodes.
   // If not, thwrow an InvalidCityException
@@ -193,8 +189,17 @@ void City::AddBuilding(std::string name, std::pair<int, int> location,
   }
 }
 
-/* Attempts to create an intersection to the given location.
-   Returns an InvalidCityException if the location is occupied already */
+Node* City::GetNode(std::pair<int, int> location) const {
+  for (auto node : nodes_) {
+    if (node->GetLocation() == location) {
+      return node;
+    }
+  }
+  return nullptr;
+}
+
+void City::AddCar(Car* c) { cars_.push_back(c); }
+
 void City::AddIntersection(std::pair<int, int> location) {
   if (!grid_->GetCell(location.first, location.second)->IsOccupied()) {
     Intersection* i = new Intersection(location);
@@ -208,39 +213,7 @@ void City::AddIntersection(std::pair<int, int> location) {
   }
 }
 
-void City::UpdateIntersections(float deltaTime) {
-  for (auto it : intersections_) {
-    it->Update(deltaTime);
-  }
-}
-
-void City::DrawIntersections(sf::RenderWindow& window) {
-  for (auto it : intersections_) {
-    it->Draw(window, 50, grid_);
-  }
-}
-
-Node* City::GetNode(std::pair<int, int> location) {
-  for (auto node : nodes_) {
-    if (node->GetLocation() == location) {
-      return node;
-    }
-  }
-  return nullptr;
-}
-
-void City::AddCar(Car* c) { cars_.push_back(c); }
-
-void City::AddTrafficLight(TrafficLight* t) {
-  auto intersection = GetIntersection(t->GetLocation());
-
-  if (intersection != nullptr) {
-    trafficLights_.push_back(t);
-    intersection->AddTrafficLight(t);
-  }
-}
-
-Intersection* City::GetIntersection(std::pair<int, int> location) {
+Intersection* City::GetIntersection(std::pair<int, int> location) const {
   for (auto it : intersections_) {
     if (it->GetLocation() == location) {
       return it;
@@ -249,21 +222,40 @@ Intersection* City::GetIntersection(std::pair<int, int> location) {
   return nullptr;
 }
 
-void City::UpdateCars(float deltaTime, float currentTime) {
+void City::UpdateIntersections(float deltaTime) const {
+  for (auto it : intersections_) {
+    it->Update(deltaTime);
+  }
+}
+
+void City::DrawIntersections(sf::RenderWindow& window) const {
+  for (auto it : intersections_) {
+    it->Draw(window, 50, grid_);
+  }
+}
+
+void City::AddTrafficLight(TrafficLight* t) {
+  auto intersection = GetIntersection(t->GetLocation());
+  if (intersection != nullptr) {
+    trafficLights_.push_back(t);
+    intersection->AddTrafficLight(t);
+  }
+}
+
+void City::UpdateCars(float deltaTime, float currentTime) const {
   for (auto car : cars_) {
     car->Update(deltaTime, currentTime, nodes_, intersections_, cars_);
   }
 }
 
-void City::DrawCars(sf::RenderWindow& window) {
+void City::DrawCars(sf::RenderWindow& window) const {
   for (const auto car : cars_) {
     car->Draw(window, 50);
   }
 }
 
-void City::PrintCity(sf::RenderWindow& window) {
+void City::PrintCity(sf::RenderWindow& window) const {
   const int cellSize = 50;
-
   for (int i = 0; i < grid_->GetSizeX(); i++) {
     for (int j = 0; j < grid_->GetSizeY(); j++) {
       grid_->GetCell(i, j)->Draw(window, cellSize, i, j);

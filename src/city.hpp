@@ -20,44 +20,169 @@
 
 class City {
  public:
+  /**
+   * @brief Construct a new City object
+   *
+   * @param sizeX The vertical size of the city
+   * @param sizeY The horizontal size of the city
+   */
   City(int sizeX, int sizeY);
 
+  /**
+   * @brief Destroy the City object
+   *
+   */
   ~City();
 
+  /**
+   * @brief
+   * Checks if the road with the given start and end coordinates is a valid
+   * road. Requirements:
+   * - the road must be inside the boundaries of the city
+   * - the length of the road must be more than zero
+   * - the road can only be horizontal or vertical (not diagonal)
+   * - there cannot be any other roads or buildings between the start and end
+   *   coordinates of the road
+   *
+   * @param start The start coordinates of the road
+   * @param end The end coordinates of the road
+   * @return true if the road is valid
+   * @return false otherwise
+   */
   bool IsValidRoad(std::pair<int, int> start, std::pair<int, int> end) const;
 
+  /**
+   * @brief
+   * Adds a road to the city.
+   * Throws an InvalidCityException if the road is invalid.
+   *
+   * @param start The start coordinates of the road
+   * @param end The end coordinates of the road
+   */
   void AddRoad(std::pair<int, int> start, std::pair<int, int> end);
 
+  /**
+   * @brief
+   * Checks if the building that the pointer given as parameter is pointing to
+   * is valid. Rquirements:
+   * - the building must be inside city boundaries
+   * - the location of the building must be unoccupied
+   *
+   * @param b A pointer to a building object
+   * @return true if the building is valid
+   * @return false otherwise
+   */
   bool IsValidBuilding(Building* b) const;
 
+  /**
+   * @brief Adds a building to the city if it is valid. Otherwise throws an
+   * InvalidCityException.
+   *
+   * @param name The name of the building
+   * @param location The coordinates of the building
+   * @param buildingType The type of the building (should be: industrial,
+   * residential, shop, gym, or restaurant)
+   */
   void AddBuilding(std::string name, std::pair<int, int> location,
                    const std::string& buildingType);
-  // building types are industrial, residential, shop, gym and restaurant.
 
-  Node* GetNode(std::pair<int, int> location);
+  /**
+   * @brief Get a pointer to the Node object in the given location.
+   *
+   * @param location The location of the node
+   * @return A pointer to a Node object if there is a Node in the given location
+   * @return A nullptr otherwise
+   */
+  Node* GetNode(std::pair<int, int> location) const;
 
+  /**
+   * @brief Adds a car to the city.
+   *
+   * @param c A pointer to the Car object
+   */
   void AddCar(Car* c);
 
+  /**
+   * @brief Attempts to create an intersection to the given location.
+   * Returns an InvalidCityException if the location is occupied already.
+   *
+   * @param location The coordinates of the intersection
+   */
   void AddIntersection(std::pair<int, int> location);
 
-  Intersection* GetIntersection(std::pair<int, int> location);
+  /**
+   * @brief Get the a pointer to the Intersection object in the given location.
+   *
+   * @param location The location of the intersection
+   * @return A pointer to a Intersection object if there is an Intersection in
+   * the given location
+   * @return A nullptr otherwise
+   */
+  Intersection* GetIntersection(std::pair<int, int> location) const;
 
-  void UpdateIntersections(float deltaTime);
+  /**
+   * @brief Updates the status of all the traffic lights in the city.
+   *
+   * @param deltaTime
+   */
+  void UpdateIntersections(float deltaTime) const;
 
-  void DrawIntersections(sf::RenderWindow& window);
+  /**
+   * @brief Draws the intersections in the city to the SFML window given as
+   * parameter.
+   *
+   * @param window A reference to a SFML window
+   */
+  void DrawIntersections(sf::RenderWindow& window) const;
 
+  /**
+   * @brief Adds a traffic light to the city.
+   *
+   * @param t A pointer to the traffic light object to be added
+   */
   void AddTrafficLight(TrafficLight* t);
 
-  void UpdateCars(float deltaTime, float currentTime);
+  /**
+   * @brief Updates the locations and destinations of all the cars in the city.
+   *
+   * @param deltaTime
+   * @param currentTime
+   */
+  void UpdateCars(float deltaTime, float currentTime) const;
 
-  void DrawCars(sf::RenderWindow& window);
+  /**
+   * @brief Draws the cars in the city to the SFML window given as parameter.
+   *
+   * @param window A reference to an SFML window
+   */
+  void DrawCars(sf::RenderWindow& window) const;
 
-  void PrintCity(sf::RenderWindow& window);
+  /**
+   * @brief Draws the city to the SFML window given as parameter.
+   *
+   * @param window A reference to an SFML window
+   */
+  void PrintCity(sf::RenderWindow& window) const;
 
+  /**
+   * @brief Get a pointer to the Grid object of the city.
+   *
+   * @return Grid*
+   */
   Grid* GetGrid() const;
 
+  /**
+   * @brief Get a vector containing pointers to all the roads in the city.
+   *
+   * @return std::vector<Road*>
+   */
   std::vector<Road*> GetRoads() const;
 
+  /**
+   * @brief Get a vector containing pointers to all the cars in the city.
+   *
+   * @return std::vector<Car*>
+   */
   std::vector<Car*> GetCars() const;
 
  private:
