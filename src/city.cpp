@@ -216,7 +216,7 @@ void City::UpdateIntersections(float deltaTime) {
 
 void City::DrawIntersections(sf::RenderWindow& window) {
   for (auto it : intersections_) {
-    it->Draw(window, 50);
+    it->Draw(window, 50, grid_);
   }
 }
 

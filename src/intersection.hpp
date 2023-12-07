@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "grid.hpp"
 
 class Intersection {
  public:
@@ -48,7 +49,7 @@ class Intersection {
     return allowHorizontal_;
   }
 
-  void Draw(sf::RenderWindow& window, int cellSize) {
+  void Draw(sf::RenderWindow& window, int cellSize, Grid* grid) {
     sf::Color Gray(50, 50, 50);
 
     // Draw the cell
@@ -90,10 +91,23 @@ class Intersection {
                        location_.second * cellSize + (cellSize - 10));
       right.setPosition(location_.first * cellSize + cellSize,
                         location_.second * cellSize);
-      window.draw(up);
-      window.draw(down);
-      window.draw(left);
-      window.draw(right);
+
+      if(grid->GetCell(location_.first, location_.second-1)->GetType().find("Road") != std::string::npos){
+         window.draw(up);
+      }
+
+      if(grid->GetCell(location_.first, location_.second+1)->GetType().find("Road") != std::string::npos){
+         window.draw(down);
+      }
+
+      if(grid->GetCell(location_.first-1, location_.second)->GetType().find("Road") != std::string::npos){
+         window.draw(left);
+      }
+
+      if(grid->GetCell(location_.first+1, location_.second)->GetType().find("Road") != std::string::npos){
+         window.draw(right);
+      }
+
     }
   }
 
