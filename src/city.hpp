@@ -18,6 +18,10 @@
 #include "road.hpp"
 #include "trafficlight.hpp"
 
+/**
+ * @brief A class used for keeping track of the different elements (e.g
+ * buildings, roads, intersectons, etc.) in the simulated city.
+ */
 class City {
  public:
   /**
