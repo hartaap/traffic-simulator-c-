@@ -18,7 +18,7 @@ void Analysis::Analyze() {
     // Initialization of roadHourlyCounts_: this should be ran only once at
     // start
     if (roadHourlyCounts_.empty()) {
-      roadHourlyCounts_.emplace_back(std::vector<int>());
+      roadHourlyCounts_.resize(1, std::vector<int>(24));
     }
 
     // Initialization of a specific hour: if it doesn't exist, make it equal 0

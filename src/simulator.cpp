@@ -39,11 +39,14 @@ void Simulator::StartSimulation() {
     exit(1);
   }
 
+
   SetCity(c);
 }
 
 void Simulator::SimulatorThread() {
   Visualization* gui = new Visualization(50, c_->GetGrid());
+  analysis_ = new Analysis(c_, clock_);
+  analysis_->SpecifyRoad(1);
 
   float previousTime = 0.0;
 
@@ -53,13 +56,16 @@ void Simulator::SimulatorThread() {
                                 this, std::move(exitSignal));
   // Main loop
   clock_->Start();
+
   while (true) {
     float currentTime = clock_->GetElapsedTime();
     float deltaTime = simulationSpeed_ * (currentTime - previousTime);
     previousTime = currentTime;
 
-    if (!isPaused_) {
+    if (!
+    isPaused_) {
       UpdateSimulation(deltaTime, currentTime);
+      analysis_->Analyze();
     }
 
     if (guiEnabled_) {
@@ -261,6 +267,8 @@ void Simulator::InputThread(std::promise<void> exitSignal) {
       break;
     } else if (command == "status") {
       std::cout << "Day: " << clock_->GetDayNumber() << " | Time is: " << clock_->GetSimulationTime() << std::endl;
+    } else if (command == "analyze") {
+      std::cout << analysis_->TestPrint() << std::endl;
     } else {
       std::cout << "Invalid command. Try again." << std::endl;
     }

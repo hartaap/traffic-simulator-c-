@@ -14,6 +14,7 @@
 #include "visualization.hpp"
 #include <future>
 #include "simulationClock.hpp"
+#include "analysis.hpp"
 
 class Simulator {
  public:
@@ -43,6 +44,7 @@ class Simulator {
 
   City* c_;
   SimulationClock* clock_;
+  Analysis* analysis_;
 };
 
 #endif

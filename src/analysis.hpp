@@ -3,11 +3,14 @@
 
 #include <string>
 #include <vector>
-#include "simulator.hpp"
+#include "city.hpp"
+#include "simulationClock.hpp"
 
 class Analysis {
 public:
     Analysis(City* city, SimulationClock* clock);
+
+    Analysis();
 
     // Main function of this class which is going to be run in the main loop
     void Analyze();
@@ -30,6 +33,7 @@ public:
     // Find and highlight congestion automatically: this is an advanced feature, quite sure that going to skip
     void FindAndHighlightCongestion();
 
+    int TestPrint() { return roadHourlyCounts_[0][0]; }
 private:
     // Current road that is being analyzed
     Road* currentRoad_;
