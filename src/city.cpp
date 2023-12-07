@@ -274,3 +274,5 @@ void City::PrintCity(sf::RenderWindow& window) {
 Grid* City::GetGrid() const { return grid_; }
 
 std::vector<Road*> City::GetRoads() const { return roads_; }
+
+std::vector<Car*> City::GetCars() const { return cars_; }
