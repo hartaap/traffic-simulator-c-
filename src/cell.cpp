@@ -20,7 +20,6 @@ int Cell::GetY() const { return location_.second; }
 
 void Cell::Draw(sf::RenderWindow& window, int cellSize, int x, int y) {
   sf::RectangleShape cellShape(sf::Vector2f(cellSize, cellSize));
-
   sf::Color Gray(50, 50, 50);
 
   if (type_ == "Horizontal Road") {
@@ -45,26 +44,32 @@ void Cell::Draw(sf::RenderWindow& window, int cellSize, int x, int y) {
     cellShape.setFillColor(sf::Color::Black);
     cellShape.setPosition(x * cellSize, y * cellSize);
     window.draw(cellShape);
+
   } else if (type_ == "residential") {
     cellShape.setFillColor(sf::Color::Magenta);
     cellShape.setPosition(x * cellSize, y * cellSize);
     window.draw(cellShape);
+
   } else if (type_ == "shop") {
     cellShape.setFillColor(sf::Color::Green);
     cellShape.setPosition(x * cellSize, y * cellSize);
     window.draw(cellShape);
+
   } else if (type_ == "gym") {
     cellShape.setFillColor(sf::Color::Cyan);
     cellShape.setPosition(x * cellSize, y * cellSize);
     window.draw(cellShape);
+
   } else if (type_ == "restaurant") {
     cellShape.setFillColor(sf::Color::Red);
     cellShape.setPosition(x * cellSize, y * cellSize);
     window.draw(cellShape);
+
   } else if (type_ == "Intersection") {
     cellShape.setFillColor(Gray);
     cellShape.setPosition(x * cellSize, y * cellSize);
     window.draw(cellShape);
+
   } else {
     cellShape.setFillColor(sf::Color::White);
     cellShape.setPosition(x * cellSize, y * cellSize);

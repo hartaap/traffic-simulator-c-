@@ -35,36 +35,36 @@ class Cell {
   void Occupy(std::string type);
 
   /**
-   * @brief Empties the cell (I.e. sets the value of the type_ variable of the cell to "Empty")
-   * 
+   * @brief Empties the cell (i.e. sets the value of the type_ variable to "Empty").
+   *
    */
   void Clear();
 
   /**
    * @brief Get the type of the cell.
-   * 
-   * @return The type of the cell as std::string 
+   *
+   * @return The type of the cell as std::string
    */
   std::string GetType() const;
 
   /**
    * @brief Get the x-coordinate of the cell.
-   * 
+   *
    * @return The x-coordinate as an integer
    */
   int GetX() const;
 
   /**
    * @brief Get the y-coordinate of the cell.
-   * 
+   *
    * @return The y-coordinate as an integer
    */
   int GetY() const;
 
   /**
    * @brief Draws the cell to the SFML window given as a parameter.
-   * 
-   * @param window A reference to the SFML window to draw the cell to
+   *
+   * @param window A reference to the SFML window where the cell should be drawn
    * @param cellSize The size of the cell to be drawn
    * @param x The x-coordinate of the cell to be drawn
    * @param y The y-coordinate of the cell to be drawn
