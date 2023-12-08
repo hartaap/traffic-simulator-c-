@@ -37,7 +37,7 @@ public:
         return home_;
     }
 
-    Car* GetCar() const {
+    Car* GetCar() {
         return car_;
     }
 
