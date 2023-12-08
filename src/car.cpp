@@ -76,10 +76,8 @@ bool Car::CarInFront(std::vector<Car*> cars) {
             auto l = car->GetLocation();
 
 
-            float minDistance = 1;
-
             if (direction_ == "Up" && l.first == location_.first){
-                if(location_.second - l.second <= 1 && location_.second - l.second >= 0){
+                if(location_.second - l.second <= 1.2 && location_.second - l.second >= 0){
                     return true;
                 }
             } else if (direction_ == "Down" && l.first == location_.first) {
@@ -87,7 +85,8 @@ bool Car::CarInFront(std::vector<Car*> cars) {
                     return true;
                 }
             } else if (direction_ == "Left" && l.second == location_.second) {
-                if(((location_.first - l.first) <= 1) && ((location_.first - l.first) >= 0)){
+                if(((location_.first - l.first) <= 1.5) && ((location_.first - l.first) >= 0)){
+                    std::cout << "Collision avoided at: " << location_.first << std::endl;
                     return true;
                 }
             } else if (direction_ == "Right" && l.second == location_.second) {
@@ -174,6 +173,7 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
 
     if(CarInFront(cars)){
         currentSpeed_ = 0;
+        return;
     }else if (direction_ == "Up") {
         auto intersection = GetIntersection({round(location_.first), round(location_.second - 1)}, intersections);
 
