@@ -5,7 +5,7 @@
 /*Constructor: Create a Car object and initialize its variables*/
 Car::Car(Node* startingNode) {
     
-    location_ = {x, y};
+    location_ = {round(startingNode->GetLocation().first), round(startingNode->GetLocation().second)};
     maxSpeed_ = 0.6; 
     currentSpeed_ = 0.0;
     acceleration_ = 0.1;
