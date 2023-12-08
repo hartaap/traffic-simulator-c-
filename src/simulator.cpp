@@ -257,7 +257,7 @@ City Simulator::LoadFile() {
 void Simulator::InputThread(std::promise<void> exitSignal) {
   std::string command;
   while (true) {
-    std::cout << "Enter a command (e.g., status, exit): ";
+    std::cout << "Enter a command (e.g., status, exit, analyze): ";
     std::cin >> command;
 
     if (command == "exit") {
