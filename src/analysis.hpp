@@ -3,14 +3,20 @@
 
 #include <string>
 #include <vector>
-#include "simulator.hpp"
+#include "city.hpp"
+#include "simulationClock.hpp"
 
 class Analysis {
 public:
-    Analysis(City* city);
+    Analysis(City* city, SimulationClock* clock);
 
-    // Specify a road to analyze; where to acquire roadID -> changes to road class or?
-    void SpecifyRoad(const std::string& roadID);
+    Analysis();
+
+    // Main function of this class which is going to be run in the main loop
+    void Analyze();
+
+    // Specify a road to analyze; using a palikka implementation of roadIndex for now
+    void SpecifyRoad(int roadIndex);
 
     // Histogram of amount of cars on the road in respect to hour of the day
     void GenerateHourlyHistogram();
@@ -27,14 +33,17 @@ public:
     // Find and highlight congestion automatically: this is an advanced feature, quite sure that going to skip
     void FindAndHighlightCongestion();
 
+    int TestPrint() { return roadHourlyCounts_[0][0]; }
 private:
-    // string for now, need to change
-    std::string currentRoad_;
+    // Current road that is being analyzed
+    Road* currentRoad_;
 
     // key tells the day, values tell the hourly data
-    std::map<int, std::vector<int>> roadHourlyCounts_;
+    std::vector<std::vector<int>> roadHourlyCounts_;
 
     City* city_;
+    SimulationClock* clock_;
+    std::map<int, Car*> previousCars_;
 };
 
 #endif  // ANALYSIS_HPP
