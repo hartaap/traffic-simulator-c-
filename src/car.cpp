@@ -9,6 +9,7 @@ Car::Car(float x, float y, Node* startingNode) {
     maxSpeed_ = 0.6; 
     currentSpeed_ = 0.0;
     acceleration_ = 0.1;
+    idle_ = true;
     direction_ = "None";
     destination_ = nullptr;
 
@@ -130,11 +131,13 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
     if(direction_ == "None"){
 
         if(path_.empty()){ //Car is idle
+           idle_ = true;
            //Check if car is supposed to go somewhere
            auto next = schedule_.find(round(currentTime)); 
 
            //If car has a destination node, find the best path
            if(next != schedule_.end()){
+               idle_ = false;
                path_ = Dijkstra(previous_, next->second, allNodes);
                destination_ = path_.back();
                path_.pop_back();
@@ -285,7 +288,9 @@ std::vector<Node*> Car::Dijkstra(Node* source, Node* destination, std::vector<No
 void Car::Draw(sf::RenderWindow& window, int cellSize) {
 
 
-
+   if(idle_){
+    return;
+   }
 
     carShape.setFillColor(sf::Color::Red);
 

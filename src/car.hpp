@@ -41,6 +41,7 @@ private:
     float maxSpeed_;
     float acceleration_;
     float currentSpeed_;
+    bool idle_;
     std::string direction_;
     std::pair<float, float> location_;
     Node* destination_;
