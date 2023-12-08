@@ -3,8 +3,6 @@
 
 #include "../src/trafficlight.hpp"
 
-// Include your TrafficLight class definition here...
-
 int main() {
     // Test case 1: Verify the initial state of the traffic light
     TrafficLight trafficLight({1, 2}, 10, 5, 15);
@@ -26,9 +24,7 @@ int main() {
     trafficLight.TurnGreen();
     assert(trafficLight.GetStatus() == "green");
 
-    // Additional tests can be added based on specific requirements or edge cases
-
-    std::cout << "All tests passed!" << std::endl;
+    std::cout << "All TrafficLight tests passed!" << std::endl;
 
     return 0;
 }

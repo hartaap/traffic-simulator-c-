@@ -38,12 +38,12 @@ void Car::SetDirection(std::pair<int, int> current, std::pair<int, int> destinat
         direction_ = "Left";
     }else if(destination.first > current.first){
         direction_ = "Right";
-        location_.first += 0.4;
+        location_.first += 0.2;
     }else if(destination.second < current.second){
         direction_ = "Up";
     }else if(destination.second > current.second){
         direction_ = "Down";
-        location_.second += 0.4;
+        location_.second += 0.2;
     }
 }
 
@@ -78,19 +78,19 @@ bool Car::CarInFront(std::vector<Car*> cars) {
             float minDistance = 1;
 
             if (direction_ == "Up" && l.first == location_.first){
-                if(location_.second - l.second <= minDistance && location_.second - l.second >= 0){
+                if(location_.second - l.second <= 1 && location_.second - l.second >= 0){
                     return true;
                 }
             } else if (direction_ == "Down" && l.first == location_.first) {
-                if(((l.second - location_.second) <= minDistance) && ((l.second - location_.second) >= 0)){
+                if(((l.second - location_.second) <= 0.8) && ((l.second - location_.second) >= 0)){
                     return true;
                 }
             } else if (direction_ == "Left" && l.second == location_.second) {
-                if(((location_.first - l.first) <= minDistance) && ((location_.first - l.first) >= 0)){
+                if(((location_.first - l.first) <= 1) && ((location_.first - l.first) >= 0)){
                     return true;
                 }
             } else if (direction_ == "Right" && l.second == location_.second) {
-                if(((l.first - location_.first) <= minDistance) && ((l.first - location_.first) >= 0)){
+                if(((l.first - location_.first) <= 0.8) && ((l.first - location_.first) >= 0)){
                     return true;
                 }
             }

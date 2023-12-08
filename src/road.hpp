@@ -3,42 +3,56 @@
 
 #include "grid.hpp"
 
+class Road {
+ public:
+  /**
+   * @brief Construct a new Road object.
+   *
+   * @param start The starting coordinates of the road
+   * @param end The ending coordinates of the road
+   * @param speedLimit The speed limit on the road
+   */
+  Road(std::pair<int, int> start, std::pair<int, int> end, int speedLimit);
 
+  /**
+   * @brief Get the coordinates of the end of the road.
+   *
+   * @return std::pair<int, int>
+   */
+  std::pair<int, int> GetEnd() const;
 
-class Road{
+  /**
+   * @brief Get the coordinates of the start of the road.
+   *
+   * @return std::pair<int, int>
+   */
+  std::pair<int, int> GetStart() const;
 
-    public:
+  /**
+   * @brief Get the speed limit of the road.
+   *
+   * @return The speed limit as an integer
+   */
+  int GetSpeedLimit() const;
 
-    Road(std::pair<int, int> start, std::pair<int, int> end, int speedLimit): start_(start), end_(end), speedLimit_(speedLimit){}
+  /**
+   * @brief Returns a boolean value indicating if the road os vertical or not.
+   *
+   * @return True if the road is vertical, false otherwise
+   */
+  bool IsVertical() const;
 
-    std::pair<int, int> GetEnd() const {
-        return end_;
-    }
+  /**
+   * @brief Returns a boolean value indicating if the road os horizontal or not.
+   *
+   * @return True if the road is horizontal, false otherwise
+   */
+  bool IsHorizontal() const;
 
-    std::pair<int, int> GetStart() const {
-        return start_;
-    }
-
-    int GetSpeedLimit() const {
-        return speedLimit_;
-    }
-
-    bool IsVertical() const;
-
-    bool IsHorizontal() const;
-
-
-
-
-    private:
-
-    const std::pair<int, int> start_;
-    const std::pair<int, int> end_;
-    int speedLimit_;
-
-
-
+ private:
+  const std::pair<int, int> start_;
+  const std::pair<int, int> end_;
+  int speedLimit_;
 };
-
 
 #endif
