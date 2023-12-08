@@ -1,4 +1,5 @@
 #include "simulator.hpp"
+#include <cmath>
 
 Simulator::Simulator()
     : isPaused_(false),
