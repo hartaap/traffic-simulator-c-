@@ -40,37 +40,7 @@ void Cell::Draw(sf::RenderWindow& window, int cellSize, int x, int y) {
     window.draw(cellShape);
     window.draw(dot);
 
-  } else if (type_ == "industrial") {
-    cellShape.setFillColor(sf::Color::Black);
-    cellShape.setPosition(x * cellSize, y * cellSize);
-    window.draw(cellShape);
-
-  } else if (type_ == "residential") {
-    cellShape.setFillColor(sf::Color::Magenta);
-    cellShape.setPosition(x * cellSize, y * cellSize);
-    window.draw(cellShape);
-
-  } else if (type_ == "shop") {
-    cellShape.setFillColor(sf::Color::Green);
-    cellShape.setPosition(x * cellSize, y * cellSize);
-    window.draw(cellShape);
-
-  } else if (type_ == "gym") {
-    cellShape.setFillColor(sf::Color::Cyan);
-    cellShape.setPosition(x * cellSize, y * cellSize);
-    window.draw(cellShape);
-
-  } else if (type_ == "restaurant") {
-    cellShape.setFillColor(sf::Color::Red);
-    cellShape.setPosition(x * cellSize, y * cellSize);
-    window.draw(cellShape);
-
-  } else if (type_ == "Intersection") {
-    cellShape.setFillColor(Gray);
-    cellShape.setPosition(x * cellSize, y * cellSize);
-    window.draw(cellShape);
-
-  } else {
+  }else {
     cellShape.setFillColor(sf::Color::White);
     cellShape.setPosition(x * cellSize, y * cellSize);
     window.draw(cellShape);
