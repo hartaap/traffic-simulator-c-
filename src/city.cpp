@@ -254,6 +254,12 @@ void City::DrawCars(sf::RenderWindow& window) const {
   }
 }
 
+void City::DrawBuildings(sf::RenderWindow& window) const{
+  for(const auto building: buildings_){
+    building->Draw(window, 50);
+  }
+}
+
 void City::PrintCity(sf::RenderWindow& window) const {
   const int cellSize = 50;
   for (int i = 0; i < grid_->GetSizeX(); i++) {

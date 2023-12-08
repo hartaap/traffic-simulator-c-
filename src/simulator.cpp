@@ -25,6 +25,7 @@ void Simulator::DrawSimulation(Visualization* gui) {
   c_->PrintCity(gui->GetWindow());
   c_->DrawIntersections(gui->GetWindow());
   c_->DrawCars(gui->GetWindow());
+  c_->DrawBuildings(gui->GetWindow());
 
   gui->GetWindow().display();
 }

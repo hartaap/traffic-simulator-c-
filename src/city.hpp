@@ -160,6 +160,13 @@ class City {
   void DrawCars(sf::RenderWindow& window) const;
 
   /**
+   * @brief Draws the buildings in the city to the SFML window given as parameter.
+   *
+   * @param window A reference to an SFML window
+   */
+  void DrawBuildings(sf::RenderWindow& window) const;
+
+  /**
    * @brief Draws the city to the SFML window given as parameter.
    *
    * @param window A reference to an SFML window
