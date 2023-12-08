@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <SFML/Graphics.hpp>
 
 /**
  * @brief An abstract class for representing the buildings in the simulated
@@ -72,6 +73,14 @@ class Building {
    * @return The name of the building as std::string&
    */
   const std::string& GetName() const;
+
+    /**
+   * @brief Draws the building to the SFML window given as a parameter. Each subclass defines the draw function themselves.
+   *
+   * @param window A reference to the SFML window where the building should be drawn
+   * @param cellSize The size of the cell to be drawn
+   */
+  virtual void Draw(sf::RenderWindow& window, int cellSize) = 0;
 
   /**
    * @brief Get the location of the building.

@@ -23,6 +23,16 @@ class Commercial : public Building {
              const std::pair<int, int>& location,
              const std::string& commercialType);
 
+
+    /**
+   * @brief Draws the building to the SFML window given as a parameter. Each subclass defines the draw function themselves.
+   *
+   * @param window A reference to the SFML window where the building should be drawn
+   * @param cellSize The size of the cell to be drawn
+   */
+
+ virtual void Draw(sf::RenderWindow& window, int cellSize);
+
   /**
    * @brief Prints information about the commercial building to the standard
    * output

@@ -22,6 +22,22 @@ class Residential : public Building {
     maxCarCapacity_ = 2;
   }
 
+
+      /**
+   * @brief Draws the building to the SFML window given as a parameter. Each subclass defines the draw function themselves.
+   *
+   * @param window A reference to the SFML window where the building should be drawn
+   * @param cellSize The size of the cell to be drawn
+   */
+ virtual void Draw(sf::RenderWindow& window, int cellSize){
+    sf::RectangleShape cellShape(sf::Vector2f(cellSize, cellSize));
+    int x = location_.first;
+    int y = location_.second;
+    cellShape.setFillColor(sf::Color::Magenta);
+    cellShape.setPosition(x * cellSize, y * cellSize);
+    window.draw(cellShape);
+ }
+
   /**
    * @brief Prints information about the residential building to the standard
    * output

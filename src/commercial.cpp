@@ -23,6 +23,30 @@ Commercial::Commercial(const std::string& buildingName,
   }
 }
 
+void Commercial::Draw(sf::RenderWindow& window, int cellSize){
+
+  sf::RectangleShape cellShape(sf::Vector2f(cellSize, cellSize));
+  int x = location_.first;
+  int y = location_.second;
+
+  if (type_ == "Shop") {
+    cellShape.setFillColor(sf::Color::Green);
+    cellShape.setPosition(x * cellSize, y * cellSize);
+    window.draw(cellShape);
+
+  } else if (type_ == "Gym") {
+    cellShape.setFillColor(sf::Color::Cyan);
+    cellShape.setPosition(x * cellSize, y * cellSize);
+    window.draw(cellShape);
+
+  } else if (type_ == "Restaurant") {
+    cellShape.setFillColor(sf::Color::Red);
+    cellShape.setPosition(x * cellSize, y * cellSize);
+    window.draw(cellShape);
+
+  }
+}
+
 void Commercial::Info() const {
   std::string lowertype = type_;
   // Compare two strings in a case-insensitive manner again
