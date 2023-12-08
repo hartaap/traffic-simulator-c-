@@ -3,7 +3,7 @@
 #include <cmath>
 
 /*Constructor: Create a Car object and initialize its variables*/
-Car::Car(float x, float y, Node* startingNode) {
+Car::Car(Node* startingNode) {
     
     location_ = {x, y};
     maxSpeed_ = 0.6; 
