@@ -200,15 +200,35 @@ City Simulator::LoadFile() {
     }
   }
 
-  // Extract cars
-  auto carsArray = json::as_array(jsonData["cars"]);
-  for (const auto& car : carsArray) {
-    float carX = json::to_number<float>(car[0]);
-    float carY = json::to_number<float>(car[1]);
-    auto carPositionArray = json::as_array(car[2]);
-    int carPosX = json::to_number<int>(carPositionArray[0]);
-    int carPosY = json::to_number<int>(carPositionArray[1]);
-    cars.push_back(new Car(carX, carY, c.GetNode({carPosX, carPosY})));
+   // Extract persons
+
+  auto personsArray = json::as_array(jsonData["persons"]);
+  for (const auto& person : personsArray) {
+
+      const std::string name = json::as_string(person[0]);
+      const std::string pType = json::as_string(person[1]);
+      auto workplaceObject = json::as_object(person[2]);
+      auto homeObject = json::as_object(person[3]);
+
+      // Check if these buildings are valid
+      if (!workplaceObject.empty() && !homeObject.empty()) {
+          std::string workPlaceName = workplaceObject.begin()->first;
+          auto workplaceLocation = json::as_array(workplaceObject.begin()->second[1]);
+          int workPosX = json::to_number<int>(workplaceLocation[0]);
+          int workPosY = json::to_number<int>(workplaceLocation[1]);
+          std::string homeName = homeObject.begin()->first;
+          auto homeLocation = json::as_array(homeObject.begin()->second[1]);
+          int homePosX = json::to_number<int>(homeLocation[0]);
+          int homePosY = json::to_number<int>(homeLocation[1]);
+
+          Industrial* a = new Industrial(workPlaceName, {workPosX, workPosY});
+          Residential* b = new Residential(homeName, {homePosX, homePosY});
+          persons.push_back(new Person(name, pType, a, b, c.GetNode({round(b->GetLocation().first), round(b->GetLocation().second)})));
+           // this also creates a car for each person
+      } else {
+          std::cerr << "Invalid workplace or home!" << std::endl;
+      }
+      
   }
 
   // Extract events
@@ -220,14 +240,14 @@ City Simulator::LoadFile() {
       auto eventPositionArray = json::as_array(event[1]);
       int eventX = json::to_number<float>(eventPositionArray[0]);
       int eventY = json::to_number<float>(eventPositionArray[1]);
-      cars[i]->AddEvent(eventTime, c.GetNode({eventX, eventY}));
+      persons[i]->AddEvent(eventTime, c.GetNode({eventX, eventY}));
     }
     i++;
   }
 
-  // add cars into city
-  for (auto car : cars) {
-    c.AddCar(car);
+  // add persons and their linked cars into city
+  for (auto person : persons) {
+    c.AddPerson(person);
   }
 
   auto trafficLightsArray = json::as_array(jsonData["trafficLights"]);
