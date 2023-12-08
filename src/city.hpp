@@ -9,6 +9,7 @@
 #include "car.hpp"
 #include "cell.hpp"
 #include "commercial.hpp"
+#include "person.hpp"
 #include "grid.hpp"
 #include "industrial.hpp"
 #include "intersection.hpp"
@@ -98,11 +99,11 @@ class City {
   Node* GetNode(std::pair<int, int> location) const;
 
   /**
-   * @brief Adds a car to the city.
+   * @brief Adds a person to the city.
    *
-   * @param c A pointer to the Car object
+   * @param c A pointer to the Person object
    */
-  void AddCar(Car* c);
+  void AddPerson(Person* p);
 
   /**
    * @brief Attempts to create an intersection to the given location.
@@ -201,6 +202,7 @@ class City {
   std::vector<Intersection*> intersections_;
   std::vector<TrafficLight*> trafficLights_;
   std::vector<Car*> cars_;
+  std::vector<Person*> persons_;
   std::vector<Node*> nodes_;
 };
 
