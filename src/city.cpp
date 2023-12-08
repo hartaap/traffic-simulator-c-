@@ -198,7 +198,10 @@ Node* City::GetNode(std::pair<int, int> location) const {
   return nullptr;
 }
 
-void City::AddCar(Car* c) { cars_.push_back(c); }
+void City::AddPerson(Person* p) {
+  persons_.push_back(p);
+  cars_.push_back(p->GetCar()); // Adds person and corresponding car into the city
+   }
 
 void City::AddIntersection(std::pair<int, int> location) {
   if (!grid_->GetCell(location.first, location.second)->IsOccupied()) {
@@ -242,9 +245,11 @@ void City::AddTrafficLight(TrafficLight* t) {
   }
 }
 
+// Update location of person and its car.
 void City::UpdateCars(float deltaTime, float currentTime) const {
-  for (auto car : cars_) {
-    car->Update(deltaTime, currentTime, nodes_, intersections_, cars_);
+  for (auto person : persons_) {
+    person->GetCar()->Update(deltaTime, currentTime, nodes_, intersections_, cars_);
+    person->UpdateLocationFromCar(person->GetCar()->GetLocation()); 
   }
 }
 
