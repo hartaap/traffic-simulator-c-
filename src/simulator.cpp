@@ -145,7 +145,7 @@ City Simulator::LoadFile() {
   int y = json::to_number<int>(jsonData["y"]);
 
   // init to max 5 cars for now; using 1 car right now
-  std::vector<Car*> cars;
+  std::vector<Person*> persons;
   City c(x, y);
 
   // Extract buildings
