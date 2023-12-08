@@ -30,30 +30,32 @@ void Analysis::Analyze() {
       auto car = cars[i];
       auto location = car->GetLocation();
 
+      // checks if the car is on this horizontal road
       if (currentRoad_->IsHorizontal() &&
           (car->GetDirection() == "Right" || car->GetDirection() == "Left")) {
         if (location.first >= roadStart.first &&
             location.first <= roadEnd.first &&
             location.second == roadStart.second) {
-          if (!previousCars_[i]) {
+          if (previousCars_.find(i) == previousCars_.end()) {
             roadHourlyCounts_[clock_->GetDayNumber()][currentHour]++;
             previousCars_.insert(std::pair<int, Car*>(i, car));
           }
         }
+        // checks if the car is on this vertical road
       } else if (currentRoad_->IsVertical() &&
                  (car->GetDirection() == "Up" ||
                   car->GetDirection() == "Down")) {
-        if (location.first >= roadStart.first &&
-            location.first <= roadEnd.first &&
+        if (location.second >= roadStart.second &&
+            location.second <= roadEnd.second &&
             location.first == roadStart.first) {
-          if (!previousCars_[i]) {
+          if (previousCars_.find(i) == previousCars_.end()) {
             roadHourlyCounts_[clock_->GetDayNumber()][currentHour]++;
             previousCars_.insert(std::pair<int, Car*>(i, car));
           }
         }
       }
 
-      if (currentRoad_->IsHorizontal() && previousCars_[i] &&
+      if (currentRoad_->IsHorizontal() && (previousCars_.find(i) != previousCars_.end()) &&
           (car->GetDirection() == "Right" || car->GetDirection() == "Left")) {
         if (location.second != roadStart.second) {
           previousCars_.erase(i);
