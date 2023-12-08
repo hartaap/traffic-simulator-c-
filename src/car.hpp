@@ -12,7 +12,7 @@
 
 class Car {
 public:
-    Car(float x, float y, Node* startingNode);
+    Car(Node* startingNode);
 
     void Update(float deltaTime, float currentTime, std::vector<Node*> allNodes, std::vector<Intersection*> intersections, std::vector<Car*> cars);
     Intersection* GetIntersection(std::pair<int, int> location, std::vector<Intersection*> intersections);
