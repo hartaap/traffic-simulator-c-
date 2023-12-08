@@ -86,7 +86,6 @@ bool Car::CarInFront(std::vector<Car*> cars) {
                 }
             } else if (direction_ == "Left" && l.second == location_.second) {
                 if(((location_.first - l.first) <= 1.5) && ((location_.first - l.first) >= 0)){
-                    std::cout << "Collision avoided at: " << location_.first << std::endl;
                     return true;
                 }
             } else if (direction_ == "Right" && l.second == location_.second) {
