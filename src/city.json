@@ -3,7 +3,7 @@
 	"y": 15,
 	"buildings": [
         {"Hot Gym Kino": ["Gym", [1, 1]]},
-		{"Murata": ["Industrial",[6,3]]},
+		{"Murata": ["Residential",[6,3]]},
         {"ABB": ["Industrial",[11,3]]},
         {"Alepa": ["Shop",[3,5]]},
         {"Lidl": ["Shop",[10,6]]},
@@ -66,10 +66,13 @@
         [13,3,13,8],
         [13,8,13,13]
     ],
-    "cars": [
-        [6.0,3.0,[6,3]], 
-        [6.0, 3.0, [6,3]],
-        [6.0, 3.0, [6,3]]
+    "persons": [
+        ["simo", "Active", {"Kone": ["Industrial",[1,13]]}, 
+        {"Aapen grib": ["Residential",[6,3]]}],
+        ["pekka", "Lazy", {"Murata": ["Industrial",[6,3]]}, 
+        {"Aapen grib": ["Residential",[6,3]]}],
+        ["tero", "Active", {"Kone": ["Industrial",[1,13]]}, 
+        {"PRK": ["Residential",[6,3]]}]
     ],
     "events": [
         [
