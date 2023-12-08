@@ -9,51 +9,73 @@
 #include "industrial.hpp"
 #include "building.hpp"
 #include "node.hpp"
+#include "car.hpp"
 
-
-
-enum class PersonType { // initial types for testing purposes, can add more later
+/*enum class PersonType {
     Lazy,
     Active,
     Neutral
 };
+*/
 
 class Person {
- public:
-    Person(const std::string& name, PersonType personType, std::map<int,std::map<int,Node*>> schedule,
-           std::pair<int, int> location, Industrial& workplace, Residential& home)
-           : name_(name), personType_(personType), schedule_(schedule), location_(location), workplace_(workplace), home_(home), status_(false)
-           {}
+public:
+    Person(const std::string& name, const std::string& personType, Industrial* workplace, Residential* home, Node* startNode)
+           : name_(name), personType_(personType),
+             workplace_(workplace), home_(home), status_(false) {
+                location_ = home_->GetLocation(); // initial location is at home.
+                car_ = new Car(startNode); // creates a car for a person starting from home.
+                
+             }
 
-    Industrial& GetWorkplace() const {
+
+    Industrial* GetWorkplace() const {
         return workplace_;
     }
-    Residential& GetResidence() const {
+
+    Residential* GetResidence() const {
         return home_;
     }
-    bool isBusy() const {
-        return status_;
-    }
-    std::pair<int,int> GetLocation() const {
-        return location_; 
-    }
-    const PersonType& GetPersonType() const {
-        return personType_;
-    }
-    
- private:
-    std::string name_;
-    PersonType personType_;
-    Industrial& workplace_;
-    Residential& home_;
-    std::map<int,std::map<int,Node*>> schedule_; // multiple days, different days have different schedules, first day = schedule_[0], 
-                                                    // second day = schedule_[1], ...
 
-    std::pair<int,int> location_;
+    Car* GetCar() const {
+        return car_;
+    }
+
+    bool isBusy() const {
+        return status_; // might be unnecessary function
+    }
+
+    std::pair<float, float> GetLocation() const {
+        return location_;
+    }
+
+    const std::string& GetPersonType() const {
+        return personType_; // affects on the schedule
+    }
+
+    std::map<int,Node*> GetSchedule() const {
+        return schedule_;
+    }
+
+    void AddEvent(int time, Node* node); // add event to schedule, according to the events in class car, car calls the function update()
+
+   // int TimeUntilNextEvent() const; // doesnt work currently
+
+    void UpdateLocationFromCar(std::pair<float, float> location); // used in car->update() to sync with the location of a car linked to person
+
+private:
+    std::string name_;
+    std::string personType_;
+    std::map<int, Node*> schedule_; 
+    Industrial* workplace_;
+    std::pair<float,float> location_;
+    Residential* home_;
     bool status_;
+    Car* car_;
 };
 
 #endif
+
 
 
 
