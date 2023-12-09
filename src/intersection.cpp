@@ -30,7 +30,10 @@ void Intersection::Update(float deltaTime) {
   }
 }
 
-void Intersection::AddTrafficLight(TrafficLight* t) { trafficLight_ = t; }
+void Intersection::AddTrafficLight(TrafficLight* t) {
+   trafficLight_ = t;
+   allowVertical_ = false;
+  }
 
 bool Intersection::AllowVertical() { return allowVertical_; }
 
@@ -63,7 +66,7 @@ void Intersection::Draw(sf::RenderWindow& window, int cellSize, Grid* grid) {
       down.setFillColor(sf::Color::Red);
       left.setFillColor(sf::Color::Green);
       right.setFillColor(sf::Color::Green);
-    } else {
+    } else if(allowVertical_) {
       up.setFillColor(sf::Color::Green);
       down.setFillColor(sf::Color::Green);
       left.setFillColor(sf::Color::Red);
