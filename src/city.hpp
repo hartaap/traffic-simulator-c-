@@ -169,7 +169,7 @@ class City {
    * @param deltaTime
    * @param currentTime
    */
-  void UpdateCars(float deltaTime, float currentTime) const;
+  void UpdateCars(float deltaTime, float currentTime);
 
   /**
    * @brief Draws the cars in the city to the SFML window given as parameter.
