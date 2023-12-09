@@ -296,6 +296,7 @@ void City::UpdateCars(float deltaTime, float currentTime) const {
 
   // Update each car
   for (const auto& personCar : personCarMap_) {
+    AddEvent(personCar.first);
     personCar.second->Update(deltaTime, currentTime, nodes_, intersections_,
                              allCars, roads_);
     personCar.first->UpdateLocationFromCar(personCar.second->GetLocation());
@@ -334,3 +335,36 @@ std::vector<Car*> City::GetCars() const {
   }
   return cars;
 }
+
+int City::TimeUntilNextEvent(Person *p) const { //uusi
+        int currentTime = round(clock_->GetElapsedTime());
+        auto schedule = p->GetSchedule();
+        auto it = schedule.upper_bound(currentTime);
+
+        if (it != schedule.end()) {
+                //Next key that is greater than the current time
+                int nextEventTime = it->first;
+                return nextEventTime - currentTime;
+        } else {
+                return -1; //If no future events
+        }
+}
+
+//If there's enough time, person will return home to take a rest.
+bool City::IsBusy(Person *p) const {
+        return (this->TimeUntilNextEvent(p) < 40 || this->TimeUntilNextEvent(p) == -1); 
+}
+
+//Add clock from simulator.cpp
+void City::AddClock(SimulationClock* clock) {
+        clock_ = clock;
+}
+
+//Add event to schedule
+void City::AddEvent(Person *p) {
+  if (!IsBusy(p) && (p->GetLocation() != p->GetResidence()->GetLocation())) {
+      p->AddEvent(clock_->GetElapsedTime(), p->GetResidence());
+  }
+}
+
+
