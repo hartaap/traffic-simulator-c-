@@ -261,7 +261,7 @@ Intersection* City::GetIntersection(std::pair<int, int> location) const {
   return nullptr;
 }
 
-void City::UpdateIntersections(float deltaTime) const {
+void City::UpdateIntersections(float deltaTime) {
   for (auto it : intersections_) {
     it->Update(deltaTime);
   }
