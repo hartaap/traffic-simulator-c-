@@ -55,7 +55,8 @@ void Analysis::Analyze() {
         }
       }
 
-      if (currentRoad_->IsHorizontal() && (previousCars_.find(i) != previousCars_.end()) &&
+      if (currentRoad_->IsHorizontal() &&
+          (previousCars_.find(i) != previousCars_.end()) &&
           (car->GetDirection() == "Right" || car->GetDirection() == "Left")) {
         if (location.second != roadStart.second) {
           previousCars_.erase(i);
@@ -78,5 +79,42 @@ void Analysis::SpecifyRoad(int roadIndex) {
 std::string Analysis::Print() {
   int currentHour = static_cast<int>(clock_->GetElapsedTime()) / 60;
 
-  return "Cars used this road: " + std::to_string(roadHourlyCounts_[clock_->GetDayNumber()][currentHour]);
+  return "Cars used this road: " +
+         std::to_string(roadHourlyCounts_[clock_->GetDayNumber()][currentHour]);
+}
+
+void Analysis::GenerateHourlyHistogram(std::vector<std::vector<int>> data) {
+    int max_value = *max_element(data[clock_->GetDayNumber()].begin(), data[clock_->GetDayNumber()].end());
+
+  // Calculate the number of digits in the maximum value of the data
+  int max_digits = std::to_string(max_value).size();
+
+  // Histogram
+  for (int i = max_value; i >= 0; --i) {
+    std::cout.width(max_digits + 2);
+    std::cout << i << " | ";
+
+    // Marking the values
+    for (int j = 0; j < data[clock_->GetDayNumber()].size(); ++j) {
+      if (data[clock_->GetDayNumber()][j] >= i) {
+        std::cout << "x ";
+      } else {
+        std::cout << "  ";
+      }
+    }
+    std::cout << std::endl;
+  }
+  std::cout << std::string(max_digits + 2, ' ') << "---------------------------------------" << std::endl;
+  std::cout << std::string(max_digits + 4, ' ');
+
+  // Data printed
+  for (int i = 0; i < data[clock_->GetDayNumber()].size(); ++i) {
+    std::cout << (i + 1) << " ";
+  }
+
+  std::cout << std::endl;
+}
+
+std::vector<std::vector<int>> Analysis::GetData() {
+  return roadHourlyCounts_;
 }

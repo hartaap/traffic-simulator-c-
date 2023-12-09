@@ -304,6 +304,8 @@ void Simulator::InputThread(std::promise<void> exitSignal) {
       break;
     } else if (command == "status") {
       std::cout << "Day: " << clock_->GetDayNumber() << " | Time is: " << clock_->GetSimulationTime() << std::endl;
+    } else if (command == "analyze") {
+      analysis_->GenerateHourlyHistogram(analysis_->GetData());
     } else {
       std::cout << "Invalid command. Try again." << std::endl;
     }

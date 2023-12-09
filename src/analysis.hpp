@@ -5,6 +5,8 @@
 #include <vector>
 #include "city.hpp"
 #include "simulationClock.hpp"
+#include <algorithm> 
+#include <iostream> 
 
 class Analysis {
 public:
@@ -19,7 +21,7 @@ public:
     void SpecifyRoad(int roadIndex);
 
     // Histogram of amount of cars on the road in respect to hour of the day
-    void GenerateHourlyHistogram();
+    void GenerateHourlyHistogram(std::vector<std::vector<int>> data);
 
     // Export the analysis results to a CSV file, could be changed to JSON but for now CSV since easier
     void ExportToCSV(const std::string& filename);
@@ -34,6 +36,8 @@ public:
     void FindAndHighlightCongestion();
 
     std::string Print();
+
+    std::vector<std::vector<int>> GetData();
 private:
     // Current road that is being analyzed
     Road* currentRoad_;
