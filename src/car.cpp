@@ -39,12 +39,10 @@ void Car::SetDirection(std::pair<int, int> current, std::pair<int, int> destinat
         direction_ = "Left";
     }else if(destination.first > current.first){
         direction_ = "Right";
-        location_.first += 0.2;
     }else if(destination.second < current.second){
         direction_ = "Up";
     }else if(destination.second > current.second){
         direction_ = "Down";
-        location_.second += 0.2;
     }
 }
 
@@ -76,11 +74,11 @@ Intersection* Car::GetIntersection(std::vector<Intersection*> intersections){
                 return it;
             }
         }else if(direction_ == "Down"){
-            if(x == location_.first && (y - location_.second <= 0.5) && (y - location_.second >= 0.0)){
+            if(x == location_.first && (y - location_.second <= 1) && (y - location_.second > 0.0)){
                 return it;
             }
         }else if(direction_ == "Right"){
-            if(y == location_.second && (x - location_.first <= 0.8) && (x - location_.first >= 0.0)){
+            if(y == location_.second && (x - location_.first <= 0.8) && (x - location_.first > 0.0)){
                 return it;
             }
         }else if(direction_ == "Left"){
@@ -125,6 +123,81 @@ bool Car::CarInFront(std::vector<Car*> cars) {
 
     return false; 
 }
+
+bool Car::LaneIsFree(Intersection* intersection, std::vector<Car*> cars, std::string nextDirection){
+
+    int iX = intersection->GetLocation().first;
+    int iY = intersection->GetLocation().second;
+
+    for (auto car : cars) {
+        if (car == this) {
+            continue; 
+        }
+
+        // Check if cars are in the same lane
+        if (car->GetDirection() == nextDirection) {
+            auto l = car->GetLocation();
+
+
+            if (direction_ == "Up" && l.first == location_.first){
+                if(iY - l.second <= 1.5 && iY - l.second >= 0){
+                    return false;
+                }
+            } else if (direction_ == "Down" && l.first == location_.first) {
+                if(((l.second - iY) <= 0.8) && ((l.second - iY) >= 0)){
+                    return false;
+                }
+            } else if (direction_ == "Left" && l.second == location_.second) {
+                if(((iX - l.first) <= 1.5) && ((iX - l.first) >= 0)){
+                    return false;
+                }
+            } else if (direction_ == "Right" && l.second == location_.second) {
+                if(((l.first - iX) <= 0.8) && ((l.first - iX) >= 0)){
+                    return false;
+                }
+            }
+        }
+    }
+
+    return true; 
+}
+
+
+bool Car::CheckIntersection(Intersection* intersection, std::vector<Car*> cars){
+
+    if(path_.size() < 2){
+        return true;
+    }
+
+    auto nextDestination = path_[path_.size()-2];
+
+    auto iX = intersection->GetLocation().first;
+    auto iY = intersection->GetLocation().second;
+    auto dX = nextDestination->GetLocation().first;
+    auto dY = nextDestination->GetLocation().second;
+
+    //Check in what direction the car will turn
+
+    std::string nextDirection;
+
+    if(iX == dX){
+        if(iY > dX){
+            nextDirection = "Left";
+        }else{
+            nextDirection = "Right";
+        }
+    }else if(iY == dY){
+        if(iX > dX){
+            nextDirection = "Up";
+        }else{
+            nextDirection = "Down";
+        }
+    }
+
+    return LaneIsFree(intersection, cars, nextDirection);
+
+}
+
 
 bool Car::AtDestination(float destinationX, float destinationY){
     if(direction_ == "Up"){
@@ -201,9 +274,16 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
 
     auto intersection = GetIntersection(intersections);
 
+    if(intersection != nullptr){
+        if(!CheckIntersection(intersection, cars)){
+            currentSpeed_ = 0.0;
+            return;
+        }
+    }
+
 
     if(CarInFront(cars)){
-        currentSpeed_ = 0;
+        currentSpeed_ = 0.0;
         return;
     }else if (direction_ == "Up") {
 

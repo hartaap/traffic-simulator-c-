@@ -30,6 +30,8 @@ public:
     void SetDirection(std::pair<int, int> current, std::pair<int, int> destination);
     void SetSpeedLimit(std::vector<Road*> roads);
     bool AtDestination(float destinationX, float destinationY);
+    bool CheckIntersection(Intersection* intersection, std::vector<Car*> cars);
+    bool LaneIsFree(Intersection* intersection, std::vector<Car*> cars, std::string nextDirection);
     std::string& GetDirection();
     void Draw(sf::RenderWindow& window, int cellSize);
     void AddEvent(int time, Node* node);
