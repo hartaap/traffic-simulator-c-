@@ -68,28 +68,21 @@
     ],
     "persons": [
         ["simo", "Active", {"Kone": ["Industrial",[1,13]]}, 
-        {"Aapen grib": ["Residential",[6,3]]}],
+        {"Aapen grib": ["Residential",[4,12]]}],
         ["pekka", "Lazy", {"Murata": ["Industrial",[6,3]]}, 
-        {"Aapen grib": ["Residential",[6,3]]}],
-        ["tero", "Active", {"Kone": ["Industrial",[1,13]]}, 
-        {"PRK": ["Residential",[6,3]]}]
-    ],
-    "events": [
-        [
-        [3, [10,6]],
-        [40, [11,3]],
-        [70, [1,13]]
-        ],
-        [
-        [4, [10, 6]],
-        [41, [11, 3]],
-        [71, [1,13]]
-        ],
-        [
-        [5, [10, 6]],
-        [42, [11, 3]],
-        [71, [1,13]]
-        ]
+        {"Aapen grib": ["Residential",[1,1]]}],
+        ["tero", "Gentleman", {"Kone": ["Industrial",[1,13]]}, 
+        {"PRK": ["Residential",[11,11]]}],
+        ["ossi", "Neutral", {"Kone": ["Industrial",[1,13]]}, 
+        {"Aapen grib": ["Residential",[4,12]]}],
+        ["jussi", "Lazy", {"Murata": ["Industrial",[6,3]]}, 
+        {"Aapen grib": ["Residential",[1,1]]}],
+        ["huussi", "Gentleman", {"Kone": ["Industrial",[1,13]]}, 
+        {"PRK": ["Residential",[6,3]]}],
+        ["ronaldo", "Angry", {"Kone": ["Industrial",[1,13]]}, 
+        {"Aapen grib": ["Residential",[4,12]]}],
+        ["messi", "Lazy", {"Murata": ["Industrial",[6,3]]}, 
+        {"Aapen grib": ["Residential",[1,1]]}]
     ],
     "trafficLights": [
         [[8,1],10,2,10],
