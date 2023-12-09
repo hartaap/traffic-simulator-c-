@@ -51,6 +51,7 @@ void Simulator::SimulatorThread() {
   std::cout << "Please enter road index to be analyzed:" << std::endl;
   std::cin >> roadIndex;
   analysis_->SpecifyRoad(stoi(roadIndex));
+  analysis_->Init();
 
   Visualization* gui;
 
@@ -304,6 +305,8 @@ void Simulator::InputThread(std::promise<void> exitSignal) {
       break;
     } else if (command == "status") {
       std::cout << "Day: " << clock_->GetDayNumber() << " | Time is: " << clock_->GetSimulationTime() << std::endl;
+    } else if (command == "analyze") {
+      analysis_->GenerateHourlyHistogram(analysis_->GetData());
     } else {
       std::cout << "Invalid command. Try again." << std::endl;
     }
