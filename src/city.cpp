@@ -220,13 +220,32 @@ void City::AddPersonAndCar(Person* p) {
   delete schedule;
 }
 
+bool City::IsValidIntersection(Intersection* i) const {
+  if (i->GetLocation().first < 0 || i->GetLocation().second < 0) {
+    return false;
+  }
+
+  if (i->GetLocation().first >= grid_->GetSizeX() ||
+      i->GetLocation().second >= grid_->GetSizeY()) {
+    return false;
+  }
+
+  if (grid_->GetCell(i->GetLocation().first, i->GetLocation().second)
+          ->IsOccupied()) {
+    return false;
+  }
+
+  return true;
+}
+
 void City::AddIntersection(std::pair<int, int> location) {
-  if (!grid_->GetCell(location.first, location.second)->IsOccupied()) {
-    Intersection* i = new Intersection(location);
+  Intersection* i = new Intersection(location);
+  if (IsValidIntersection(i)) {
     intersections_.push_back(i);
     nodes_.push_back(new Node(NodeType::Intersection, location));
     grid_->GetCell(location.first, location.second)->Occupy("Intersection");
   } else {
+    delete(i);
     throw InvalidCityException("invalid intersection location at: {" +
                                std::to_string(location.first) + ", " +
                                std::to_string(location.second) + "}");

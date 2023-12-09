@@ -9,15 +9,15 @@
 #include "car.hpp"
 #include "cell.hpp"
 #include "commercial.hpp"
-#include "person.hpp"
+#include "event.hpp"
 #include "grid.hpp"
 #include "industrial.hpp"
 #include "intersection.hpp"
 #include "invalidcityexception.hpp"
 #include "node.hpp"
+#include "person.hpp"
 #include "residential.hpp"
 #include "road.hpp"
-#include "event.hpp"
 #include "trafficlight.hpp"
 
 /**
@@ -69,9 +69,8 @@ class City {
   /**
    * @brief
    * Checks if the building that the pointer given as parameter is pointing to
-   * is valid. Rquirements:
-   * - the building must be inside city boundaries
-   * - the location of the building must be unoccupied
+   * is valid. The building must be inside city boundaries and the
+   * location of the building must be unoccupied.
    *
    * @param b A pointer to a building object
    * @return true if the building is valid, false otherwise
@@ -112,6 +111,17 @@ class City {
    * @param c A pointer to the Person object
    */
   void AddPersonAndCar(Person* p);
+
+  /**
+   * @brief
+   * Checks if the intersection that the pointer given as parameter is pointing
+   * to is valid. The intersection must be inside city boundaries and the
+   * location of the intersection must be unoccupied.
+   *
+   * @param i A pointer to a intersection object
+   * @return true if the intersection is valid, false otherwise
+   */
+  bool IsValidIntersection(Intersection* i) const;
 
   /**
    * @brief Attempts to create an intersection to the given location.
@@ -169,7 +179,8 @@ class City {
   void DrawCars(sf::RenderWindow& window) const;
 
   /**
-   * @brief Draws the buildings in the city to the SFML window given as parameter.
+   * @brief Draws the buildings in the city to the SFML window given as
+   * parameter.
    *
    * @param window A reference to an SFML window
    */
@@ -214,4 +225,3 @@ class City {
 };
 
 #endif
-
