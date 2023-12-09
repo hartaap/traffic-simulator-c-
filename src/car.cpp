@@ -273,6 +273,8 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
 
            if(next->second == previous_){
               next = schedule_.end();
+              destination_ = nullptr;
+              return;
            }
 
            //If car has a destination node, find the best path
