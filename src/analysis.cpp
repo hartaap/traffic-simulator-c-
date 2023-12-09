@@ -60,7 +60,8 @@ void Analysis::Analyze() {
           (car->GetDirection() == "Right" || car->GetDirection() == "Left")) {
         if (location.second != roadStart.second) {
           previousCars_.erase(i);
-        } else if (currentRoad_->IsVertical() && previousCars_[i] &&
+        } else if (currentRoad_->IsVertical() &&
+                   (previousCars_.find(i) != previousCars_.end()) &&
                    (car->GetDirection() == "Up" ||
                     car->GetDirection() == "Down")) {
           if (location.first != roadStart.first) {
@@ -87,12 +88,10 @@ void Analysis::GenerateHourlyHistogram(std::vector<std::vector<int>> data) {
   int max_value = *max_element(data[clock_->GetDayNumber()].begin(),
                                data[clock_->GetDayNumber()].end());
 
-  // Histogram
   for (int i = max_value; i >= 0; --i) {
     std::cout.width(2);
     std::cout << i << " | ";
 
-    // Marking the values
     for (int j = 0; j < data[clock_->GetDayNumber()].size(); ++j) {
       if (data[clock_->GetDayNumber()][j] >= i) {
         std::cout << "x  ";
@@ -105,7 +104,6 @@ void Analysis::GenerateHourlyHistogram(std::vector<std::vector<int>> data) {
   std::cout << "---------------------------------------" << std::endl;
   std::cout << "    ";
 
-  // Data printed
   for (int i = 0; i < data[clock_->GetDayNumber()].size(); ++i) {
     if (i < 10) {
       std::cout << "0" << i << " ";
