@@ -1,7 +1,7 @@
 #include "intersection.hpp"
 
 Intersection::Intersection(std::pair<int, int> location)
-    : location_(location), allowVertical_(true), allowHorizontal_(true) {}
+    : location_(location), allowVertical_(true), allowHorizontal_(true), trafficLight_(nullptr) {}
 
 std::pair<int, int> Intersection::GetLocation() const { return location_; }
 
@@ -34,6 +34,10 @@ void Intersection::AddTrafficLight(TrafficLight* t) {
    trafficLight_ = t;
    allowVertical_ = false;
   }
+
+bool Intersection::HasTrafficLight() const {
+  return trafficLight_ != nullptr;
+}
 
 bool Intersection::AllowVertical() { return allowVertical_; }
 

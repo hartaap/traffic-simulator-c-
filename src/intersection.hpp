@@ -43,6 +43,12 @@ class Intersection {
   void AddTrafficLight(TrafficLight* t);
 
   /**
+   * @brief Check if the intersection has a traffic light
+   *
+   */
+  bool HasTrafficLight() const;
+
+  /**
    * @brief Returns a boolean value indicating if cars are currently allowed to
    * move vertically through the intersection.
    *
