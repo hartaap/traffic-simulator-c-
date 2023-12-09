@@ -84,37 +84,37 @@ std::string Analysis::Print() {
 }
 
 void Analysis::GenerateHourlyHistogram(std::vector<std::vector<int>> data) {
-    int max_value = *max_element(data[clock_->GetDayNumber()].begin(), data[clock_->GetDayNumber()].end());
-
-  // Calculate the number of digits in the maximum value of the data
-  int max_digits = std::to_string(max_value).size();
+  int max_value = *max_element(data[clock_->GetDayNumber()].begin(),
+                               data[clock_->GetDayNumber()].end());
 
   // Histogram
   for (int i = max_value; i >= 0; --i) {
-    std::cout.width(max_digits + 2);
+    std::cout.width(2);
     std::cout << i << " | ";
 
     // Marking the values
     for (int j = 0; j < data[clock_->GetDayNumber()].size(); ++j) {
       if (data[clock_->GetDayNumber()][j] >= i) {
-        std::cout << "x ";
+        std::cout << "x  ";
       } else {
-        std::cout << "  ";
+        std::cout << "   ";
       }
     }
     std::cout << std::endl;
   }
-  std::cout << std::string(max_digits + 2, ' ') << "---------------------------------------" << std::endl;
-  std::cout << std::string(max_digits + 4, ' ');
+  std::cout << "---------------------------------------" << std::endl;
+  std::cout << "    ";
 
   // Data printed
   for (int i = 0; i < data[clock_->GetDayNumber()].size(); ++i) {
-    std::cout << (i + 1) << " ";
+    if (i < 10) {
+      std::cout << "0" << i << " ";
+    } else {
+      std::cout << i << " ";
+    }
   }
 
   std::cout << std::endl;
 }
 
-std::vector<std::vector<int>> Analysis::GetData() {
-  return roadHourlyCounts_;
-}
+std::vector<std::vector<int>> Analysis::GetData() { return roadHourlyCounts_; }
