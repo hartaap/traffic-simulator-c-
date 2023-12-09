@@ -93,7 +93,7 @@ void City::AddRoad(std::pair<int, int> start, std::pair<int, int> end) {
       GetNode(end) != nullptr) {
     auto node1 = GetNode(start);
     auto node2 = GetNode(end);
-    roads_.push_back(new Road(start, end, 10));
+    roads_.push_back(new Road(start, end, 1));
 
     // Occupy the cells with the new road
     if (start.first == end.first) {  // vertical
@@ -248,7 +248,7 @@ void City::AddTrafficLight(TrafficLight* t) {
 // Update location of person and its car.
 void City::UpdateCars(float deltaTime, float currentTime) const {
   for (auto person : persons_) {
-    person->GetCar()->Update(deltaTime, currentTime, nodes_, intersections_, cars_);
+    person->GetCar()->Update(deltaTime, currentTime, nodes_, intersections_, cars_, roads_);
     person->UpdateLocationFromCar(person->GetCar()->GetLocation()); 
   }
 }
