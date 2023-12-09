@@ -211,6 +211,7 @@ class City {
   std::vector<TrafficLight*> trafficLights_;
   std::vector<Car*> cars_;
   std::vector<Person*> persons_;
+  std::unordered_map<Person*, Car*> personCarMap_;
   std::vector<Node*> nodes_;
 };
 
