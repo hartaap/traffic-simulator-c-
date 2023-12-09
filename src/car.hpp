@@ -17,7 +17,7 @@ public:
 
     void Update(float deltaTime, float currentTime, std::vector<Node*> allNodes, std::vector<Intersection*> intersections, 
                 std::vector<Car*> cars, std::vector<Road*> roads);
-    Intersection* GetIntersection(std::pair<int, int> location, std::vector<Intersection*> intersections);
+    Intersection* GetIntersection(std::vector<Intersection*> intersections);
     void SetDestination(Node* destination);
     void SetDirection(std::pair<int, int> current, std::pair<int, int> destination);
     void SetSpeedLimit(std::vector<Road*> roads);

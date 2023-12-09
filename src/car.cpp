@@ -65,10 +65,28 @@ std::string& Car::GetDirection(){
     return direction_;
 }
 
-Intersection* Car::GetIntersection(std::pair<int, int> location, std::vector<Intersection*> intersections){
+Intersection* Car::GetIntersection(std::vector<Intersection*> intersections){
     for(auto it : intersections){
-        if(it->GetLocation() == location){
-            return it;
+
+        auto x = it->GetLocation().first;
+        auto y = it->GetLocation().second;
+
+        if(direction_ == "Up"){
+            if(x == location_.first && (location_.second - y <= 1.2) && (location_.second - y > 0.8)){
+                return it;
+            }
+        }else if(direction_ == "Down"){
+            if(x == location_.first && (y - location_.second <= 0.5) && (y - location_.second >= 0.0)){
+                return it;
+            }
+        }else if(direction_ == "Right"){
+            if(y == location_.second && (x - location_.first <= 0.8) && (x - location_.first >= 0.0)){
+                return it;
+            }
+        }else if(direction_ == "Left"){
+            if(y == location_.second && (location_.first - x <= 1.2) && (location_.first - x > 0.8)){
+                return it;
+            }      
         }
     }
     return nullptr;
@@ -181,12 +199,13 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
     float dx = 0.0;
     float dy = 0.0;
 
+    auto intersection = GetIntersection(intersections);
+
 
     if(CarInFront(cars)){
         currentSpeed_ = 0;
         return;
     }else if (direction_ == "Up") {
-        auto intersection = GetIntersection({round(location_.first), round(location_.second - 1)}, intersections);
 
         if(intersection != nullptr){
             if(intersection->AllowVertical()){
@@ -197,7 +216,6 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
         }
     } else if(direction_ == "Down") {
 
-        auto intersection = GetIntersection({round(location_.first), round(location_.second + 0.5)}, intersections);
 
         if(intersection != nullptr){
             if(intersection->AllowVertical()){
@@ -207,7 +225,6 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
             dy = distance;
         }
     }else if(direction_ == "Right"){
-        auto intersection = GetIntersection({round(location_.first + 0.5), round(location_.second)}, intersections);
 
         if(intersection != nullptr){
             if(intersection->AllowHorizontal()){
@@ -217,7 +234,6 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
             dx = distance;
         }
     }else if(direction_ == "Left"){
-        auto intersection = GetIntersection({round(location_.first - 1), round(location_.second)}, intersections);
 
         if(intersection != nullptr){
             if(intersection->AllowHorizontal()){
