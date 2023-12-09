@@ -1,6 +1,7 @@
 #include "person.hpp"
 #include <chrono>  // Include for std::chrono
 #include <ctime>   // Include for std::time
+#include <cmath>
 
 Person::Person(const std::string& name, PersonType personType, Node* workplace, Node* home)
            : name_(name), personType_(personType),
