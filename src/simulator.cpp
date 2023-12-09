@@ -214,13 +214,29 @@ City Simulator::LoadFile() {
     }
   }
 
-   // Extract persons
+  // Extract persons
 
   auto personsArray = json::as_array(jsonData["persons"]);
   for (const auto& person : personsArray) {
 
       const std::string name = json::as_string(person[0]);
-      const std::string pType = json::as_string(person[1]);
+      std::string pTypeString = json::as_string(person[1]);
+      PersonType pType;
+      if (pTypeString == "Lazy") {
+        pType = PersonType::Lazy;
+      } else if (pTypeString == "Active") {
+        pType = PersonType::Active;
+      } else if (pTypeString == "Neutral") {
+        pType = PersonType::Neutral;
+      } else if (pTypeString == "Angry") {
+        pType = PersonType::Angry;
+      } else if (pTypeString == "Gentleman") {
+        pType = PersonType::Gentleman;
+      } else {
+        // Unknown string
+        std::cerr << "Unknown PersonType string: " << pTypeString << std::endl;
+        pType = PersonType::Lazy;  // Sets a default value when unknown
+    }
       auto workplaceObject = json::as_object(person[2]);
       auto homeObject = json::as_object(person[3]);
 
@@ -235,9 +251,8 @@ City Simulator::LoadFile() {
           int homePosX = json::to_number<int>(homeLocation[0]);
           int homePosY = json::to_number<int>(homeLocation[1]);
 
-          Industrial* a = new Industrial(workPlaceName, {workPosX, workPosY});
-          Residential* b = new Residential(homeName, {homePosX, homePosY});
-          persons.push_back(new Person(name, pType, a, b, c.GetNode({round(b->GetLocation().first), round(b->GetLocation().second)})));
+          persons.push_back(new Person(name, pType, c.GetNode({workPosX, workPosY}), c.GetNode({homePosX, homePosY})));
+          
            // this also creates a car for each person
       } else {
           std::cerr << "Invalid workplace or home!" << std::endl;
@@ -245,23 +260,10 @@ City Simulator::LoadFile() {
       
   }
 
-  // Extract events
-  int i = 0;
-  auto eventsArray = json::as_array(jsonData["events"]);
-  for (const auto& events : eventsArray) {
-    for (const auto& event : events.as_array()) {
-      int eventTime = json::to_number<int>(event[0]);
-      auto eventPositionArray = json::as_array(event[1]);
-      int eventX = json::to_number<float>(eventPositionArray[0]);
-      int eventY = json::to_number<float>(eventPositionArray[1]);
-      persons[i]->AddEvent(eventTime, c.GetNode({eventX, eventY}));
-    }
-    i++;
-  }
-
   // add persons and their linked cars into city
+  // this also initializes their schedules based on their persontype and randomity
   for (auto person : persons) {
-    c.AddPerson(person);
+    c.AddPersonAndCar(person);
   }
 
   auto trafficLightsArray = json::as_array(jsonData["trafficLights"]);
