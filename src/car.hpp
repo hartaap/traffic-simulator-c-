@@ -11,6 +11,14 @@
 #include <algorithm>
 #include "road.hpp"
 
+enum class PersonType { // person type for setting color and adjusting schedule
+    Lazy,
+    Active,
+    Neutral,
+    Gentleman,
+    Angry
+};
+
 class Car {
 public:
     Car(Node* startingNode);
@@ -25,7 +33,9 @@ public:
     std::string& GetDirection();
     void Draw(sf::RenderWindow& window, int cellSize);
     void AddEvent(int time, Node* node);
+    void InitializeSchedule(std::map<int, Node*> schedule);
     bool CarInFront(std::vector<Car*> cars);
+    void SetColor(PersonType pType);
     std::pair<int, int> GetLocation();
 
     std::vector<Node*> Dijkstra(Node* source, Node* destination, std::vector<Node*> allNodes);
@@ -52,6 +62,7 @@ private:
     std::vector<Node*> path_;
     std::map<int, Node*> schedule_;
     Node* previous_;
+    sf::Color color_;
 };
 
 #endif
