@@ -215,7 +215,9 @@ void City::AddPersonAndCar(Person* p) {
     Event* schedule = new Event(person, this->GetBuildingNodes());
     auto i = schedule->CreateSchedule();
     person->InitializeSchedule(i);  // Initialize schedule and sync them together with person and its car
-    person->GetCar()->InitializeSchedule(i);
+    Car* car = person->GetCar();
+        car->InitializeSchedule(i);
+        personCarMap_[person] = car;  // Store person and car
     delete schedule;
    }
    cars_.push_back(p->GetCar());
