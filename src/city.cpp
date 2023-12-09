@@ -210,7 +210,7 @@ std::vector<Node*> City::GetBuildingNodes() const {
 
 void City::AddPersonAndCar(Person* p) {
   persons_.push_back(p);
-  cars_.push_back(p->GetCar()); // Adds person and corresponding car into the city
+   // Adds person and corresponding car into the city
   for (auto person : persons_) {
     Event* schedule = new Event(person, this->GetBuildingNodes());
     auto i = schedule->CreateSchedule();
@@ -218,6 +218,7 @@ void City::AddPersonAndCar(Person* p) {
     person->GetCar()->InitializeSchedule(i);
     delete schedule;
    }
+   cars_.push_back(p->GetCar());
 }
 
 void City::AddIntersection(std::pair<int, int> location) {
