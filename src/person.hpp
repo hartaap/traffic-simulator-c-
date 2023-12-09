@@ -10,6 +10,8 @@
 #include "building.hpp"
 #include "node.hpp"
 #include "car.hpp"
+#include "simulationClock.hpp"
+
 
 
 class Person {
@@ -26,8 +28,6 @@ public:
 
     void InitializeSchedule(std::map<int, Node*> schedule);
 
-    bool isBusy() const;
-
     bool isAtHome() const;
 
     std::pair<int, int> GetLocation() const;
@@ -37,8 +37,6 @@ public:
     std::map<int,Node*> GetSchedule() const;
 
     void AddEvent(int time, Node* node); // add event to schedule, according to the events in class car, car calls the function update()
-
-    int TimeUntilNextEvent() const; // doesnt work currently
 
     void UpdateLocationFromCar(std::pair<float, float> location); // used in car->update() to sync with the location of a car linked to person
 
@@ -54,6 +52,12 @@ private:
 };
 
 #endif
+
+
+
+
+
+
 
 
 

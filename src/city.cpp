@@ -220,13 +220,32 @@ void City::AddPersonAndCar(Person* p) {
   delete schedule;
 }
 
+bool City::IsValidIntersection(Intersection* i) const {
+  if (i->GetLocation().first < 0 || i->GetLocation().second < 0) {
+    return false;
+  }
+
+  if (i->GetLocation().first >= grid_->GetSizeX() ||
+      i->GetLocation().second >= grid_->GetSizeY()) {
+    return false;
+  }
+
+  if (grid_->GetCell(i->GetLocation().first, i->GetLocation().second)
+          ->IsOccupied()) {
+    return false;
+  }
+
+  return true;
+}
+
 void City::AddIntersection(std::pair<int, int> location) {
-  if (!grid_->GetCell(location.first, location.second)->IsOccupied()) {
-    Intersection* i = new Intersection(location);
+  Intersection* i = new Intersection(location);
+  if (IsValidIntersection(i)) {
     intersections_.push_back(i);
     nodes_.push_back(new Node(NodeType::Intersection, location));
     grid_->GetCell(location.first, location.second)->Occupy("Intersection");
   } else {
+    delete(i);
     throw InvalidCityException("invalid intersection location at: {" +
                                std::to_string(location.first) + ", " +
                                std::to_string(location.second) + "}");
@@ -268,7 +287,7 @@ void City::AddTrafficLight(TrafficLight* t) {
 }
 
 // Update location of person and its car.
-void City::UpdateCars(float deltaTime, float currentTime) const {
+void City::UpdateCars(float deltaTime, float currentTime) {
   // Extract cars from personCarMap_
   std::vector<Car*> allCars;
   for (const auto& personCar : personCarMap_) {
@@ -277,6 +296,7 @@ void City::UpdateCars(float deltaTime, float currentTime) const {
 
   // Update each car
   for (const auto& personCar : personCarMap_) {
+    AddEvent(personCar.first);
     personCar.second->Update(deltaTime, currentTime, nodes_, intersections_,
                              allCars, roads_);
     personCar.first->UpdateLocationFromCar(personCar.second->GetLocation());
@@ -315,3 +335,36 @@ std::vector<Car*> City::GetCars() const {
   }
   return cars;
 }
+
+int City::TimeUntilNextEvent(Person *p) const { //uusi
+        int currentTime = round(clock_->GetElapsedTime());
+        auto schedule = p->GetSchedule();
+        auto it = schedule.upper_bound(currentTime);
+
+        if (it != schedule.end()) {
+                //Next key that is greater than the current time
+                int nextEventTime = it->first;
+                return nextEventTime - currentTime;
+        } else {
+                return -1; //If no future events
+        }
+}
+
+//If there's enough time, person will return home to take a rest.
+bool City::IsBusy(Person *p) const {
+        return (this->TimeUntilNextEvent(p) < 40 || this->TimeUntilNextEvent(p) == -1); 
+}
+
+//Add clock from simulator.cpp
+void City::AddClock(SimulationClock* clock) {
+        clock_ = clock;
+}
+
+//Add event to schedule
+void City::AddEvent(Person *p) {
+  if (!IsBusy(p) && (p->GetLocation() != p->GetResidence()->GetLocation())) {
+      p->AddEvent(clock_->GetElapsedTime(), p->GetResidence());
+  }
+}
+
+

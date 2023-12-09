@@ -17,27 +17,51 @@ Event::Event(Person* person, std::vector<Node*> buildingNodes) {
 std::map<int, Node*> Event::CreateSchedule() {
     int lastSelectedIndex = -1;  // Initialize to an invalid index
     int ind;
-    do {    
-            ind = rand() % buildingNodes_.size();
-        } while (buildingNodes_[ind] == person_->GetResidence()); // check that first destination isnt the initial node.
-        int timeDiff = (rand() % 5 + 1);
-        schedule_[timeDiff] = buildingNodes_[ind];
-        lastSelectedIndex = ind;
 
-    for (int time = 70; time <= 1000; time += 100) {
+    int timeDifferenceRange = 5;  // Default time difference range
+
+    // Adjust time difference range based on PersonType
+    switch (person_->GetPersonType()) {
+        case PersonType::Lazy:
+            timeDifferenceRange += 40;  // Additional 10 minutes for Lazy type
+            break;
+        case PersonType::Active:
+            // Active type stays with the default range
+            break;
+        case PersonType::Neutral:
+            timeDifferenceRange += 60;  // Reduce 5 minutes for Neutral type
+            break;
+        case PersonType::Gentleman:
+            timeDifferenceRange += 20;  // Additional 5 minutes for Gentleman type
+            break;
+        case PersonType::Angry:
+            timeDifferenceRange += 30;  // Reduce 10 minutes for Angry type
+            break;
+    }
+
+    do {    
+        ind = rand() % (buildingNodes_.size()-1);
+    } while (buildingNodes_[ind] == person_->GetResidence());
+
+    int timeDiff = (rand() % timeDifferenceRange + 1);
+    schedule_[timeDiff] = buildingNodes_[ind];
+    lastSelectedIndex = ind;
+
+    for (int time = 45; time <= 1000; time += 30) {
         int index;
-        //Cant be two consecutive nodes
+
         do {
-            index = rand() % buildingNodes_.size();
-        } while (index == lastSelectedIndex);
+            index = rand() % (buildingNodes_.size()-1);
+        } while (index == lastSelectedIndex || (buildingNodes_[index] == person_->GetResidence()));
 
         lastSelectedIndex = index;
-        // Randomly choose whether to add or subtract time
+
         int timeDifferenceSign = (rand() % 2 == 0) ? 1 : -1;
-        // Add a time difference between 1 and 5 minutes
-        int timeDifference = timeDifferenceSign * (rand() % 5 + 1);
+        int timeDifference = timeDifferenceSign * (rand() % timeDifferenceRange + 1);
         schedule_[time + timeDifference] = buildingNodes_[index];
     }
 
     return schedule_;
 }
+
+

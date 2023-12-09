@@ -9,15 +9,15 @@
 #include "car.hpp"
 #include "cell.hpp"
 #include "commercial.hpp"
-#include "person.hpp"
+#include "event.hpp"
 #include "grid.hpp"
 #include "industrial.hpp"
 #include "intersection.hpp"
 #include "invalidcityexception.hpp"
 #include "node.hpp"
+#include "person.hpp"
 #include "residential.hpp"
 #include "road.hpp"
-#include "event.hpp"
 #include "trafficlight.hpp"
 
 /**
@@ -69,9 +69,8 @@ class City {
   /**
    * @brief
    * Checks if the building that the pointer given as parameter is pointing to
-   * is valid. Rquirements:
-   * - the building must be inside city boundaries
-   * - the location of the building must be unoccupied
+   * is valid. The building must be inside city boundaries and the
+   * location of the building must be unoccupied.
    *
    * @param b A pointer to a building object
    * @return true if the building is valid, false otherwise
@@ -112,6 +111,17 @@ class City {
    * @param c A pointer to the Person object
    */
   void AddPersonAndCar(Person* p);
+
+  /**
+   * @brief
+   * Checks if the intersection that the pointer given as parameter is pointing
+   * to is valid. The intersection must be inside city boundaries and the
+   * location of the intersection must be unoccupied.
+   *
+   * @param i A pointer to a intersection object
+   * @return true if the intersection is valid, false otherwise
+   */
+  bool IsValidIntersection(Intersection* i) const;
 
   /**
    * @brief Attempts to create an intersection to the given location.
@@ -159,7 +169,7 @@ class City {
    * @param deltaTime
    * @param currentTime
    */
-  void UpdateCars(float deltaTime, float currentTime) const;
+  void UpdateCars(float deltaTime, float currentTime);
 
   /**
    * @brief Draws the cars in the city to the SFML window given as parameter.
@@ -169,7 +179,8 @@ class City {
   void DrawCars(sf::RenderWindow& window) const;
 
   /**
-   * @brief Draws the buildings in the city to the SFML window given as parameter.
+   * @brief Draws the buildings in the city to the SFML window given as
+   * parameter.
    *
    * @param window A reference to an SFML window
    */
@@ -203,6 +214,36 @@ class City {
    */
   std::vector<Car*> GetCars() const;
 
+  /**
+   * @brief Get time until next event.
+   *
+   * @param p Next event from a specified person.
+   */
+  int TimeUntilNextEvent(Person *p) const;
+
+  /**
+   * @brief Add the simulation clock to city.
+   *
+   * @param clock Clock implemented in SimulationClock, used in simulator.cpp.
+   */
+  void AddClock(SimulationClock *clock);
+
+  /**
+   * @brief Check if person has an event going on.
+   *
+   * @param p Check if this exact person is busy.
+   * 
+   * @return Boolean value if a person is busy at the moment.
+   */
+  bool IsBusy(Person* p) const;
+
+  /**
+   * @brief Add event to schedule.
+   *
+   * @param p This is the person that is going to have new event.
+   */
+  void AddEvent(Person *p);
+
  private:
   Grid* grid_;
   std::vector<Road*> roads_;
@@ -211,7 +252,7 @@ class City {
   std::vector<TrafficLight*> trafficLights_;
   std::map<Person*, Car*> personCarMap_;
   std::vector<Node*> nodes_;
+  SimulationClock* clock_;
 };
 
 #endif
-
