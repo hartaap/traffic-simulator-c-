@@ -267,6 +267,8 @@ City Simulator::LoadFile() {
     c.AddPersonAndCar(person);
   }
 
+  c.AddClock(clock_); // Add clock to city
+
   auto trafficLightsArray = json::as_array(jsonData["trafficLights"]);
   for (const auto& trafficLight : trafficLightsArray) {
     auto trafficLightPosArray = json::as_array(trafficLight[0]);
