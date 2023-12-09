@@ -214,6 +214,36 @@ class City {
    */
   std::vector<Car*> GetCars() const;
 
+  /**
+   * @brief Get time until next event.
+   *
+   * @param p Next event from a specified person.
+   */
+  int TimeUntilNextEvent(Person *p) const;
+
+  /**
+   * @brief Add the simulation clock to city.
+   *
+   * @param clock Clock implemented in SimulationClock, used in simulator.cpp.
+   */
+  void AddClock(SimulationClock *clock);
+
+  /**
+   * @brief Check if person has an event going on.
+   *
+   * @param p Check if this exact person is busy.
+   * 
+   * @return Boolean value if a person is busy at the moment.
+   */
+  bool IsBusy(Person* p) const;
+
+  /**
+   * @brief Add event to schedule.
+   *
+   * @param p This is the person that is going to have new event.
+   */
+  void AddEvent(Person *p);
+
  private:
   Grid* grid_;
   std::vector<Road*> roads_;
@@ -222,6 +252,7 @@ class City {
   std::vector<TrafficLight*> trafficLights_;
   std::map<Person*, Car*> personCarMap_;
   std::vector<Node*> nodes_;
+  SimulationClock* clock_;
 };
 
 #endif
