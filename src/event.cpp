@@ -29,7 +29,7 @@ std::map<int, Node*> Event::CreateSchedule() {
             // Active type stays with the default range
             break;
         case PersonType::Neutral:
-            timeDifferenceRange -= 5;  // Reduce 5 minutes for Neutral type
+            timeDifferenceRange += 60;  // Reduce 5 minutes for Neutral type
             break;
         case PersonType::Gentleman:
             timeDifferenceRange += 20;  // Additional 5 minutes for Gentleman type
@@ -40,18 +40,18 @@ std::map<int, Node*> Event::CreateSchedule() {
     }
 
     do {    
-        ind = rand() % buildingNodes_.size();
+        ind = rand() % (buildingNodes_.size()-1);
     } while (buildingNodes_[ind] == person_->GetResidence());
 
     int timeDiff = (rand() % timeDifferenceRange + 1);
     schedule_[timeDiff] = buildingNodes_[ind];
     lastSelectedIndex = ind;
 
-    for (int time = 30; time <= 1000; time += 60) {
+    for (int time = 45; time <= 1000; time += 30) {
         int index;
 
         do {
-            index = rand() % buildingNodes_.size();
+            index = rand() % (buildingNodes_.size()-1);
         } while (index == lastSelectedIndex || (buildingNodes_[index] == person_->GetResidence()));
 
         lastSelectedIndex = index;
