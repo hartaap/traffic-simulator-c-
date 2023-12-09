@@ -14,9 +14,9 @@ City::~City() {
   }
 
   for (auto it : personCarMap_) {
-    delete(it.first);
-    delete(it.second);
-  } 
+    delete (it.first);
+    delete (it.second);
+  }
 
   delete (grid_);
 }
@@ -211,12 +211,13 @@ std::vector<Node*> City::GetBuildingNodes() const {
 
 void City::AddPersonAndCar(Person* p) {
   Event* schedule = new Event(p, this->GetBuildingNodes());
-    auto i = schedule->CreateSchedule();
-    p->InitializeSchedule(i);  // Initialize schedule and sync them together with person and its car
-    Car* car = p->GetCar();
-    car->InitializeSchedule(i);
-    personCarMap_[p] = car;  // Store person and car
-    delete schedule;
+  auto i = schedule->CreateSchedule();
+  p->InitializeSchedule(
+      i);  // Initialize schedule and sync them together with person and its car
+  Car* car = p->GetCar();
+  car->InitializeSchedule(i);
+  personCarMap_[p] = car;  // Store person and car
+  delete schedule;
 }
 
 void City::AddIntersection(std::pair<int, int> location) {
@@ -258,33 +259,38 @@ void City::AddTrafficLight(TrafficLight* t) {
   if (intersection != nullptr) {
     trafficLights_.push_back(t);
     intersection->AddTrafficLight(t);
+  } else {
+    throw InvalidCityException("invalid traffic light location at: {" +
+                               std::to_string(t->GetLocation().first) + ", " +
+                               std::to_string(t->GetLocation().second) +
+                               "}, no intersection in the given location");
   }
 }
 
 // Update location of person and its car.
 void City::UpdateCars(float deltaTime, float currentTime) const {
   // Extract cars from personCarMap_
-    std::vector<Car*> allCars;
-    for (const auto& personCar : personCarMap_) {
-        allCars.push_back(personCar.second);
-    }
+  std::vector<Car*> allCars;
+  for (const auto& personCar : personCarMap_) {
+    allCars.push_back(personCar.second);
+  }
 
-    // Update each car
-    for (const auto& personCar : personCarMap_) {
-        personCar.second->Update(deltaTime, currentTime, nodes_, intersections_, allCars, roads_);
-        personCar.first->UpdateLocationFromCar(personCar.second->GetLocation());
-    }
-  
+  // Update each car
+  for (const auto& personCar : personCarMap_) {
+    personCar.second->Update(deltaTime, currentTime, nodes_, intersections_,
+                             allCars, roads_);
+    personCar.first->UpdateLocationFromCar(personCar.second->GetLocation());
+  }
 }
 
 void City::DrawCars(sf::RenderWindow& window) const {
   for (const auto& personCar : personCarMap_) {
-        personCar.second->Draw(window, 50);
-    }
+    personCar.second->Draw(window, 50);
+  }
 }
 
-void City::DrawBuildings(sf::RenderWindow& window) const{
-  for(const auto building: buildings_){
+void City::DrawBuildings(sf::RenderWindow& window) const {
+  for (const auto building : buildings_) {
     building->Draw(window, 50);
   }
 }
@@ -304,9 +310,8 @@ std::vector<Road*> City::GetRoads() const { return roads_; }
 
 std::vector<Car*> City::GetCars() const {
   std::vector<Car*> cars;
-    for (const auto& personCar : personCarMap_) {
-        cars.push_back(personCar.second);
-    }
-    return cars;
+  for (const auto& personCar : personCarMap_) {
+    cars.push_back(personCar.second);
+  }
+  return cars;
 }
-
