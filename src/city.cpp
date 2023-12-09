@@ -198,10 +198,27 @@ Node* City::GetNode(std::pair<int, int> location) const {
   return nullptr;
 }
 
-void City::AddPerson(Person* p) {
+std::vector<Node*> City::GetBuildingNodes() const {
+  std::vector<Node*> buildingNodes;
+  for (auto node : nodes_) {
+    if (node->GetType() == NodeType::Building) {
+      buildingNodes.push_back(node);
+    }
+  }
+  return buildingNodes;
+}
+
+void City::AddPersonAndCar(Person* p) {
   persons_.push_back(p);
   cars_.push_back(p->GetCar()); // Adds person and corresponding car into the city
+  for (auto person : persons_) {
+    Event* schedule = new Event(person, this->GetBuildingNodes());
+    auto i = schedule->CreateSchedule();
+    person->InitializeSchedule(i);  // Initialize schedule and sync them together with person and its car
+    person->GetCar()->InitializeSchedule(i);
+    delete schedule;
    }
+}
 
 void City::AddIntersection(std::pair<int, int> location) {
   if (!grid_->GetCell(location.first, location.second)->IsOccupied()) {
