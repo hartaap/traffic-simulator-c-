@@ -3,6 +3,14 @@
 Analysis::Analysis(City* city, SimulationClock* clock)
     : city_(city), clock_(clock), currentRoad_(nullptr) {}
 
+void Analysis::Init() {
+  auto cars = city_->GetCars();
+
+  for (size_t i = 0; i < cars.size(); ++i) {
+    previousCars_.insert({i, false});
+  }
+}
+
 void Analysis::Analyze() {
   if (currentRoad_ != nullptr) {
     // Acquire the cars in the city
@@ -18,7 +26,7 @@ void Analysis::Analyze() {
     // Initialization of roadHourlyCounts_: this should be ran only once at
     // start
     if (roadHourlyCounts_.empty()) {
-      roadHourlyCounts_.resize(1, std::vector<int>(24));
+      roadHourlyCounts_.resize(30, std::vector<int>(24));
     }
 
     // Initialization of a specific hour: if it doesn't exist, make it equal 0
@@ -36,9 +44,9 @@ void Analysis::Analyze() {
         if (location.first >= roadStart.first &&
             location.first <= roadEnd.first &&
             location.second == roadStart.second) {
-          if (previousCars_.find(i) == previousCars_.end()) {
+          if (!previousCars_[i]) {
             roadHourlyCounts_[clock_->GetDayNumber()][currentHour]++;
-            previousCars_.insert(std::pair<int, Car*>(i, car));
+            previousCars_[i] = true;
           }
         }
         // checks if the car is on this vertical road
@@ -48,25 +56,24 @@ void Analysis::Analyze() {
         if (location.second >= roadStart.second &&
             location.second <= roadEnd.second &&
             location.first == roadStart.first) {
-          if (previousCars_.find(i) == previousCars_.end()) {
+          if (!previousCars_[i]) {
             roadHourlyCounts_[clock_->GetDayNumber()][currentHour]++;
-            previousCars_.insert(std::pair<int, Car*>(i, car));
+            previousCars_[i] = true;
           }
         }
       }
 
-      if (currentRoad_->IsHorizontal() &&
-          (previousCars_.find(i) != previousCars_.end()) &&
-          (car->GetDirection() == "Right" || car->GetDirection() == "Left")) {
-        if (location.second != roadStart.second) {
-          previousCars_.erase(i);
-        } else if (currentRoad_->IsVertical() &&
-                   (previousCars_.find(i) != previousCars_.end()) &&
-                   (car->GetDirection() == "Up" ||
-                    car->GetDirection() == "Down")) {
-          if (location.first != roadStart.first) {
-            previousCars_.erase(i);
-          }
+      if (currentRoad_->IsHorizontal() && (previousCars_[i])) {
+        if (location.second != roadStart.second ||
+            location.first < roadStart.first ||
+            location.first > roadEnd.first) {
+          previousCars_[i] = false;
+        }
+      } else if (currentRoad_->IsVertical() && (previousCars_[i])) {
+        if (location.first != roadStart.first ||
+            location.second < roadStart.second ||
+            location.second > roadEnd.second) {
+          previousCars_[i] = false;
         }
       }
     }
@@ -101,7 +108,7 @@ void Analysis::GenerateHourlyHistogram(std::vector<std::vector<int>> data) {
     }
     std::cout << std::endl;
   }
-  std::cout << "---------------------------------------" << std::endl;
+  std::cout << "----------------------------------------------------------------------------" << std::endl;
   std::cout << "    ";
 
   for (int i = 0; i < data[clock_->GetDayNumber()].size(); ++i) {

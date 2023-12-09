@@ -51,6 +51,7 @@ void Simulator::SimulatorThread() {
   std::cout << "Please enter road index to be analyzed:" << std::endl;
   std::cin >> roadIndex;
   analysis_->SpecifyRoad(stoi(roadIndex));
+  analysis_->Init();
 
   Visualization* gui;
 

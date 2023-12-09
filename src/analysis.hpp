@@ -38,6 +38,8 @@ public:
     std::string Print();
 
     std::vector<std::vector<int>> GetData();
+
+    void Init();
 private:
     // Current road that is being analyzed
     Road* currentRoad_;
@@ -47,7 +49,7 @@ private:
 
     City* city_;
     SimulationClock* clock_;
-    std::map<int, Car*> previousCars_;
+    std::map<int, bool> previousCars_;
 };
 
 #endif  // ANALYSIS_HPP
