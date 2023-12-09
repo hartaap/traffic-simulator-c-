@@ -17,6 +17,7 @@
 #include "node.hpp"
 #include "residential.hpp"
 #include "road.hpp"
+#include "event.hpp"
 #include "trafficlight.hpp"
 
 /**
@@ -99,11 +100,18 @@ class City {
   Node* GetNode(std::pair<int, int> location) const;
 
   /**
-   * @brief Adds a person to the city.
+   * @brief Get a list of the Node pointers that have type "Building".
+   *
+   * @return A list of pointers to Nodes with type "Building".
+   */
+  std::vector<Node*> GetBuildingNodes() const;
+
+  /**
+   * @brief Adds a person and its car to the city.
    *
    * @param c A pointer to the Person object
    */
-  void AddPerson(Person* p);
+  void AddPersonAndCar(Person* p);
 
   /**
    * @brief Attempts to create an intersection to the given location.
@@ -207,3 +215,4 @@ class City {
 };
 
 #endif
+
