@@ -74,3 +74,9 @@ void Analysis::Analyze() {
 void Analysis::SpecifyRoad(int roadIndex) {
   currentRoad_ = city_->GetRoads()[roadIndex];
 }
+
+std::string Analysis::Print() {
+  int currentHour = static_cast<int>(clock_->GetElapsedTime()) / 60;
+
+  return "Cars used this road: " + std::to_string(roadHourlyCounts_[clock_->GetDayNumber()][currentHour]);
+}

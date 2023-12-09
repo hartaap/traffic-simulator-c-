@@ -33,7 +33,7 @@ public:
     // Find and highlight congestion automatically: this is an advanced feature, quite sure that going to skip
     void FindAndHighlightCongestion();
 
-    int TestPrint() { return roadHourlyCounts_[0][0]; }
+    std::string Print();
 private:
     // Current road that is being analyzed
     Road* currentRoad_;

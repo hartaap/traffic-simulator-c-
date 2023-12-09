@@ -46,9 +46,22 @@ void Simulator::StartSimulation() {
 }
 
 void Simulator::SimulatorThread() {
-  Visualization* gui = new Visualization(50, c_->GetGrid());
   analysis_ = new Analysis(c_, clock_);
-  analysis_->SpecifyRoad(1);
+  std::string roadIndex;
+  std::cout << "Please enter road index to be analyzed:" << std::endl;
+  std::cin >> roadIndex;
+  analysis_->SpecifyRoad(stoi(roadIndex));
+
+  Visualization* gui;
+
+  std::string guiEnabledStr;
+  std::cout << "Enable GUI? (type yes or no):" << std::endl;
+  std::cin >> guiEnabledStr;
+  if(guiEnabledStr == "yes") {
+    gui = new Visualization(50, c_->GetGrid());
+  } else {
+    guiEnabled_ = false;
+  }
 
   float previousTime = 0.0;
 
@@ -289,8 +302,6 @@ void Simulator::InputThread(std::promise<void> exitSignal) {
       break;
     } else if (command == "status") {
       std::cout << "Day: " << clock_->GetDayNumber() << " | Time is: " << clock_->GetSimulationTime() << std::endl;
-    } else if (command == "analyze") {
-      std::cout << analysis_->TestPrint() << std::endl;
     } else {
       std::cout << "Invalid command. Try again." << std::endl;
     }
