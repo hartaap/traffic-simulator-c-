@@ -261,7 +261,7 @@ Intersection* City::GetIntersection(std::pair<int, int> location) const {
   return nullptr;
 }
 
-void City::UpdateIntersections(float deltaTime) {
+void City::UpdateIntersections(float deltaTime) const {
   for (auto it : intersections_) {
     it->Update(deltaTime);
   }
@@ -287,7 +287,7 @@ void City::AddTrafficLight(TrafficLight* t) {
 }
 
 // Update location of person and its car.
-void City::UpdateCars(float deltaTime, float currentTime) const {
+void City::UpdateCars(float deltaTime, float currentTime) {
   // Extract cars from personCarMap_
   std::vector<Car*> allCars;
   for (const auto& personCar : personCarMap_) {
