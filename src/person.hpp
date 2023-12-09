@@ -11,70 +11,52 @@
 #include "node.hpp"
 #include "car.hpp"
 
-/*enum class PersonType {
-    Lazy,
-    Active,
-    Neutral
-};
-*/
 
 class Person {
 public:
-    Person(const std::string& name, const std::string& personType, Industrial* workplace, Residential* home, Node* startNode)
-           : name_(name), personType_(personType),
-             workplace_(workplace), home_(home), status_(false) {
-                location_ = home_->GetLocation(); // initial location is at home.
-                car_ = new Car(startNode); // creates a car for a person starting from home.
-                
-             }
+    Person(const std::string& name, PersonType personType, Node* workplace, Node* home);
 
+    ~Person();
 
-    Industrial* GetWorkplace() const {
-        return workplace_;
-    }
+    Node* GetWorkplace() const;
 
-    Residential* GetResidence() const {
-        return home_;
-    }
+    Node* GetResidence() const;
 
-    Car* GetCar() {
-        return car_;
-    }
+    Car* GetCar();
 
-    bool isBusy() const {
-        return status_; // might be unnecessary function
-    }
+    void InitializeSchedule(std::map<int, Node*> schedule);
 
-    std::pair<float, float> GetLocation() const {
-        return location_;
-    }
+    bool isBusy() const;
 
-    const std::string& GetPersonType() const {
-        return personType_; // affects on the schedule
-    }
+    bool isAtHome() const;
 
-    std::map<int,Node*> GetSchedule() const {
-        return schedule_;
-    }
+    std::pair<int, int> GetLocation() const;
+
+    PersonType GetPersonType() const;
+
+    std::map<int,Node*> GetSchedule() const;
 
     void AddEvent(int time, Node* node); // add event to schedule, according to the events in class car, car calls the function update()
 
-   // int TimeUntilNextEvent() const; // doesnt work currently
+    int TimeUntilNextEvent() const; // doesnt work currently
 
     void UpdateLocationFromCar(std::pair<float, float> location); // used in car->update() to sync with the location of a car linked to person
 
 private:
     std::string name_;
-    std::string personType_;
+    PersonType personType_;
     std::map<int, Node*> schedule_; 
-    Industrial* workplace_;
+    Node* workplace_;
     std::pair<float,float> location_;
-    Residential* home_;
+    Node* home_;
     bool status_;
     Car* car_;
 };
 
 #endif
+
+
+
 
 
 
