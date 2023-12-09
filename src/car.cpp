@@ -254,6 +254,35 @@ void Car::AddEvent(int time, Node* node){
     schedule_.insert({time, node});
 }
 
+//Set color for car
+void Car::SetColor(PersonType pType) { 
+    sf::Color color;
+        switch (pType) {
+            case PersonType::Lazy:
+                color_ = sf::Color::Black;
+                break;
+            case PersonType::Angry:
+                color_ = sf::Color::Magenta;
+                break;
+            case PersonType::Gentleman:
+                color_ = sf::Color::Yellow;
+                break;
+            case PersonType::Active:
+                color_ = sf::Color::Red;
+                break;
+            case PersonType::Neutral:
+                color_ = sf::Color::Green;
+                break;
+            default:
+                color_ = sf::Color::White; // Default color
+                break;
+        }
+}
+
+void Car::InitializeSchedule(std::map<int, Node*> schedule) {
+    schedule_ = schedule;
+}
+
 //Dijkstras algorithm to find the best path from source node to destination node
 std::vector<Node*> Car::Dijkstra(Node* source, Node* destination, std::vector<Node*> allNodes){
 
@@ -319,7 +348,7 @@ void Car::Draw(sf::RenderWindow& window, int cellSize) {
     return;
    }
 
-    carShape.setFillColor(sf::Color::Red);
+    carShape.setFillColor(color_);
 
     if(direction_ == "Right"){
        carShape.setSize(sf::Vector2f(30, 15));
