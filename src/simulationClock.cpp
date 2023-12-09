@@ -19,7 +19,7 @@ double SimulationClock::GetElapsedTime() {
 
 std::string SimulationClock::GetSimulationTime() {
   // 1 second in real-time equals 1 minute in simulation time
-  double elapsedMinutes = GetElapsedTime();
+  double elapsedMinutes = GetElapsedTime() / (dayNumber_ + 1);
 
   // Convert elapsed minutes to hours and minutes
   int hours = static_cast<int>(elapsedMinutes) / 60;
