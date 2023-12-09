@@ -9,15 +9,18 @@
 #include <limits>
 #include "intersection.hpp"
 #include <algorithm>
+#include "road.hpp"
 
 class Car {
 public:
     Car(Node* startingNode);
 
-    void Update(float deltaTime, float currentTime, std::vector<Node*> allNodes, std::vector<Intersection*> intersections, std::vector<Car*> cars);
+    void Update(float deltaTime, float currentTime, std::vector<Node*> allNodes, std::vector<Intersection*> intersections, 
+                std::vector<Car*> cars, std::vector<Road*> roads);
     Intersection* GetIntersection(std::pair<int, int> location, std::vector<Intersection*> intersections);
     void SetDestination(Node* destination);
     void SetDirection(std::pair<int, int> current, std::pair<int, int> destination);
+    void SetSpeedLimit(std::vector<Road*> roads);
     bool AtDestination(float destinationX, float destinationY);
     std::string& GetDirection();
     void Draw(sf::RenderWindow& window, int cellSize);
@@ -42,6 +45,7 @@ private:
     float acceleration_;
     float currentSpeed_;
     bool idle_;
+    float currentSpeedLimit;
     std::string direction_;
     std::pair<float, float> location_;
     Node* destination_;

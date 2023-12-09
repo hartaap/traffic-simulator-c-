@@ -48,6 +48,15 @@ void Car::SetDirection(std::pair<int, int> current, std::pair<int, int> destinat
     }
 }
 
+void Car::SetSpeedLimit(std::vector<Road*> roads){
+    for(auto road : roads){
+        if((road->GetStart() == previous_->GetLocation() && road->GetEnd() == destination_->GetLocation()) ||
+            (road->GetEnd() == previous_->GetLocation() && road->GetStart() == destination_->GetLocation())){
+                currentSpeedLimit = road->GetSpeedLimit();
+            }
+    }
+}
+
 std::pair<int, int> Car::GetLocation(){
     return location_;
 }
@@ -123,7 +132,8 @@ bool Car::AtDestination(float destinationX, float destinationY){
 
 
 //Update the cars location and destination
-void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes, std::vector<Intersection*> intersections, std::vector<Car*> cars) {
+void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes, std::vector<Intersection*> intersections,
+                 std::vector<Car*> cars, std::vector<Road*> roads) {
 
 //Car has found current destination
     if(direction_ == "None"){
@@ -141,6 +151,7 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
                path_.pop_back();
                location_ = previous_->GetLocation();
                SetDirection(location_, destination_->GetLocation());
+               SetSpeedLimit(roads);
            }
 
        }else{ //Car is on the way to final destination
@@ -148,6 +159,7 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
            path_.pop_back();
            location_ = previous_->GetLocation();
            SetDirection(location_, destination_->GetLocation());
+           SetSpeedLimit(roads);
        }
         
     }
@@ -163,7 +175,7 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
     }
 
     //Update cars location
-    currentSpeed_ = std::min(currentSpeed_ + acceleration_, maxSpeed_);
+    currentSpeed_ = std::min(currentSpeed_ + acceleration_, currentSpeedLimit);
 
     float distance = currentSpeed_ * deltaTime;
     float dx = 0.0;
