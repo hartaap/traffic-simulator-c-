@@ -16,8 +16,8 @@ class Residential : public Building {
    * @param location The coordinates of the residential building
    */
   Residential(const std::string& buildingName,
-              const std::pair<int, int>& location, Node* node)
-      : Building(buildingName, location, "Residential", node) {
+              const std::pair<int, int>& location)
+      : Building(buildingName, location, "Residential") {
     maxPersonCapacity_ = 5;
     maxCarCapacity_ = 2;
   }
@@ -44,9 +44,10 @@ class Residential : public Building {
    * output
    *
    */
-  void Info() const override {
-    std::cout << GetName() << " is a residential building!" << std::endl;
+  std::string GetType() const override {
+    return type_;
   }
 };
 
 #endif
+
