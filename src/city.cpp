@@ -165,11 +165,12 @@ bool City::IsValidBuilding(Building* b) const {
           ->IsOccupied()) {
     return false;
   }
-  auto it = std::find_if(buildings_.begin(), buildings_.end(), [b](const Building* building) {
-        return building->GetName() == b->GetName();
-  });
-  return it == buildings_.end(); // returns true if there's no building with name b->GetName()
-  
+  auto it = std::find_if(buildings_.begin(), buildings_.end(),
+                         [b](const Building* building) {
+                           return building->GetName() == b->GetName();
+                         });
+  return it == buildings_.end();  // returns true if there's no building with
+                                  // name b->GetName()
 }
 
 void City::AddBuilding(std::string name, std::pair<int, int> location,
@@ -225,45 +226,54 @@ std::vector<Node*> City::GetBuildingNodes() const {
   return buildingNodes;
 }
 
-void City::AddPersonAndCar(std::string& name, PersonType personType, std::string& workplacename, std::string& homename) {
-
+void City::AddPersonAndCar(std::string& name, PersonType personType,
+                           std::string& workplacename, std::string& homename) {
   Building* workplace = nullptr;
-  auto itWorkplace = std::find_if(buildings_.begin(), buildings_.end(), [&workplacename](const Building* building) {
-      return building->GetName() == workplacename; });
+  auto itWorkplace = std::find_if(buildings_.begin(), buildings_.end(),
+                                  [&workplacename](const Building* building) {
+                                    return building->GetName() == workplacename;
+                                  });
   if (itWorkplace != buildings_.end()) {
-      workplace = *itWorkplace;
+    workplace = *itWorkplace;
   }
 
   Building* home = nullptr;
-  auto itHome = std::find_if(buildings_.begin(), buildings_.end(), [&homename](const Building* building) {
-      return building->GetName() == homename; }); 
+  auto itHome = std::find_if(buildings_.begin(), buildings_.end(),
+                             [&homename](const Building* building) {
+                               return building->GetName() == homename;
+                             });
   if (itHome != buildings_.end()) {
-      home = *itHome;
+    home = *itHome;
   }
   // initially nullptrs
   Industrial* ind = nullptr;
   Residential* res = nullptr;
 
   if (workplace != nullptr && home != nullptr) {
-      ind = new Industrial(workplace->GetName(), workplace->GetLocation());
-      res = new Residential(home->GetName(), home->GetLocation());
+    ind = new Industrial(workplace->GetName(), workplace->GetLocation());
+    res = new Residential(home->GetName(), home->GetLocation());
   } else {
-    throw InvalidCityException("Invalid person! Check that the home or working place exists.");
+    throw InvalidCityException(
+        "Invalid person: " + name +
+        "! Check that the person's home and working place exist.");
   }
 
   Person* p = new Person(name, personType, ind, res);
 
   if (!IsValidPerson(p)) {
-    delete(p);
-    throw InvalidCityException("Invalid person! Check that the location of your home and workplace are right.");
+    delete (p);
+    throw InvalidCityException(
+        "Invalid person: " + name +
+        "! Check that the person's home and working place exist.");
   } else {
-   Event schedule(p, this->GetBuildingNodes());
+    Event schedule(p, this->GetBuildingNodes());
     auto i = schedule.CreateSchedule();
-    Car* car_ = new Car(GetNode(p->GetLocation())); // creates a car for a person starting from home.
+    Car* car_ = new Car(GetNode(
+        p->GetLocation()));  // creates a car for a person starting from home.
     car_->SetColor(p->GetPersonType());
     p->BuyCar(car_);
     p->InitializeSchedule(i);
-    //Store person and its car in the map
+    // Store person and its car in the map
     personCarMap_[p] = p->GetCar();
   }
 }
