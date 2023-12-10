@@ -3,18 +3,18 @@
 
 #include <chrono>
 #include <fstream>
+#include <future>
 #include <iostream>
 #include <iterator>
 #include <thread>
 #include <vector>
 
 #include "../libs/cpp-json/json.h"
+#include "analysis.hpp"
 #include "car.hpp"
 #include "city.hpp"
-#include "visualization.hpp"
-#include <future>
 #include "simulationClock.hpp"
-#include "analysis.hpp"
+#include "visualization.hpp"
 
 class Simulator {
  public:
@@ -32,7 +32,7 @@ class Simulator {
   void UpdateSimulation(float deltaTime, float currentTime);
   void DrawSimulation(Visualization* gui);
 
-  City LoadFile();
+  City* LoadCity();
   void InputThread(std::promise<void> exitSignal);
 
   void SetCity(City* c) { c_ = c; }
