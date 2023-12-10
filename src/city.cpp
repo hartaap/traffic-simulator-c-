@@ -247,6 +247,8 @@ void City::AddPersonAndCar(std::string& name, PersonType personType, std::string
   if (workplace != nullptr && home != nullptr) {
       ind = new Industrial(workplace->GetName(), workplace->GetLocation());
       res = new Residential(home->GetName(), home->GetLocation());
+  } else {
+    throw InvalidCityException("Invalid person! Check that the home or working place exists.");
   }
 
   Person* p = new Person(name, personType, ind, res);
