@@ -298,11 +298,9 @@ void City::AddTrafficLight(std::pair<int, int> location, int redDuration,
     trafficLights_.push_back(t);
     intersection->AddTrafficLight(t);
   } else {
-    std::string x = std::to_string(t->GetLocation().first);
-    std::string y = std::to_string(t->GetLocation().second);
     delete t;
-    throw InvalidCityException("invalid traffic light location at: {" + x +
-                               ", " + y +
+    throw InvalidCityException("invalid traffic light location at: {" +
+                               std::to_string(location.first) + ", " + std::to_string(location.second) +
                                "}, no intersection in the given location");
   }
 }
