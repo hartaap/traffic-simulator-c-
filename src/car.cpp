@@ -271,6 +271,12 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
            //Check if car is supposed to go somewhere
            auto next = schedule_.find(round(currentTime)); 
 
+           if(std::find(allNodes.begin(), allNodes.end(), next->second) == allNodes.end()){
+              next = schedule_.end();
+              destination_ = nullptr;
+              return;
+           }
+
            if(next->second == previous_){
               next = schedule_.end();
               destination_ = nullptr;
