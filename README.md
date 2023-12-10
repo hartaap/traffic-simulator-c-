@@ -1,6 +1,7 @@
 # Traffic Simulator
-This is the template for the projects. Please copy the project description here. 
-You can use Markdown language to render it as formatted **HTML** file.
+The purpose of this program is to simulate and analyze the traffic of a city model inputted as a JSON file.
+
+This document contains instructions on how to use the program.
 
 # Group
 - Artur Brander
