@@ -224,39 +224,45 @@ std::vector<Node*> City::GetBuildingNodes() const {
 
 void City::AddPersonAndCar(Person* p) {
   if (!IsValidPerson(p)) {
-    throw InvalidCityException("Invalid person! Check that the location of your home and workplace are right.");
+    throw InvalidCityException(
+        "Invalid person: " + p->GetName() +
+        "! Check that person's home and workplace locations are right.");
   } else {
-   Event schedule(p, this->GetBuildingNodes());
+    Event schedule(p, this->GetBuildingNodes());
     auto i = schedule.CreateSchedule();
-    Car* car_ = new Car(GetNode(p->GetLocation())); // creates a car for a person starting from home.
+    Car* car_ = new Car(GetNode(
+        p->GetLocation()));  // creates a car for a person starting from home.
     car_->SetColor(p->GetPersonType());
     p->BuyCar(car_);
     p->InitializeSchedule(i);
-    //Store person and its car in the map
+    // Store person and its car in the map
     personCarMap_[p] = p->GetCar();
   }
 }
 
 bool City::IsValidPerson(Person* p) {
-
-  // Goes through buildings and checks that these buildings exist before creating person with these.
-  // Also checks that they are correct type. Person cannot live in industrial building.
-  // Also for simulation purpose, cannot work in home.
+  // Goes through buildings and checks that these buildings exist before
+  // creating person with these. Also checks that they are correct type. Person
+  // cannot live in industrial building. Also for simulation purpose, cannot
+  // work in home.
   auto i = p->GetResidence()->GetLocation();
-  auto it = std::find_if(buildings_.begin(), buildings_.end(), [i](Building* building) {
-    return ((building->GetLocation() == i) && (building->GetType() == "Residential"));
-  });
+  auto it = std::find_if(buildings_.begin(), buildings_.end(),
+                         [i](Building* building) {
+                           return ((building->GetLocation() == i) &&
+                                   (building->GetType() == "Residential"));
+                         });
 
   auto j = p->GetWorkplace()->GetLocation();
-  auto jt = std::find_if(buildings_.begin(), buildings_.end(), [j](Building* building) {
-        return ((building->GetLocation() == j) && (building->GetType() == "Industrial"));
-    });
+  auto jt = std::find_if(buildings_.begin(), buildings_.end(),
+                         [j](Building* building) {
+                           return ((building->GetLocation() == j) &&
+                                   (building->GetType() == "Industrial"));
+                         });
   if (it != buildings_.end() && jt != buildings_.end()) {
     return true;
   } else {
     return false;
   }
-  
 }
 
 bool City::IsValidIntersection(Intersection* i) const {
@@ -323,7 +329,8 @@ void City::AddTrafficLight(std::pair<int, int> location, int redDuration,
   } else {
     delete t;
     throw InvalidCityException("invalid traffic light location at: {" +
-                               std::to_string(location.first) + ", " + std::to_string(location.second) +
+                               std::to_string(location.first) + ", " +
+                               std::to_string(location.second) +
                                "}, no intersection in the given location");
   }
 }
@@ -404,7 +411,7 @@ void City::AddClock(SimulationClock* clock) { clock_ = clock; }
 // Add event to schedule
 void City::AddEvent(Person* p) {
   if (!IsBusy(p) && (p->GetLocation() != p->GetResidence()->GetLocation())) {
-    p->AddEvent(clock_->GetElapsedTime(), GetNode(p->GetResidence()->GetLocation()));
+    p->AddEvent(clock_->GetElapsedTime(),
+                GetNode(p->GetResidence()->GetLocation()));
   }
 }
-
