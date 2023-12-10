@@ -252,7 +252,10 @@ City Simulator::LoadFile() {
           int homePosX = json::to_number<int>(homeLocation[0]);
           int homePosY = json::to_number<int>(homeLocation[1]);
 
-          persons.push_back(new Person(name, pType, c.GetNode({workPosX, workPosY}), c.GetNode({homePosX, homePosY})));
+          Industrial* ind = new Industrial(workPlaceName, { workPosX, workPosY }, c.GetNode({workPosX, workPosY}));
+          Residential* res = new Residential(homeName, { homePosX, homePosY }, c.GetNode({homePosX, homePosY}));
+
+          persons.push_back(new Person(name, pType, ind, res));
           
            // this also creates a car for each person
       } else {
