@@ -7,6 +7,7 @@
 #include "simulationClock.hpp"
 #include <algorithm> 
 #include <iostream> 
+#include <fstream>
 
 class Analysis {
 public:
@@ -26,17 +27,6 @@ public:
     // Export the analysis results to a CSV file, could be changed to JSON but for now CSV since easier
     void ExportToCSV(const std::string& filename);
 
-    // Analyze multiple roads: if we have enough time this should be implemented
-    void AnalyzeMultipleRoads(const std::vector<std::string>& roadIDs);
-
-    // Average over multiple days to get more reliable results: same for this as above
-    void AverageOverDays(int numDays);
-
-    // Find and highlight congestion automatically: this is an advanced feature, quite sure that going to skip
-    void FindAndHighlightCongestion();
-
-    std::string Print();
-
     std::vector<std::vector<int>> GetData();
 
     void Init();
@@ -44,7 +34,7 @@ private:
     // Current road that is being analyzed
     Road* currentRoad_;
 
-    // key tells the day, values tell the hourly data
+    // first element tells the day, second element tells the hour
     std::vector<std::vector<int>> roadHourlyCounts_;
 
     City* city_;

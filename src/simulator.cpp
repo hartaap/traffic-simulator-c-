@@ -76,6 +76,7 @@ void Simulator::SimulatorThread() {
     float currentTime = clock_->GetElapsedTime();
     float deltaTime = simulationSpeed_ * (currentTime - previousTime);
     previousTime = currentTime;
+    std::string simulationTime = clock_->GetSimulationTime();
 
     if (!isPaused_) {
       UpdateSimulation(deltaTime, currentTime);
@@ -326,7 +327,7 @@ City* Simulator::LoadCity() {
 void Simulator::InputThread(std::promise<void> exitSignal) {
   std::string command;
   while (true) {
-    std::cout << "Enter a command (e.g., status, exit, analyze): ";
+    std::cout << "Enter a command (e.g., status, exit, analyze, export): ";
     std::cin >> command;
 
     if (command == "exit") {
@@ -339,6 +340,11 @@ void Simulator::InputThread(std::promise<void> exitSignal) {
                 << " | Time is: " << clock_->GetSimulationTime() << std::endl;
     } else if (command == "analyze") {
       analysis_->GenerateHourlyHistogram(analysis_->GetData());
+    } else if (command == "export") {
+      std::string filename;
+      std::cout << "Enter filename: ";
+      std::cin >> filename;
+      analysis_->ExportToCSV(filename);
     } else {
       std::cout << "Invalid command. Try again." << std::endl;
     }

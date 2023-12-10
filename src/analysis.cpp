@@ -21,7 +21,7 @@ void Analysis::Analyze() {
     auto roadEnd = currentRoad_->GetEnd();
 
     // Acquire the current hour for hourly statistics
-    int currentHour = static_cast<int>(clock_->GetElapsedTime()) / 60;
+    int currentHour = static_cast<int>(clock_->GetElapsedTime()) / 60 - (24 * clock_->GetDayNumber());
 
     // Initialization of roadHourlyCounts_: this should be ran only once at
     // start
@@ -84,13 +84,6 @@ void Analysis::SpecifyRoad(int roadIndex) {
   currentRoad_ = city_->GetRoads()[roadIndex];
 }
 
-std::string Analysis::Print() {
-  int currentHour = static_cast<int>(clock_->GetElapsedTime()) / 60;
-
-  return "Cars used this road: " +
-         std::to_string(roadHourlyCounts_[clock_->GetDayNumber()][currentHour]);
-}
-
 void Analysis::GenerateHourlyHistogram(std::vector<std::vector<int>> data) {
   int max_value = *max_element(data[clock_->GetDayNumber()].begin(),
                                data[clock_->GetDayNumber()].end());
@@ -123,3 +116,26 @@ void Analysis::GenerateHourlyHistogram(std::vector<std::vector<int>> data) {
 }
 
 std::vector<std::vector<int>> Analysis::GetData() { return roadHourlyCounts_; }
+
+void Analysis::ExportToCSV(const std::string& filename) {
+  std::ofstream csvFile(filename);
+
+  if (!csvFile.is_open()) {
+    std::cerr << "Error: Unable to open file " << filename << std::endl;
+    return;
+  }
+
+  // Write header
+  csvFile << "Day,Hour,CarCount" << std::endl;
+
+  // Write data
+  for (size_t day = 0; day < clock_->GetDayNumber() + 1; ++day) {
+    for (size_t hour = 0; hour < roadHourlyCounts_[day].size(); ++hour) {
+      csvFile << day << "," << hour << "," << roadHourlyCounts_[day][hour] << std::endl;
+    }
+  }
+
+  std::cout << "Exported to root folder!" << std::endl;
+
+  csvFile.close();
+}
