@@ -4,12 +4,10 @@
 #include <cmath>
 
 
-Person::Person(const std::string& name, PersonType personType, Node* workplace, Node* home)
+Person::Person(const std::string& name, PersonType personType, Industrial* workplace, Residential* home)
            : name_(name), personType_(personType),
              workplace_(workplace), home_(home), status_(false) {
                 location_ = home_->GetLocation(); // initial location is at home.
-                car_ = new Car(home); // creates a car for a person starting from home.
-                car_->SetColor(personType_);
              }
 
 Person::~Person() {
@@ -22,11 +20,11 @@ Person::~Person() {
         }
 }
 
-Node* Person::GetWorkplace() const {
+Industrial* Person::GetWorkplace() const {
         return workplace_;
 }
 
-Node* Person::GetResidence() const {
+Residential* Person::GetResidence() const {
         return home_;
 }
 
@@ -34,8 +32,13 @@ Car* Person::GetCar() {
         return car_;
 }
 
+void Person::BuyCar(Car* car) {
+        car_ = car;
+}
+
 void Person::InitializeSchedule(std::map<int, Node*> schedule) {
         schedule_ = schedule;
+        car_->InitializeSchedule(schedule_);
     }
 
 bool Person::isAtHome() const {

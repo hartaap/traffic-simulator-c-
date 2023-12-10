@@ -1,4 +1,5 @@
 #include "simulator.hpp"
+
 #include <cmath>
 
 Simulator::Simulator()
@@ -33,14 +34,12 @@ void Simulator::DrawSimulation(Visualization* gui) {
 
 void Simulator::StartSimulation() {
   std::cout << "Starting simulation..." << std::endl;
-  City* c = new City(LoadFile());
+  City* c = nullptr;
 
-  if (c == nullptr) {
-    std::cerr << "Error: Failed to load City. Simulation cannot start."
-              << std::endl;
-    exit(1);
+  // Continue asking for JSON file name until the user provides a valid file.
+  while (c == nullptr) {
+    c = LoadCity();
   }
-
 
   SetCity(c);
 }
@@ -58,7 +57,7 @@ void Simulator::SimulatorThread() {
   std::string guiEnabledStr;
   std::cout << "Enable GUI? (type yes or no):" << std::endl;
   std::cin >> guiEnabledStr;
-  if(guiEnabledStr == "yes") {
+  if (guiEnabledStr == "yes") {
     gui = new Visualization(50, c_->GetGrid());
   } else {
     guiEnabled_ = false;
@@ -78,8 +77,7 @@ void Simulator::SimulatorThread() {
     float deltaTime = simulationSpeed_ * (currentTime - previousTime);
     previousTime = currentTime;
 
-    if (!
-    isPaused_) {
+    if (!isPaused_) {
       UpdateSimulation(deltaTime, currentTime);
       analysis_->Analyze();
     }
@@ -138,14 +136,18 @@ void Simulator::SlowDownSimulation() {
   }
 }
 
-City Simulator::LoadFile() {
+City* Simulator::LoadCity() {
   // logic here
   std::string filename;
   std::cout << "Please enter JSON file name:" << std::endl;
   std::cin >> filename;
   std::ifstream file("src/" + filename);
   if (!file.is_open()) {
-    std::cerr << "Error: Unable to open file " << filename << std::endl;
+    std::cerr << "Error: The file " << filename
+              << " does not exist or there was an issue when opening "
+                 "the file."
+              << std::endl;
+    return nullptr;
   }
 
   // Load the file into a string
@@ -161,7 +163,7 @@ City Simulator::LoadFile() {
 
   // init to max 5 cars for now; using 1 car right now
   std::vector<Person*> persons;
-  City c(x, y);
+  City* c = new City(x, y);
 
   // Extract buildings
   auto buildingsArray = json::as_array(jsonData["buildings"]);
@@ -180,14 +182,19 @@ City Simulator::LoadFile() {
       int buildingY = json::to_number<int>(positionArray[1]);
 
       try {
-        c.AddBuilding(name, {buildingX, buildingY}, buildingType);
+        c->AddBuilding(name, {buildingX, buildingY}, buildingType);
       } catch (InvalidCityException& e) {
         std::cout << "Could not load the city from the JSON file." << std::endl;
         std::cout << e.GetError() << std::endl;
-        exit(1);
+        delete c;
+        file.close();
+        return nullptr;
       }
     } else {
       std::cerr << "Invalid building object in the array." << std::endl;
+      file.close();
+      delete c;
+      return nullptr;
     }
   }
 
@@ -196,7 +203,15 @@ City Simulator::LoadFile() {
   for (const auto& intersection : intersectionsArray) {
     int intersectionX = json::to_number<int>(intersection[0]);
     int intersectionY = json::to_number<int>(intersection[1]);
-    c.AddIntersection({intersectionX, intersectionY});
+    try {
+      c->AddIntersection({intersectionX, intersectionY});
+    } catch (InvalidCityException& e) {
+      std::cout << "Could not load the city from the JSON file." << std::endl;
+      std::cout << e.GetError() << std::endl;
+      file.close();
+      delete c;
+      return nullptr;
+    }
   }
 
   // Extract roads
@@ -207,67 +222,80 @@ City Simulator::LoadFile() {
     int end_x = json::to_number<int>(road[2]);
     int end_y = json::to_number<int>(road[3]);
     try {
-      c.AddRoad({start_x, start_y}, {end_x, end_y});
+      c->AddRoad({start_x, start_y}, {end_x, end_y});
     } catch (InvalidCityException& e) {
       std::cout << "Could not load the city from the JSON file." << std::endl;
       std::cout << e.GetError() << std::endl;
-      exit(1);
+      file.close();
+      delete c;
+      return nullptr;
     }
   }
 
   // Extract persons
-
   auto personsArray = json::as_array(jsonData["persons"]);
   for (const auto& person : personsArray) {
-
-      const std::string name = json::as_string(person[0]);
-      std::string pTypeString = json::as_string(person[1]);
-      PersonType pType;
-      if (pTypeString == "Lazy") {
-        pType = PersonType::Lazy;
-      } else if (pTypeString == "Active") {
-        pType = PersonType::Active;
-      } else if (pTypeString == "Neutral") {
-        pType = PersonType::Neutral;
-      } else if (pTypeString == "Angry") {
-        pType = PersonType::Angry;
-      } else if (pTypeString == "Gentleman") {
-        pType = PersonType::Gentleman;
-      } else {
-        // Unknown string
-        std::cerr << "Unknown PersonType string: " << pTypeString << std::endl;
-        pType = PersonType::Lazy;  // Sets a default value when unknown
+    const std::string name = json::as_string(person[0]);
+    std::string pTypeString = json::as_string(person[1]);
+    PersonType pType;
+    if (pTypeString == "Lazy") {
+      pType = PersonType::Lazy;
+    } else if (pTypeString == "Active") {
+      pType = PersonType::Active;
+    } else if (pTypeString == "Neutral") {
+      pType = PersonType::Neutral;
+    } else if (pTypeString == "Angry") {
+      pType = PersonType::Angry;
+    } else if (pTypeString == "Gentleman") {
+      pType = PersonType::Gentleman;
+    } else {
+      // Unknown string
+      std::cerr << "Unknown PersonType " << pTypeString
+                << " in the JSON file for person named " << name << std::endl;
+      std::cout << "Person type of will be set to a default value 'Lazy'."
+                << std::endl;
+      pType = PersonType::Lazy;  // Sets a default value when unknown
     }
-      auto workplaceObject = json::as_object(person[2]);
-      auto homeObject = json::as_object(person[3]);
+    auto workplaceObject = json::as_object(person[2]);
+    auto homeObject = json::as_object(person[3]);
 
-      // Check if these buildings are valid
-      if (!workplaceObject.empty() && !homeObject.empty()) {
-          std::string workPlaceName = workplaceObject.begin()->first;
-          auto workplaceLocation = json::as_array(workplaceObject.begin()->second[1]);
-          int workPosX = json::to_number<int>(workplaceLocation[0]);
-          int workPosY = json::to_number<int>(workplaceLocation[1]);
-          std::string homeName = homeObject.begin()->first;
-          auto homeLocation = json::as_array(homeObject.begin()->second[1]);
-          int homePosX = json::to_number<int>(homeLocation[0]);
-          int homePosY = json::to_number<int>(homeLocation[1]);
+    // Check if these buildings are valid
+    if (!workplaceObject.empty() && !homeObject.empty()) {
+      std::string workPlaceName = workplaceObject.begin()->first;
+      auto workplaceLocation =
+          json::as_array(workplaceObject.begin()->second[1]);
+      int workPosX = json::to_number<int>(workplaceLocation[0]);
+      int workPosY = json::to_number<int>(workplaceLocation[1]);
+      std::string homeName = homeObject.begin()->first;
+      auto homeLocation = json::as_array(homeObject.begin()->second[1]);
+      int homePosX = json::to_number<int>(homeLocation[0]);
+      int homePosY = json::to_number<int>(homeLocation[1]);
 
-          persons.push_back(new Person(name, pType, c.GetNode({workPosX, workPosY}), c.GetNode({homePosX, homePosY})));
-          
-           // this also creates a car for each person
-      } else {
-          std::cerr << "Invalid workplace or home!" << std::endl;
-      }
-      
+      Industrial* ind = new Industrial(workPlaceName, {workPosX, workPosY},
+                                       c->GetNode({workPosX, workPosY}));
+      Residential* res = new Residential(homeName, {homePosX, homePosY},
+                                         c->GetNode({homePosX, homePosY}));
+
+      persons.push_back(new Person(name, pType, ind, res));
+
+      // this also creates a car for each person
+    } else {
+      std::cerr << "Error: Invalid workplace or home in the JSON file!"
+                << std::endl;
+      file.close();
+      delete c;
+      return nullptr;
+    }
   }
 
   // add persons and their linked cars into city
-  // this also initializes their schedules based on their persontype and randomity
+  // this also initializes their schedules based on their persontype and
+  // randomity
   for (auto person : persons) {
-    c.AddPersonAndCar(person);
+    c->AddPersonAndCar(person);
   }
 
-  c.AddClock(clock_); // Add clock to city
+  c->AddClock(clock_);  // Add clock to city
 
   auto trafficLightsArray = json::as_array(jsonData["trafficLights"]);
   for (const auto& trafficLight : trafficLightsArray) {
@@ -277,14 +305,15 @@ City Simulator::LoadFile() {
     int redDuration = json::to_number<int>(trafficLight[1]);
     int yellowDuration = json::to_number<int>(trafficLight[2]);
     int greenDuration = json::to_number<int>(trafficLight[3]);
-
     try {
-      c.AddTrafficLight(new TrafficLight({posX, posY}, redDuration,
-                                         yellowDuration, greenDuration));
+      c->AddTrafficLight({posX, posY}, redDuration, yellowDuration,
+                         greenDuration);
     } catch (InvalidCityException& e) {
       std::cout << "Could not load the city from the JSON file." << std::endl;
       std::cout << e.GetError() << std::endl;
-      exit(1);
+      file.close();
+      delete c;
+      return nullptr;
     }
   }
 
@@ -306,7 +335,8 @@ void Simulator::InputThread(std::promise<void> exitSignal) {
       exitSignal.set_value();
       break;
     } else if (command == "status") {
-      std::cout << "Day: " << clock_->GetDayNumber() << " | Time is: " << clock_->GetSimulationTime() << std::endl;
+      std::cout << "Day: " << clock_->GetDayNumber()
+                << " | Time is: " << clock_->GetSimulationTime() << std::endl;
     } else if (command == "analyze") {
       analysis_->GenerateHourlyHistogram(analysis_->GetData());
     } else {

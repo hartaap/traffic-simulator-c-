@@ -13,6 +13,18 @@ City::~City() {
     delete (it);
   }
 
+  for (auto it : trafficLights_) {
+    delete (it);
+  }
+
+  for (auto it : intersections_) {
+    delete (it);
+  }
+
+  for (auto it : nodes_) {
+    delete (it);
+  }
+
   for (auto it : personCarMap_) {
     delete (it.first);
     delete (it.second);
@@ -167,12 +179,12 @@ void City::AddBuilding(std::string name, std::pair<int, int> location,
 
   // Check the building type and create the corresponding building
   if (lowertype == "industrial") {
-    b = new Industrial(name, location);
+    b = new Industrial(name, location, GetNode(location));
   } else if (lowertype == "residential") {
-    b = new Residential(name, location);
+    b = new Residential(name, location, GetNode(location));
   } else if (lowertype == "shop" || lowertype == "gym" ||
              lowertype == "restaurant") {
-    b = new Commercial(name, location, buildingType);
+    b = new Commercial(name, location, buildingType, GetNode(location));
   } else {
     throw InvalidCityException("building type " + lowertype + " is unknown");
   }
@@ -213,11 +225,14 @@ std::vector<Node*> City::GetBuildingNodes() const {
 void City::AddPersonAndCar(Person* p) {
   Event* schedule = new Event(p, this->GetBuildingNodes());
   auto i = schedule->CreateSchedule();
-  p->InitializeSchedule(
-      i);  // Initialize schedule and sync them together with person and its car
-  Car* car = p->GetCar();
-  car->InitializeSchedule(i);
-  personCarMap_[p] = car;  // Store person and car
+  // Initialize schedule and sync them together with person and its car
+  Car* car = new Car(
+      p->GetResidence()
+          ->GetNodeFrom());  // creates a car for a person starting from home.
+  car->SetColor(p->GetPersonType());
+  p->BuyCar(car);
+  p->InitializeSchedule(i);  // initializes for person and its car
+  personCarMap_[p] = car;    // Store person and car
   delete schedule;
 }
 
@@ -246,7 +261,7 @@ void City::AddIntersection(std::pair<int, int> location) {
     nodes_.push_back(new Node(NodeType::Intersection, location));
     grid_->GetCell(location.first, location.second)->Occupy("Intersection");
   } else {
-    delete(i);
+    delete (i);
     throw InvalidCityException("invalid intersection location at: {" +
                                std::to_string(location.first) + ", " +
                                std::to_string(location.second) + "}");
@@ -274,15 +289,20 @@ void City::DrawIntersections(sf::RenderWindow& window) const {
   }
 }
 
-void City::AddTrafficLight(TrafficLight* t) {
+void City::AddTrafficLight(std::pair<int, int> location, int redDuration,
+                           int yellowDuration, int greenDuration) {
+  TrafficLight* t =
+      new TrafficLight(location, redDuration, yellowDuration, greenDuration);
   auto intersection = GetIntersection(t->GetLocation());
   if (intersection != nullptr) {
     trafficLights_.push_back(t);
     intersection->AddTrafficLight(t);
   } else {
-    throw InvalidCityException("invalid traffic light location at: {" +
-                               std::to_string(t->GetLocation().first) + ", " +
-                               std::to_string(t->GetLocation().second) +
+    std::string x = std::to_string(t->GetLocation().first);
+    std::string y = std::to_string(t->GetLocation().second);
+    delete t;
+    throw InvalidCityException("invalid traffic light location at: {" + x +
+                               ", " + y +
                                "}, no intersection in the given location");
   }
 }
@@ -337,35 +357,32 @@ std::vector<Car*> City::GetCars() const {
   return cars;
 }
 
-int City::TimeUntilNextEvent(Person *p) const { //uusi
-        int currentTime = round(clock_->GetElapsedTime());
-        auto schedule = p->GetSchedule();
-        auto it = schedule.upper_bound(currentTime);
+int City::TimeUntilNextEvent(Person* p) const {  // uusi
+  int currentTime = round(clock_->GetElapsedTime());
+  auto schedule = p->GetSchedule();
+  auto it = schedule.upper_bound(currentTime);
 
-        if (it != schedule.end()) {
-                //Next key that is greater than the current time
-                int nextEventTime = it->first;
-                return nextEventTime - currentTime;
-        } else {
-                return -1; //If no future events
-        }
-}
-
-//If there's enough time, person will return home to take a rest.
-bool City::IsBusy(Person *p) const {
-        return (this->TimeUntilNextEvent(p) < 40 || this->TimeUntilNextEvent(p) == -1); 
-}
-
-//Add clock from simulator.cpp
-void City::AddClock(SimulationClock* clock) {
-        clock_ = clock;
-}
-
-//Add event to schedule
-void City::AddEvent(Person *p) {
-  if (!IsBusy(p) && (p->GetLocation() != p->GetResidence()->GetLocation())) {
-      p->AddEvent(clock_->GetElapsedTime(), p->GetResidence());
+  if (it != schedule.end()) {
+    // Next key that is greater than the current time
+    int nextEventTime = it->first;
+    return nextEventTime - currentTime;
+  } else {
+    return -1;  // If no future events
   }
 }
 
+// If there's enough time, person will return home to take a rest.
+bool City::IsBusy(Person* p) const {
+  return (this->TimeUntilNextEvent(p) < 40 ||
+          this->TimeUntilNextEvent(p) == -1);
+}
 
+// Add clock from simulator.cpp
+void City::AddClock(SimulationClock* clock) { clock_ = clock; }
+
+// Add event to schedule
+void City::AddEvent(Person* p) {
+  if (!IsBusy(p) && (p->GetLocation() != p->GetResidence()->GetLocation())) {
+    p->AddEvent(clock_->GetElapsedTime(), p->GetResidence()->GetNodeFrom());
+  }
+}

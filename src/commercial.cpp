@@ -2,8 +2,8 @@
 
 Commercial::Commercial(const std::string& buildingName,
                        const std::pair<int, int>& location,
-                       const std::string& type)
-    : Building(buildingName, location, type), type_(type) {
+                       const std::string& type, Node* node)
+    : Building(buildingName, location, type, node), type_(type) {
   std::string lowertype = type;
   // Compare two strings in a case-insensitive manner
   std::transform(lowertype.begin(), lowertype.end(), lowertype.begin(),
@@ -62,3 +62,4 @@ void Commercial::Info() const {
     std::cout << "shopping!" << std::endl;
   }
 }
+

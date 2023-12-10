@@ -161,7 +161,8 @@ class City {
    *
    * @param t A pointer to the traffic light object to be added
    */
-  void AddTrafficLight(TrafficLight* t);
+  void AddTrafficLight(std::pair<int, int> location, int redDuration,
+                       int yellowDuration, int greenDuration);
 
   /**
    * @brief Updates the locations and destinations of all the cars in the city.
@@ -219,20 +220,20 @@ class City {
    *
    * @param p Next event from a specified person.
    */
-  int TimeUntilNextEvent(Person *p) const;
+  int TimeUntilNextEvent(Person* p) const;
 
   /**
    * @brief Add the simulation clock to city.
    *
    * @param clock Clock implemented in SimulationClock, used in simulator.cpp.
    */
-  void AddClock(SimulationClock *clock);
+  void AddClock(SimulationClock* clock);
 
   /**
    * @brief Check if person has an event going on.
    *
    * @param p Check if this exact person is busy.
-   * 
+   *
    * @return Boolean value if a person is busy at the moment.
    */
   bool IsBusy(Person* p) const;
@@ -242,7 +243,7 @@ class City {
    *
    * @param p This is the person that is going to have new event.
    */
-  void AddEvent(Person *p);
+  void AddEvent(Person* p);
 
  private:
   Grid* grid_;

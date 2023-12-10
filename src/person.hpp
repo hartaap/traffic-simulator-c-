@@ -16,15 +16,17 @@
 
 class Person {
 public:
-    Person(const std::string& name, PersonType personType, Node* workplace, Node* home);
+    Person(const std::string& name, PersonType personType, Industrial* workplace, Residential* home);
 
     ~Person();
 
-    Node* GetWorkplace() const;
+    Industrial* GetWorkplace() const;
 
-    Node* GetResidence() const;
+    Residential* GetResidence() const;
 
     Car* GetCar();
+
+    void BuyCar(Car* car);
 
     void InitializeSchedule(std::map<int, Node*> schedule);
 
@@ -44,23 +46,14 @@ private:
     std::string name_;
     PersonType personType_;
     std::map<int, Node*> schedule_; 
-    Node* workplace_;
+    Industrial* workplace_;
     std::pair<float,float> location_;
-    Node* home_;
+    Residential* home_;
     bool status_;
     Car* car_;
 };
 
 #endif
-
-
-
-
-
-
-
-
-
 
 
 
