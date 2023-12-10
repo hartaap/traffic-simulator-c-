@@ -201,3 +201,34 @@ Created new Simulator & Visualization classes for the project to decouple the GU
 2. Aape: Modify City class function AddBuilding so it functions with building profiles. Figure out what a person does when it has no event on schedule and is in some building other than home.
 3. Jaakko: Finish the visualization class, integrate traffic lights to the city and make cars move according to them. Also make cars avoid crashes.
 4. Jiri: Implement some tests.
+
+# Meeting 10.12.2023 16:30-17:30
+**Participants:**
+Artur Brander
+Aape Hartikainen
+Jaakko Karhu
+Jiri Simell
+
+## Summary of works 
+1. Aape has worked on event class. Also linked a person with a car and added some features to cars depending on person type.
+2. Artur created a separate simulator class to run two different threads for user input and simulator logic. Additionally, created an Analysis class for analyzing the road data.
+3. Jaakko improved car movement. Cars yield to other cars coming from right and avoid collision with other cars. Additionally, integrated traffic lights to intersections and made cars check traffic lights before proceeding.
+4. Jiri improved file loading, created a JSON file containing a larger city, modified the Visualization class to be able to correctly draw the larger city, set up the Doxygen tool and wrote documentation to the source code.
+
+## Challenges
+1. Time is running out, what to prioritize? 
+2. Cars sometimes crash
+3. The program crashes when the JSON file has a traffic light with an invalid location.
+
+## Actions
+1. Artur is working on finishing the analysis class and adding documentation
+2. Aape has finished the person and building classes and is currently creating randomized, person type dependent, event class. Also improving building looks.
+3. Jaakko is working on finishing the car movement to avoid collisions.
+4. Jiri: Fix the issue of the program crashing when there is an invalid traffic light in the JSON file.
+
+## TODOs
+1. Artur: Finish Analysis class and add non-existing documentation
+2. Aape: Finish event class, start testing classes and also finish the GUI for buildings.
+3. Jaakko: Finish the car movement and do some tests and documentation.
+4. Jiri: Debugging, writing tests, documentation.
+
