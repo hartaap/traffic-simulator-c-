@@ -16,8 +16,8 @@ class Residential : public Building {
    * @param location The coordinates of the residential building
    */
   Residential(const std::string& buildingName,
-              const std::pair<int, int>& location)
-      : Building(buildingName, location, "Residential") {
+              const std::pair<int, int>& location, Node* node)
+      : Building(buildingName, location, "Residential", node) {
     maxPersonCapacity_ = 5;
     maxCarCapacity_ = 2;
   }
