@@ -28,19 +28,6 @@ Car::Car(Node* startingNode) {
 
 }
 
-Car::~Car(){
-    for(auto it : path_){
-        delete(it);
-    }
-
-    for(auto it : schedule_){
-        delete(it.second);
-    }
-    
-    delete(destination_);
-    delete(previous_);
-}
-
 //Set destination for car
 void Car::SetDestination(Node* destination){
     destination_ = destination;
@@ -298,6 +285,7 @@ void Car::Update(float deltaTime, float currentTime, std::vector<Node*> allNodes
 
            //If car has a destination node, find the best path
            if(next != schedule_.end()){
+               std::cout << next->second << std::endl;
                idle_ = false;
                path_ = Dijkstra(previous_, next->second, allNodes);
                destination_ = path_.back();

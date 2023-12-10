@@ -36,11 +36,6 @@ public:
  */
     Car(Node* startingNode);
 
-/**
- * @brief Destructor
- * 
- */
-    ~Car();
 
 /**
  * @brief Updates the cars location and state. Checks the cars schedule to find the next destination.
