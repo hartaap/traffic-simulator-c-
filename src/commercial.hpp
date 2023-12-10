@@ -21,7 +21,7 @@ class Commercial : public Building {
    */
   Commercial(const std::string& buildingName,
              const std::pair<int, int>& location,
-             const std::string& commercialType, Node* node);
+             const std::string& commercialType);
 
   /**
    * @brief Draws the building to the SFML window given as a parameter. Each
@@ -39,11 +39,12 @@ class Commercial : public Building {
    * output
    *
    */
-  void Info() const override;
+  std::string GetType() const override;
 
  private:
   const std::string type_;
 };
 
 #endif
+
 
