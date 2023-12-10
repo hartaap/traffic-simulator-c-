@@ -51,15 +51,16 @@ bool City::IsValidRoad(std::pair<int, int> start,
 
     // Check that there are no buildings or other roads between the start and
     // end coordinates
-    if (start.second > end.second) {
+
+    if (end.second > start.second) {
       for (int j = start.second + 1; j <= end.second - 1; j++) {
-        if (grid_->GetCell(j, start.first)->IsOccupied()) {
+        if (grid_->GetCell(start.first, j)->IsOccupied()) {
           return false;
         }
       }
     } else {
       for (int j = end.second + 1; j <= start.second - 1; j++) {
-        if (grid_->GetCell(j, end.first)->IsOccupied()) {
+        if (grid_->GetCell(end.first, j)->IsOccupied()) {
           return false;
         }
       }
@@ -70,8 +71,8 @@ bool City::IsValidRoad(std::pair<int, int> start,
     // Check that there are no buildings or other roads between the start and
     // end coordinates
     if (start.first > end.first) {
-      for (int i = start.first + 1; i <= end.first - 1; i++) {
-        if (grid_->GetCell(start.second, i)->IsOccupied()) {
+      for (int i = end.first + 1; i <= start.first - 1; i++) {
+        if (grid_->GetCell(i, start.second)->IsOccupied()) {
           return false;
         }
       }
