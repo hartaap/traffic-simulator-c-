@@ -16,8 +16,8 @@ class Industrial : public Building {
    * @param location The coordinates of the idnustrial building
    */
   Industrial(const std::string& buildingName,
-             const std::pair<int, int>& location, Node* node)
-      : Building(buildingName, location, "Industrial", node) {
+             const std::pair<int, int>& location)
+      : Building(buildingName, location, "Industrial") {
     maxPersonCapacity_ = 30;
     maxCarCapacity_ = 25;
   }
@@ -44,8 +44,8 @@ class Industrial : public Building {
    * output
    *
    */
-  void Info() const override {
-    std::cout << GetName() << " is an industrial building!" << std::endl;
+  std::string GetType() const override {
+    return type_;
   }
 };
 
