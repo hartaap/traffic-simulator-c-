@@ -272,13 +272,16 @@ City* Simulator::LoadCity() {
       int homePosX = json::to_number<int>(homeLocation[0]);
       int homePosY = json::to_number<int>(homeLocation[1]);
 
-      Industrial* ind = new Industrial(workPlaceName, {workPosX, workPosY},
-                                       c->GetNode({workPosX, workPosY}));
-      Residential* res = new Residential(homeName, {homePosX, homePosY},
-                                         c->GetNode({homePosX, homePosY}));
-
-      persons.push_back(new Person(name, pType, ind, res));
-
+      Industrial* ind = new Industrial(workPlaceName, {workPosX, workPosY});
+      Residential* res = new Residential(homeName, {homePosX, homePosY});
+      try {
+        c->AddPersonAndCar(new Person(name, pType, ind, res));
+      } catch (InvalidCityException& e) {
+        std::cout << "Could not load the city from the JSON file." << std::endl;
+        std::cout << e.GetError() << std::endl;
+        file.close();
+        return nullptr;
+      }
       // this also creates a car for each person
     } else {
       std::cerr << "Error: Invalid workplace or home in the JSON file!"
@@ -287,13 +290,6 @@ City* Simulator::LoadCity() {
       delete c;
       return nullptr;
     }
-  }
-
-  // add persons and their linked cars into city
-  // this also initializes their schedules based on their persontype and
-  // randomity
-  for (auto person : persons) {
-    c->AddPersonAndCar(person);
   }
 
   c->AddClock(clock_);  // Add clock to city
