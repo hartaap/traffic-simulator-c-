@@ -19,8 +19,14 @@ Add instructions
 # JSON file template for city loading
 The city in the program is loaded from a JSON file which should be located in the root folder of the project. A template for these JSON files is provided below. 
 
-The order of the elements must be similar to the one in the template. If the JSON file is invalid, the program will continue asking for a new file until the file is valid.
+Requirements:
+- The order of the elements must be similar to the one in the template. If the JSON file is invalid, the program will continue asking for a new file until the file is valid.
+- The PersonType parameter of persons must be one of the following types: "Lazy", "Active", "Neutral", "Gentleman", or "Angry".
+- The building type must be "Residential", "Industrial", "Gym", "Shop", or "Restaurant".
+- The home of a person must be one of the Residential buildings added to the city (i.e. the name of the home building must be found in the added Residential buildings' names)
+- The workplace of a person must be one of the Industrial buildings added to the city (i.e. the name of the workplace must be found in the added Industrial buildings' names)
 
+```json
 {
   "x": vertical city size(int),
   "y": horizontal city size(int),
@@ -36,11 +42,11 @@ The order of the elements must be similar to the one in the template. If the JSO
     x-coordinate(int), ending y-coordinate(int)]
     ],
   "persons": [
-    ["name", "PersonType", workplace given in similar format as the buildings above, 
-    home given in similar format as the buildings above]
+    ["name", "PersonType", "name of workplace", "name of home building"]
   ],
   "trafficLights": [
     [[x-coordinate(int), y-coordinate(int)], red light duration(int),
     yellow light duration(int), green light duration(int)]
   ]
 }
+```
