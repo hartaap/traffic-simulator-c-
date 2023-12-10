@@ -37,6 +37,12 @@ public:
     Car(Node* startingNode);
 
 /**
+ * @brief Destructor
+ * 
+ */
+    ~Car();
+
+/**
  * @brief Updates the cars location and state. Checks the cars schedule to find the next destination.
  * @param deltaTime How much time has passed since the car was last updated.
  * @param currentTime How much time has passed in the simulation in total. Used to check the schedule.

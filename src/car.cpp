@@ -28,6 +28,19 @@ Car::Car(Node* startingNode) {
 
 }
 
+Car::~Car(){
+    for(auto it : path_){
+        delete(it);
+    }
+
+    for(auto it : schedule_){
+        delete(it.second);
+    }
+    
+    delete(destination_);
+    delete(previous_);
+}
+
 //Set destination for car
 void Car::SetDestination(Node* destination){
     destination_ = destination;
