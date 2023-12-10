@@ -10,25 +10,19 @@ Person::Person(const std::string& name, PersonType personType, Industrial* workp
                 location_ = home_->GetLocation(); // initial location is at home.
              }
 
-Industrial* Person::GetWorkplace() const {
-        return workplace_;
-}
+             std::string Person::GetName() const { return name_; }
 
-Residential* Person::GetResidence() const {
-        return home_;
-}
+             Industrial* Person::GetWorkplace() const { return workplace_; }
 
-Car* Person::GetCar() {
-        return car_;
-}
+             Residential* Person::GetResidence() const { return home_; }
 
-void Person::BuyCar(Car* car) {
-        car_ = car;
-}
+             Car* Person::GetCar() { return car_; }
 
-void Person::InitializeSchedule(std::map<int, Node*> schedule) {
-        schedule_ = schedule;
-        car_->InitializeSchedule(schedule_);
+             void Person::BuyCar(Car* car) { car_ = car; }
+
+             void Person::InitializeSchedule(std::map<int, Node*> schedule) {
+               schedule_ = schedule;
+               car_->InitializeSchedule(schedule_);
     }
 
 bool Person::isAtHome() const {
