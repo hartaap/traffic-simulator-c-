@@ -18,8 +18,6 @@ class Person {
 public:
     Person(const std::string& name, PersonType personType, Industrial* workplace, Residential* home);
 
-    ~Person();
-
     Industrial* GetWorkplace() const;
 
     Residential* GetResidence() const;

@@ -10,16 +10,6 @@ Person::Person(const std::string& name, PersonType personType, Industrial* workp
                 location_ = home_->GetLocation(); // initial location is at home.
              }
 
-Person::~Person() {
-        delete(car_);
-        delete(home_);
-        delete(workplace_);
-
-        for (auto i : schedule_) {
-                delete (i.second);
-        }
-}
-
 Industrial* Person::GetWorkplace() const {
         return workplace_;
 }
