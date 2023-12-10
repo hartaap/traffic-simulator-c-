@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include "node.hpp"
 
 /**
  * @brief An abstract class for representing the buildings in the simulated
@@ -24,7 +23,7 @@ class Building {
    * "residential", "shop", "gym", or "restaurant")
    */
   Building(const std::string& buildingName, const std::pair<int, int>& location,
-           const std::string& type,Node* node);
+           const std::string& type);
 
   /**
    * @brief Destroy the Building object.
@@ -91,17 +90,10 @@ class Building {
   const std::pair<int, int>& GetLocation() const;
 
   /**
-   * @brief The only purpose of this function is to make the class abstract.
+   * @brief Get type of building.
    *
    */
-  virtual void Info() const = 0;
-
-  /**
-   * @brief Get the node where building object is.
-   *
-   * @return The node of the building.
-   */
-  Node* GetNodeFrom();
+  virtual std::string GetType() const = 0;
 
  protected:
   std::string buildingName_;
@@ -110,9 +102,7 @@ class Building {
   int carAmount_;
   int maxPersonCapacity_;
   int maxCarCapacity_;
-  const std::string type_;
-  Node* node_;
+  std::string type_;
 };
 
 #endif
-
