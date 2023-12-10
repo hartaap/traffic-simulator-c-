@@ -18,8 +18,6 @@ class Person {
 public:
     Person(const std::string& name, PersonType personType, Industrial* workplace, Residential* home);
 
-    std::string GetName() const;
-
     Industrial* GetWorkplace() const;
 
     Residential* GetResidence() const;
@@ -49,14 +47,9 @@ private:
     Industrial* workplace_;
     std::pair<float,float> location_;
     Residential* home_;
-    bool status_;
     Car* car_;
 };
 
 #endif
-
-
-
-
 
 
