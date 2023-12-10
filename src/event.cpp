@@ -41,18 +41,18 @@ std::map<int, Node*> Event::CreateSchedule() {
 
     do {    
         ind = rand() % (buildingNodes_.size()-1);
-    } while (buildingNodes_[ind] == person_->GetResidence()->GetNodeFrom());
+    } while (buildingNodes_[ind]->GetLocation() == person_->GetLocation());
 
     int timeDiff = (rand() % timeDifferenceRange + 1);
     schedule_[timeDiff] = buildingNodes_[ind];
     lastSelectedIndex = ind;
 
-    for (int time = 45; time <= 1000; time += 30) {
+    for (int time = 45; time < 100000; time += 30) {
         int index;
 
         do {
             index = rand() % (buildingNodes_.size()-1);
-        } while (index == lastSelectedIndex || (buildingNodes_[index] == person_->GetResidence()->GetNodeFrom()));
+        } while (index == lastSelectedIndex || (buildingNodes_[index]->GetLocation() == person_->GetLocation()));
 
         lastSelectedIndex = index;
 
@@ -63,6 +63,8 @@ std::map<int, Node*> Event::CreateSchedule() {
 
     return schedule_;
 }
+
+
 
 
 
