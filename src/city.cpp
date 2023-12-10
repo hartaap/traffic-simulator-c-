@@ -21,6 +21,10 @@ City::~City() {
     delete (it);
   }
 
+  for (auto it : nodes_) {
+    delete (it);
+  }
+
   for (auto it : personCarMap_) {
     delete (it.first);
     delete (it.second);
