@@ -92,6 +92,7 @@ class Building {
   /**
    * @brief Get type of building.
    *
+   * @return The type as a string.
    */
   virtual std::string GetType() const = 0;
 
