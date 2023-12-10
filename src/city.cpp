@@ -179,12 +179,12 @@ void City::AddBuilding(std::string name, std::pair<int, int> location,
 
   // Check the building type and create the corresponding building
   if (lowertype == "industrial") {
-    b = new Industrial(name, location, GetNode(location));
+    b = new Industrial(name, location);
   } else if (lowertype == "residential") {
-    b = new Residential(name, location, GetNode(location));
+    b = new Residential(name, location);
   } else if (lowertype == "shop" || lowertype == "gym" ||
              lowertype == "restaurant") {
-    b = new Commercial(name, location, buildingType, GetNode(location));
+    b = new Commercial(name, location, buildingType);
   } else {
     throw InvalidCityException("building type " + lowertype + " is unknown");
   }
@@ -223,17 +223,40 @@ std::vector<Node*> City::GetBuildingNodes() const {
 }
 
 void City::AddPersonAndCar(Person* p) {
-  Event* schedule = new Event(p, this->GetBuildingNodes());
-  auto i = schedule->CreateSchedule();
-  // Initialize schedule and sync them together with person and its car
-  Car* car = new Car(
-      p->GetResidence()
-          ->GetNodeFrom());  // creates a car for a person starting from home.
-  car->SetColor(p->GetPersonType());
-  p->BuyCar(car);
-  p->InitializeSchedule(i);  // initializes for person and its car
-  personCarMap_[p] = car;    // Store person and car
-  delete schedule;
+  if (!IsValidPerson(p)) {
+    throw InvalidCityException("Invalid person! Check that the location of your home and workplace are right.");
+  } else {
+   Event schedule(p, this->GetBuildingNodes());
+    auto i = schedule.CreateSchedule();
+    Car* car_ = new Car(GetNode(p->GetLocation())); // creates a car for a person starting from home.
+    car_->SetColor(p->GetPersonType());
+    p->BuyCar(car_);
+    p->InitializeSchedule(i);
+    //Store person and its car in the map
+    personCarMap_[p] = p->GetCar();
+  }
+}
+
+bool City::IsValidPerson(Person* p) {
+
+  // Goes through buildings and checks that these buildings exist before creating person with these.
+  // Also checks that they are correct type. Person cannot live in industrial building.
+  // Also for simulation purpose, cannot work in home.
+  auto i = p->GetResidence()->GetLocation();
+  auto it = std::find_if(buildings_.begin(), buildings_.end(), [i](Building* building) {
+    return ((building->GetLocation() == i) && (building->GetType() == "Residential"));
+  });
+
+  auto j = p->GetWorkplace()->GetLocation();
+  auto jt = std::find_if(buildings_.begin(), buildings_.end(), [j](Building* building) {
+        return ((building->GetLocation() == j) && (building->GetType() == "Industrial"));
+    });
+  if (it != buildings_.end() && jt != buildings_.end()) {
+    return true;
+  } else {
+    return false;
+  }
+  
 }
 
 bool City::IsValidIntersection(Intersection* i) const {
@@ -381,6 +404,7 @@ void City::AddClock(SimulationClock* clock) { clock_ = clock; }
 // Add event to schedule
 void City::AddEvent(Person* p) {
   if (!IsBusy(p) && (p->GetLocation() != p->GetResidence()->GetLocation())) {
-    p->AddEvent(clock_->GetElapsedTime(), p->GetResidence()->GetNodeFrom());
+    p->AddEvent(clock_->GetElapsedTime(), GetNode(p->GetResidence()->GetLocation()));
   }
 }
+
