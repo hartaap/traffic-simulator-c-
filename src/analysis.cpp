@@ -1,7 +1,7 @@
 #include "analysis.hpp"
 
 Analysis::Analysis(City* city, SimulationClock* clock)
-    : city_(city), clock_(clock), currentRoad_(nullptr) {}
+    : currentRoad_(nullptr), city_(city), clock_(clock) {}
 
 void Analysis::Init() {
   auto cars = city_->GetCars();
@@ -92,7 +92,7 @@ void Analysis::GenerateHourlyHistogram(std::vector<std::vector<int>> data) {
     std::cout.width(2);
     std::cout << i << " | ";
 
-    for (int j = 0; j < data[clock_->GetDayNumber()].size(); ++j) {
+    for (unsigned int j = 0; j < data[clock_->GetDayNumber()].size(); ++j) {
       if (data[clock_->GetDayNumber()][j] >= i) {
         std::cout << "x  ";
       } else {
@@ -104,7 +104,7 @@ void Analysis::GenerateHourlyHistogram(std::vector<std::vector<int>> data) {
   std::cout << "----------------------------------------------------------------------------" << std::endl;
   std::cout << "    ";
 
-  for (int i = 0; i < data[clock_->GetDayNumber()].size(); ++i) {
+  for (unsigned int i = 0; i < data[clock_->GetDayNumber()].size(); ++i) {
     if (i < 10) {
       std::cout << "0" << i << " ";
     } else {
@@ -129,8 +129,8 @@ void Analysis::ExportToCSV(const std::string& filename) {
   csvFile << "Day,Hour,CarCount" << std::endl;
 
   // Write data
-  for (size_t day = 0; day < clock_->GetDayNumber() + 1; ++day) {
-    for (size_t hour = 0; hour < roadHourlyCounts_[day].size(); ++hour) {
+  for (int day = 0; day < clock_->GetDayNumber() + 1; ++day) {
+    for (unsigned int hour = 0; hour < roadHourlyCounts_[day].size(); ++hour) {
       csvFile << day << "," << hour << "," << roadHourlyCounts_[day][hour] << std::endl;
     }
   }
