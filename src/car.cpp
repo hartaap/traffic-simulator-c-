@@ -140,19 +140,19 @@ bool Car::LaneIsFree(Intersection* intersection, std::vector<Car*> cars, std::st
 
 
             if (nextDirection== "Up" && l.first == iX){
-                if(iY - l.second <= 1.5 && iY - l.second >= -0.2){
+                if(iY - l.second <= 2 && iY - l.second >= -0.5){
                     return false;
                 }
             } else if (nextDirection == "Down" && l.first == iX) {
-                if(((l.second - iY) <= 1.5) && ((l.second - iY) >= 0)){
+                if(((l.second - iY) <= 2) && ((l.second - iY) >= 0)){
                     return false;
                 }
             } else if (nextDirection == "Left" && l.second == iY) {
-                if(((iX - l.first) <= 1.5) && ((iX - l.first) >= -0.2)){
+                if(((iX - l.first) <= 2) && ((iX - l.first) >= -0.5)){
                     return false;
                 }
             } else if (nextDirection == "Right" && l.second == iY) {
-                if(((l.first - iX) <= 1.5) && ((l.first - iX) >= 0)){
+                if(((l.first - iX) <= 2) && ((l.first - iX) >= 0)){
                     return false;
                 }
             }
@@ -235,19 +235,19 @@ bool Car::YieldRight(Intersection* intersection, std::vector<Car*> cars){
 
 
             if (car->direction_ == "Down" && direction_ == "Left" && l.first == iX){
-                if(iY - l.second <= 1.5 && iY - l.second >= -0.2){
+                if(iY - l.second <= 1.8 && iY - l.second >= -0.5){
                     return true;
                 }
             } else if(car->direction_ == "Up" && direction_ == "Right" && l.first == iX) {
-                if(((l.second - iY) <= 1.5) && ((l.second - iY) >= 0)){
+                if(((l.second - iY) <= 1.8) && ((l.second - iY) >= 0)){
                     return true;
                 }
             } else if (car->direction_ == "Right" && direction_ == "Down" && l.second == iY) {
-                if(((iX - l.first) <= 1.5) && ((iX - l.first) >= -0.2)){
+                if(((iX - l.first) <= 1.8) && ((iX - l.first) >= -0.5)){
                     return true;
                 }
             } else if (car->direction_ == "Left" && direction_ == "Up" && l.second == iY) {
-                if(((l.first - iX) <= 1.5) && ((l.first - iX) >= 0)){
+                if(((l.first - iX) <= 1.8) && ((l.first - iX) >= 0)){
                     return true;
                 }
             }
