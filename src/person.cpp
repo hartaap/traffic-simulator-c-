@@ -6,23 +6,29 @@
 
 Person::Person(const std::string& name, PersonType personType, Industrial* workplace, Residential* home)
            : name_(name), personType_(personType),
-             workplace_(workplace), home_(home), status_(false) {
+             workplace_(workplace), home_(home) {
                 location_ = home_->GetLocation(); // initial location is at home.
              }
 
-             std::string Person::GetName() const { return name_; }
+Industrial* Person::GetWorkplace() const {
+        return workplace_;
+}
 
-             Industrial* Person::GetWorkplace() const { return workplace_; }
+Residential* Person::GetResidence() const {
+        return home_;
+}
 
-             Residential* Person::GetResidence() const { return home_; }
+Car* Person::GetCar() {
+        return car_;
+}
 
-             Car* Person::GetCar() { return car_; }
+void Person::BuyCar(Car* car) {
+        car_ = car;
+}
 
-             void Person::BuyCar(Car* car) { car_ = car; }
-
-             void Person::InitializeSchedule(std::map<int, Node*> schedule) {
-               schedule_ = schedule;
-               car_->InitializeSchedule(schedule_);
+void Person::InitializeSchedule(std::map<int, Node*> schedule) {
+        schedule_ = schedule;
+        car_->InitializeSchedule(schedule_);
     }
 
 bool Person::isAtHome() const {
@@ -51,3 +57,4 @@ void Person::UpdateLocationFromCar(std::pair<float,float> location) {
     // they work in sync.
       location_ = location;
 }
+
