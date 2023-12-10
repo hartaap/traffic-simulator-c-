@@ -233,7 +233,7 @@ City* Simulator::LoadCity() {
     }
   }
 
-   // Extract persons
+  // Extract persons
   auto personsArray = json::as_array(jsonData["persons"]);
   for (const auto& person : personsArray) {
     std::string name = json::as_string(person[0]);
@@ -253,21 +253,21 @@ City* Simulator::LoadCity() {
       // Unknown string
       std::cerr << "Unknown PersonType " << pTypeString
                 << " in the JSON file for person named " << name << std::endl;
-      std::cout << "Person type of will be set to a default value 'Lazy'."
-                << std::endl;
-      pType = PersonType::Lazy;  // Sets a default value when unknown
+      std::cout << "Person type of " << name
+                << " will be set to the default value 'Neutral'." << std::endl;
+      pType = PersonType::Neutral;  // Sets a default value when unknown
     }
     auto workplaceName = json::as_string(person[2]);
     auto homeName = json::as_string(person[3]);
-    
-      try {
-        c->AddPersonAndCar(name, pType, workplaceName, homeName);
-      } catch (InvalidCityException& e) {
-        std::cout << "Could not load the city from the JSON file." << std::endl;
-        std::cout << e.GetError() << std::endl;
-        file.close();
-        return nullptr;
-      }
+
+    try {
+      c->AddPersonAndCar(name, pType, workplaceName, homeName);
+    } catch (InvalidCityException& e) {
+      std::cout << "Could not load the city from the JSON file." << std::endl;
+      std::cout << e.GetError() << std::endl;
+      file.close();
+      return nullptr;
+    }
   }
 
   c->AddClock(clock_);  // Add clock to city
