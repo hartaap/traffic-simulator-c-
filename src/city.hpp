@@ -113,6 +113,13 @@ class City {
   void AddPersonAndCar(Person* p);
 
   /**
+   * @brief Checks if the person that is trying to be added is valid.
+   *
+   * @param p A pointer to the Person object
+   */
+  bool IsValidPerson(Person* p);
+
+  /**
    * @brief
    * Checks if the intersection that the pointer given as parameter is pointing
    * to is valid. The intersection must be inside city boundaries and the
