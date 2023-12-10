@@ -2,8 +2,8 @@
 
 Commercial::Commercial(const std::string& buildingName,
                        const std::pair<int, int>& location,
-                       const std::string& type, Node* node)
-    : Building(buildingName, location, type, node), type_(type) {
+                       const std::string& type)
+    : Building(buildingName, location, type), type_(type) {
   std::string lowertype = type;
   // Compare two strings in a case-insensitive manner
   std::transform(lowertype.begin(), lowertype.end(), lowertype.begin(),
@@ -46,20 +46,22 @@ void Commercial::Draw(sf::RenderWindow& window, int cellSize){
 
   }
 }
+ 
+std::string Commercial::GetType() const {
+    std::string lowertype = type_;
+    // Compare two strings in a case-insensitive manner again
+    std::transform(lowertype.begin(), lowertype.end(), lowertype.begin(),
+                  [](unsigned char c) { return std::tolower(c); });
 
-void Commercial::Info() const {
-  std::string lowertype = type_;
-  // Compare two strings in a case-insensitive manner again
-  std::transform(lowertype.begin(), lowertype.end(), lowertype.begin(),
-                 [](unsigned char c) { return std::tolower(c); });
-
-  std::cout << GetName() << " is a perfect place for ";
-  if (lowertype == "gym") {
-    std::cout << "training!" << std::endl;
-  } else if (lowertype == "restaurant") {
-    std::cout << "eating!" << std::endl;
-  } else {
-    std::cout << "shopping!" << std::endl;
-  }
+    if (lowertype == "gym") {
+      return "Gym";
+    } else if (lowertype == "restaurant") {
+      return "Restaurant";
+    } else {
+      return "Shop";
+    }
 }
+
+  
+
 
