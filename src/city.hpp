@@ -108,9 +108,12 @@ class City {
   /**
    * @brief Adds a person and its car to the city.
    *
-   * @param c A pointer to the Person object
+   * @param name Name of the person.
+   * @param personType Type of the person.
+   * @param workplacename Name of working place.
+   * @param homename Name of home.
    */
-  void AddPersonAndCar(Person* p);
+  void AddPersonAndCar(std::string& name, PersonType personType, std::string& workplacename, std::string& homename);
 
   /**
    * @brief Checks if the person that is trying to be added is valid.
