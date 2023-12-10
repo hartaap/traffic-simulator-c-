@@ -233,10 +233,10 @@ City* Simulator::LoadCity() {
     }
   }
 
-  // Extract persons
+   // Extract persons
   auto personsArray = json::as_array(jsonData["persons"]);
   for (const auto& person : personsArray) {
-    const std::string name = json::as_string(person[0]);
+    std::string name = json::as_string(person[0]);
     std::string pTypeString = json::as_string(person[1]);
     PersonType pType;
     if (pTypeString == "Lazy") {
@@ -257,39 +257,17 @@ City* Simulator::LoadCity() {
                 << std::endl;
       pType = PersonType::Lazy;  // Sets a default value when unknown
     }
-    auto workplaceObject = json::as_object(person[2]);
-    auto homeObject = json::as_object(person[3]);
-
-    // Check if these buildings are valid
-    if (!workplaceObject.empty() && !homeObject.empty()) {
-      std::string workPlaceName = workplaceObject.begin()->first;
-      auto workplaceLocation =
-          json::as_array(workplaceObject.begin()->second[1]);
-      int workPosX = json::to_number<int>(workplaceLocation[0]);
-      int workPosY = json::to_number<int>(workplaceLocation[1]);
-      std::string homeName = homeObject.begin()->first;
-      auto homeLocation = json::as_array(homeObject.begin()->second[1]);
-      int homePosX = json::to_number<int>(homeLocation[0]);
-      int homePosY = json::to_number<int>(homeLocation[1]);
-
-      Industrial* ind = new Industrial(workPlaceName, {workPosX, workPosY});
-      Residential* res = new Residential(homeName, {homePosX, homePosY});
+    auto workplaceName = json::as_string(person[2]);
+    auto homeName = json::as_string(person[3]);
+    
       try {
-        c->AddPersonAndCar(new Person(name, pType, ind, res));
+        c->AddPersonAndCar(name, pType, workplaceName, homeName);
       } catch (InvalidCityException& e) {
         std::cout << "Could not load the city from the JSON file." << std::endl;
         std::cout << e.GetError() << std::endl;
         file.close();
         return nullptr;
       }
-      // this also creates a car for each person
-    } else {
-      std::cerr << "Error: Invalid workplace or home in the JSON file!"
-                << std::endl;
-      file.close();
-      delete c;
-      return nullptr;
-    }
   }
 
   c->AddClock(clock_);  // Add clock to city
