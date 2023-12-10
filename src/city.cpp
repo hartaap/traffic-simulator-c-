@@ -166,12 +166,12 @@ void City::AddBuilding(std::string name, std::pair<int, int> location,
 
   // Check the building type and create the corresponding building
   if (lowertype == "industrial") {
-    b = new Industrial(name, location);
+    b = new Industrial(name, location, GetNode(location));
   } else if (lowertype == "residential") {
-    b = new Residential(name, location);
+    b = new Residential(name, location, GetNode(location));
   } else if (lowertype == "shop" || lowertype == "gym" ||
              lowertype == "restaurant") {
-    b = new Commercial(name, location, buildingType);
+    b = new Commercial(name, location, buildingType, GetNode(location));
   } else {
     throw InvalidCityException("building type " + lowertype + " is unknown");
   }
@@ -212,10 +212,11 @@ std::vector<Node*> City::GetBuildingNodes() const {
 void City::AddPersonAndCar(Person* p) {
   Event* schedule = new Event(p, this->GetBuildingNodes());
   auto i = schedule->CreateSchedule();
-  p->InitializeSchedule(
-      i);  // Initialize schedule and sync them together with person and its car
-  Car* car = p->GetCar();
-  car->InitializeSchedule(i);
+  // Initialize schedule and sync them together with person and its car
+  Car* car = new Car(p->GetResidence()->GetNodeFrom()); // creates a car for a person starting from home.
+  car->SetColor(p->GetPersonType());
+  p->BuyCar(car);
+  p->InitializeSchedule(i); // initializes for person and its car
   personCarMap_[p] = car;  // Store person and car
   delete schedule;
 }
@@ -363,7 +364,7 @@ void City::AddClock(SimulationClock* clock) {
 //Add event to schedule
 void City::AddEvent(Person *p) {
   if (!IsBusy(p) && (p->GetLocation() != p->GetResidence()->GetLocation())) {
-      p->AddEvent(clock_->GetElapsedTime(), p->GetResidence());
+      p->AddEvent(clock_->GetElapsedTime(), p->GetResidence()->GetNodeFrom());
   }
 }
 
