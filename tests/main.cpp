@@ -5,6 +5,7 @@
 
 int main() {
     TestBuilding();
+    TestPerson();
     TestIntersection();
     TestCar();
     TestSimulationClockInitialization();
