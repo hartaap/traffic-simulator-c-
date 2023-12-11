@@ -93,6 +93,7 @@ void Simulator::SimulatorThread() {
   std::cin >> guiEnabledStr;
   if (guiEnabledStr == "yes") {
     gui = new Visualization(50, c_->GetGrid());
+    c_->ChooseRoad(stoi(roadIndex));
   } else {
     guiEnabled_ = false;
   }

@@ -167,6 +167,9 @@ class City {
    */
   void DrawIntersections(sf::RenderWindow& window) const;
 
+
+  void ChooseRoad(int roadIndex);
+
   /**
    * @brief Adds a traffic light to the city.
    *

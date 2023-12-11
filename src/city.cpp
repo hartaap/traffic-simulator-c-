@@ -396,6 +396,35 @@ void City::DrawCars(sf::RenderWindow& window) const {
   }
 }
 
+void City::ChooseRoad(int roadIndex){
+  Road* road = roads_[roadIndex];
+
+  auto s = road->GetStart();
+  auto e = road->GetEnd();
+
+  if(road->IsHorizontal()){
+    if(e.first > s.first){
+      for(int i = s.first; i < e.first; i++){
+        grid_->GetCell(i , s.second)->Occupy("Horizontal Road Selected");
+      }
+    }else{
+      for(int i = e.first; i < s.first; i++){
+        grid_->GetCell(i , s.second)->Occupy("Horizontal Road Selected");
+      }
+    }
+  }else{
+    if(e.second > s.second){
+      for(int j = s.second; j < e.second; j++){
+        grid_->GetCell(s.first , j)->Occupy("Vertical Road Selected");
+      }
+    }else{
+      for(int j = e.second; j < s.second; j++){
+        grid_->GetCell(s.first , j)->Occupy("Vertical Road Selected");
+      }
+    }
+  }
+}
+
 void City::DrawBuildings(sf::RenderWindow& window) const {
   for (const auto building : buildings_) {
     building->Draw(window, 50);
