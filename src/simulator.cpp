@@ -57,7 +57,8 @@ void Simulator::SimulatorThread() {
     std::cout << "Please enter road index to be analyzed:" << std::endl;
     std::cin >> roadIndex;
 
-    if (stoi(roadIndex) < 0 || stoi(roadIndex) > int(c_->GetRoads().size()) - 1) {
+    if (stoi(roadIndex) < 0 ||
+        stoi(roadIndex) > int(c_->GetRoads().size()) - 1) {
       std::cout << "Invalid input." << std::endl;
     } else {
       break;
@@ -282,12 +283,10 @@ City* Simulator::LoadCity() {
     auto trafficLightPosArray = json::as_array(trafficLight[0]);
     int posX = json::to_number<int>(trafficLightPosArray[0]);
     int posY = json::to_number<int>(trafficLightPosArray[1]);
-    int redDuration = json::to_number<int>(trafficLight[1]);
+    int redAndGreenDuration = json::to_number<int>(trafficLight[1]);
     int yellowDuration = json::to_number<int>(trafficLight[2]);
-    int greenDuration = json::to_number<int>(trafficLight[3]);
     try {
-      c->AddTrafficLight({posX, posY}, redDuration, yellowDuration,
-                         greenDuration);
+      c->AddTrafficLight({posX, posY}, redAndGreenDuration, yellowDuration);
     } catch (InvalidCityException& e) {
       std::cout << "Could not load the city from the JSON file." << std::endl;
       std::cout << e.GetError() << std::endl;
