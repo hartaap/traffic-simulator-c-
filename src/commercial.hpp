@@ -46,5 +46,3 @@ class Commercial : public Building {
 };
 
 #endif
-
-
