@@ -448,7 +448,8 @@ void City::AddClock(SimulationClock* clock) { clock_ = clock; }
 
 // Add event to schedule
 void City::AddEvent(Person* p) {
-  if (!IsBusy(p) && (p->GetLocation() != p->GetResidence()->GetLocation())) {
+  if (!IsBusy(p) && !(p->isAtHome()) && 
+      (p->GetWorkplace()->GetLocation() != p->GetLocation())) {
     p->AddEvent(clock_->GetElapsedTime(),
                 GetNode(p->GetResidence()->GetLocation()));
   }
