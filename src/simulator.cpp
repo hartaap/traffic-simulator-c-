@@ -3,8 +3,7 @@
 #include <cmath>
 
 Simulator::Simulator()
-    : isPaused_(false),
-      guiEnabled_(true),
+    : guiEnabled_(true),
       endSimulation_(false),
       simulationSpeed_(1),
       clock_(new SimulationClock()) {}
@@ -90,10 +89,8 @@ void Simulator::SimulatorThread() {
     previousTime = currentTime;
     std::string simulationTime = clock_->GetSimulationTime();
 
-    if (!isPaused_) {
-      UpdateSimulation(deltaTime, currentTime);
-      analysis_->Analyze();
-    }
+    UpdateSimulation(deltaTime, currentTime);
+    analysis_->Analyze();
 
     if (guiEnabled_) {
       DrawSimulation(gui);
@@ -233,7 +230,7 @@ City* Simulator::LoadCity() {
     }
   }
 
-   // Extract persons
+  // Extract persons
   auto personsArray = json::as_array(jsonData["persons"]);
   for (const auto& person : personsArray) {
     std::string name = json::as_string(person[0]);

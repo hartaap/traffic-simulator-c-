@@ -97,7 +97,6 @@ class Simulator {
   void SetCity(City* c) { c_ = c; }
 
  private:
-  bool isPaused_;
   bool guiEnabled_;
   bool endSimulation_;
   int simulationSpeed_;  // 1x, 2x, 4x, etc.
