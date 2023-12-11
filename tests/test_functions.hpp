@@ -9,6 +9,7 @@
 #include "../src/road.hpp"
 #include "../src/intersection.hpp"
 #include "../src/cell.hpp"
+#include "../src/building.hpp"
 
 void TestCar();
 void TestIntersection();
