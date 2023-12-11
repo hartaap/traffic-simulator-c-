@@ -114,21 +114,6 @@ void Simulator::SimulatorThread() {
   std::cout << "Simulation complete." << std::endl;
 }
 
-void Simulator::ResumeSimulation() {
-  isPaused_ = false;
-  std::cout << "Simulation resumed." << std::endl;
-}
-
-void Simulator::PauseSimulation() {
-  isPaused_ = true;
-  std::cout << "Simulation paused." << std::endl;
-}
-
-void Simulator::EndSimulation() {
-  // logic here
-  std::cout << "Simulation ended." << std::endl;
-}
-
 void Simulator::SpeedUpSimulation() {
   // currently just arbitrary coefficient of 2
   if (simulationSpeed_ <= 8) {
