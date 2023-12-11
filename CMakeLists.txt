@@ -66,7 +66,7 @@ target_include_directories(tests PUBLIC src)
 # Add all .cpp files in the src directory to the tests target
 file(GLOB TEST_SOURCES_SRC "src/*.cpp")
 list(FILTER TEST_SOURCES_SRC EXCLUDE REGEX "main.cpp$")
-target_sources(tests PRIVATE ${TEST_SOURCES_SRC})
+target_sources(tests PUBLIC ${TEST_SOURCES_SRC})
 
 # Link SFML library to the tests
 target_link_libraries(tests PUBLIC sfml-graphics)
