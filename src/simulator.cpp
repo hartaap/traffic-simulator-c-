@@ -12,7 +12,6 @@ Simulator::~Simulator() {
   delete analysis_;  // Delete the Analysis object
 
   delete c_;      // Delete the City object
-  delete clock_;  // Delete the SimulationClock object
 }
 
 void Simulator::UpdateSimulation(float deltaTime, float currentTime) {
