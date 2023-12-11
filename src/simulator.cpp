@@ -248,7 +248,7 @@ City* Simulator::LoadCity() {
     }
   }
 
-  // Extract persons
+   // Extract persons
   auto personsArray = json::as_array(jsonData["persons"]);
   for (const auto& person : personsArray) {
     std::string name = json::as_string(person[0]);
@@ -264,6 +264,8 @@ City* Simulator::LoadCity() {
       pType = PersonType::Angry;
     } else if (pTypeString == "Gentleman") {
       pType = PersonType::Gentleman;
+    } else if (pTypeString == "Nocturnal") {
+      pType = PersonType::Nocturnal;
     } else {
       // Unknown string
       std::cerr << "Unknown PersonType " << pTypeString
