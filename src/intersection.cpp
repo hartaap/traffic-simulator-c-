@@ -34,8 +34,10 @@ void Intersection::Update(float deltaTime) {
 }
 
 void Intersection::AddTrafficLight(TrafficLight* t) {
-  trafficLight_ = t;
-  allowVertical_ = false;
+  if (t != nullptr) {
+    trafficLight_ = t;
+    allowVertical_ = false;
+  }
 }
 
 bool Intersection::HasTrafficLight() const { return trafficLight_ != nullptr; }
