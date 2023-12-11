@@ -29,7 +29,7 @@ City::~City() {
     delete (it.first);
     delete (it.second);
   }
-  delete (clock_);
+
   delete (grid_);
 }
 
