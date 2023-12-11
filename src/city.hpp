@@ -172,8 +172,8 @@ class City {
    *
    * @param t A pointer to the traffic light object to be added
    */
-  void AddTrafficLight(std::pair<int, int> location, int redDuration,
-                       int yellowDuration, int greenDuration);
+  void AddTrafficLight(std::pair<int, int> location, int redAndGreenDuration,
+                       int yellowDuration);
 
   /**
    * @brief Updates the locations and destinations of all the cars in the city.

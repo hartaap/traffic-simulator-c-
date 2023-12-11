@@ -63,7 +63,11 @@ void Simulator::SimulatorThread() {
     std::cout << "Please enter road index to be analyzed:" << std::endl;
     std::cin >> roadIndex;
 
+<<<<<<< HEAD
     if (!is_integer(roadIndex) || stoi(roadIndex) < 0 ||
+=======
+    if (stoi(roadIndex) < 0 ||
+>>>>>>> b649c8a408b0365cce850db7c8ca0f7c4e2e011e
         stoi(roadIndex) > int(c_->GetRoads().size()) - 1) {
       std::cout << "Invalid input." << std::endl;
     } else {
@@ -272,6 +276,13 @@ City* Simulator::LoadCity() {
     auto workplaceName = json::as_string(person[2]);
     auto homeName = json::as_string(person[3]);
 
+    if (homeName.empty() || workplaceName.empty()) {
+      std::cerr << "Something is missing from person parameters!" << std::endl;
+      file.close();
+      delete c;
+      return nullptr;
+    }
+
     try {
       c->AddPersonAndCar(name, pType, workplaceName, homeName);
     } catch (InvalidCityException& e) {
@@ -289,12 +300,10 @@ City* Simulator::LoadCity() {
     auto trafficLightPosArray = json::as_array(trafficLight[0]);
     int posX = json::to_number<int>(trafficLightPosArray[0]);
     int posY = json::to_number<int>(trafficLightPosArray[1]);
-    int redDuration = json::to_number<int>(trafficLight[1]);
+    int redAndGreenDuration = json::to_number<int>(trafficLight[1]);
     int yellowDuration = json::to_number<int>(trafficLight[2]);
-    int greenDuration = json::to_number<int>(trafficLight[3]);
     try {
-      c->AddTrafficLight({posX, posY}, redDuration, yellowDuration,
-                         greenDuration);
+      c->AddTrafficLight({posX, posY}, redAndGreenDuration, yellowDuration);
     } catch (InvalidCityException& e) {
       std::cout << "Could not load the city from the JSON file." << std::endl;
       std::cout << e.GetError() << std::endl;
