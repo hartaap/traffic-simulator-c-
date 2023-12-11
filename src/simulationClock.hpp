@@ -47,8 +47,8 @@ class SimulationClock {
 
   /**
    * @brief Set the Simulation Speed object
-   * 
-   * @param simulationSpeed 
+   *
+   * @param simulationSpeed
    */
   void SetSimulationSpeed(int simulationSpeed) {
     simulationSpeed_ = simulationSpeed;

@@ -9,7 +9,7 @@
 
 /**
  * @brief A class used for representing an intersection in the simulated city.
- * 
+ *
  */
 class Intersection {
  public:

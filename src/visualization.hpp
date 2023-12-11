@@ -24,22 +24,22 @@ class Visualization {
 
   /**
    * @brief Used for returning the Window object
-   * 
+   *
    * @return sf::RenderWindow&
    */
   sf::RenderWindow& GetWindow();
 
   /**
    * @brief Prints out the current grid
-   * 
-   * @param grid 
+   *
+   * @param grid
    */
   void PrintGrid(Grid* grid);
 
   /**
    * @brief Prints out the current cars
-   * 
-   * @param cars 
+   *
+   * @param cars
    */
   void PrintCars(std::vector<Car*> cars);
 
