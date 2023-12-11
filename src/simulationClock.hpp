@@ -45,9 +45,19 @@ class SimulationClock {
    */
   std::string GetSimulationTime();
 
+  /**
+   * @brief Set the Simulation Speed object
+   * 
+   * @param simulationSpeed 
+   */
+  void SetSimulationSpeed(int simulationSpeed) {
+    simulationSpeed_ = simulationSpeed;
+  }
+
  private:
   std::chrono::time_point<std::chrono::high_resolution_clock> startTime_;
   int dayNumber_;
+  int simulationSpeed_;
 };
 
 #endif  // CLOCK_HPP

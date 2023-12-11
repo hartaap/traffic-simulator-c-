@@ -11,7 +11,7 @@ Simulator::Simulator()
 Simulator::~Simulator() {
   delete analysis_;  // Delete the Analysis object
 
-  delete c_;      // Delete the City object
+  delete c_;  // Delete the City object
 }
 
 void Simulator::UpdateSimulation(float deltaTime, float currentTime) {
@@ -56,6 +56,25 @@ void Simulator::SimulatorThread() {
   analysis_->SpecifyRoad(stoi(roadIndex));
   analysis_->Init();
 
+  std::string simulationSpeedStr;
+
+  while (true) {
+    std::cout << "Set simulation speed (1, 2, 4, 8, 16): ";
+    std::cin >> simulationSpeedStr;
+
+    if (simulationSpeedStr == "1" || simulationSpeedStr == "2" ||
+        simulationSpeedStr == "4" || simulationSpeedStr == "8" ||
+        simulationSpeedStr == "16") {
+      // Valid input, convert to integer
+      simulationSpeed_ = std::stoi(simulationSpeedStr);
+      clock_->SetSimulationSpeed(simulationSpeed_);
+      break;  // Exit the loop if a valid speed is entered
+    } else {
+      std::cout << "Invalid input. Please enter 1, 2, 4, 8, or 16."
+                << std::endl;
+    }
+  }
+
   Visualization* gui;
 
   std::string guiEnabledStr;
@@ -84,7 +103,7 @@ void Simulator::SimulatorThread() {
     }
 
     float currentTime = clock_->GetElapsedTime();
-    float deltaTime = simulationSpeed_ * (currentTime - previousTime);
+    float deltaTime = (currentTime - previousTime);
     previousTime = currentTime;
     std::string simulationTime = clock_->GetSimulationTime();
 
@@ -108,29 +127,6 @@ void Simulator::SimulatorThread() {
 
   // create a finish simulation function
   std::cout << "Simulation complete." << std::endl;
-}
-
-void Simulator::SpeedUpSimulation() {
-  // currently just arbitrary coefficient of 2
-  if (simulationSpeed_ <= 8) {
-    simulationSpeed_ *= 2;
-    std::cout << "Simulation speed increased. Current speed: "
-              << simulationSpeed_ << "x" << std::endl;
-  } else {
-    std::cout << "Can't go faster! 16x is the maximum speed." << std::endl;
-  }
-}
-
-void Simulator::SlowDownSimulation() {
-  // currently just arbitrary coefficient of 2
-  simulationSpeed_ /= 2;
-  if (simulationSpeed_ == 0) {
-    std::cout << "Can't go below 1x speed!" << std::endl;
-    simulationSpeed_ = 1;
-  } else {
-    std::cout << "Simulation speed decreased. Current speed: "
-              << simulationSpeed_ << "x" << std::endl;
-  }
 }
 
 City* Simulator::LoadCity() {
