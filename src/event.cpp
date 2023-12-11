@@ -129,7 +129,7 @@ std::map<int, Node*> Event::CreateSchedule() {
         }
 
         for (int time = 1260+(day * 1440); time <= 1440+(day * 1440); time += 120) { // from (21:00 to 00:00) there's less traffic
-              if (rand() % 100 < 30) { // 80% probability
+              if (rand() % 100 < 10) { // 80% probability
                 int index;
 
                 do {
