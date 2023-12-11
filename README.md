@@ -25,12 +25,11 @@ The simulator might require some additional libraries that are required to be in
 
 **Building and running the program**
   1. Clone `https://version.aalto.fi/gitlab/karhuj5/traffic-simulator-henrik-toikka-4.git`
-  2. Create build directory in the project's root folder: `mkdir build`
-  3. Navigate to the folder `cd build`
-  4. Generate makefile with CMake: `cmake ..`
-  5. Build the file in the same directory `make`
-  6. Navigate to the root folder `cd ..`
-  7. Run the file `build/./main`
+  2. Navigate to the folder `cd build`
+  3. Generate makefile with CMake: `cmake ..`
+  4. Build the file in the same directory `make`
+  5. Navigate to the root folder `cd ..`
+  6. Run the file `build/./main`
 
 **How to use the simulation:**
 In the beginning, the program asks for a JSON file name. If the file is not found in the root folder, or if it is invalid, the program will not proceed and it will ask for another file (see the JSON file template and requirements below).
