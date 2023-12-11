@@ -12,7 +12,7 @@ Car::Car(Node* startingNode) {
     idle_ = true;
     direction_ = "None";
     destination_ = nullptr;
-    waitingTime_ = -50.0;
+    waitingTime_ = 0.0;
 
     previous_ = startingNode;
 
@@ -142,22 +142,22 @@ bool Car::LaneIsFree(Intersection* intersection, std::vector<Car*> cars, std::st
 
 
             if (nextDirection== "Up" && l.first == iX){
-                if(iY - l.second <= 2.0 && (iY - l.second >= -1) && waitingTime_ < 80.0){
+                if(iY - l.second <= 2.0 && (iY - l.second >= -1.0) && waitingTime_ < 80.0){
                     waitingTime_ += 1.0;
                     return false;
                 }
             } else if (nextDirection == "Down" && l.first == iX) {
-                if(((l.second - iY) <= 2.0) && ((l.second - iY) >= -0.5) && waitingTime_ < 80.0){
+                if(((l.second - iY) <= 2.5) && ((l.second - iY) >= -0.5) && waitingTime_ < 80.0){
                     waitingTime_ += 1.0;
                     return false;
                 }
             } else if (nextDirection == "Left" && l.second == iY) {
-                if(((iX - l.first) <= 2.0) && ((iX - l.first) >= -1) && waitingTime_ < 70.0){
+                if(((iX - l.first) <= 2.0) && ((iX - l.first) >= -1.0) && waitingTime_ < 70.0){
                     waitingTime_ += 1.0;
                     return false;
                 }
             } else if (nextDirection == "Right" && l.second == iY) {
-                if(((l.first - iX) <= 2.0) && ((l.first - iX) >= -0.5) && waitingTime_ < 70.0){
+                if(((l.first - iX) <= 2.5) && ((l.first - iX) >= -0.5) && waitingTime_ < 70.0){
                     waitingTime_ += 1.0;
                     return false;
                 }
