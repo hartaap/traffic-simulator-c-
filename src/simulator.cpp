@@ -266,6 +266,13 @@ City* Simulator::LoadCity() {
     auto workplaceName = json::as_string(person[2]);
     auto homeName = json::as_string(person[3]);
 
+    if (homeName.empty() || workplaceName.empty()) {
+      std::cerr << "Something is missing from person parameters!" << std::endl;
+      file.close();
+      delete c;
+      return nullptr;
+    }
+
     try {
       c->AddPersonAndCar(name, pType, workplaceName, homeName);
     } catch (InvalidCityException& e) {
