@@ -14,8 +14,19 @@ Your project implementation should follow the skelaton organization in this repo
 See readme.md files in each folder.
 
 # Instructions on how to use the program
-Add instructions
 
+**Building and running the program**
+
+The program must be run on an UNIX system (i.e. the program cannot be run with Windows).
+
+The first thing you need to do before running the program is to run the command: `cmake .` in the root folder of the project. This creates the required build files.
+
+After this, create an executable and run it in the terminal with the commands:
+  1. `cmake --build .`
+  2. `./main`
+
+**How to use the simulation:**
+The si
 
 # JSON file template for city loading
 The city is loaded from a JSON file which should be located in the root folder of the project. A template for the JSON files is provided below. If the JSON file is invalid, the program will continue asking for a new file until the file is valid. The root folder of this project contains two example JSON files: city.json and smallcity.json.
