@@ -58,6 +58,7 @@ class Car {
   /**
    * @brief Used to return the intersection at the vicinity of the car
    * @param intersections All the intersections in the city.
+   * @return Intersection near the cars location
    */
   Intersection* GetIntersection(std::vector<Intersection*> intersections);
 
@@ -85,6 +86,7 @@ class Car {
    * @brief Check if the car is at destination
    * @param destinationX The x-coordinate of the destination
    * @param destinationY The y-coordinate of the destination
+   * @return True if the car is at destination, false otherwise
    */
   bool AtDestination(float destinationX, float destinationY);
 
@@ -92,6 +94,7 @@ class Car {
    * @brief Check that the intersection is ok and car can proceed
    * @param intersection The intersection in front of the car
    * @param cars All the cars in the city
+   * @return True if the car can proceed
    */
   bool CheckIntersection(Intersection* intersection, std::vector<Car*> cars);
 
@@ -102,6 +105,7 @@ class Car {
    * @param cars The cars in the city
    * @param nextDirection The direction that the car will go to after the
    * intersection
+   * @return True if the lane is free and false otherwise
    */
   bool LaneIsFree(Intersection* intersection, std::vector<Car*> cars,
                   std::string nextDirection);
@@ -111,12 +115,13 @@ class Car {
    * other cars coming from right
    * @param intersection The intersection in front of the car
    * @param cars All the cars in the city
+   * @return True if the car should yield
    */
   bool YieldRight(Intersection* intersection, std::vector<Car*> cars);
 
   /**
    * @brief Get the direction of the car
-   *
+   *@return The direction that the car is going to
    */
   std::string& GetDirection();
 
