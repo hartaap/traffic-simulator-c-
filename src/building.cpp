@@ -6,8 +6,7 @@ Building::Building(const std::string& buildingName,
       location_(location),
       personAmount_(0),
       carAmount_(0),
-      type_(type)
-       {}
+      type_(type) {}
 
 Building::~Building() {}
 
@@ -26,4 +25,3 @@ bool Building::isFull() const {
 const std::string& Building::GetName() const { return buildingName_; }
 
 const std::pair<int, int>& Building::GetLocation() const { return location_; }
-
