@@ -17,9 +17,7 @@ See readme.md files in each folder.
 
 **Dependencies**
 The simulator might require some additional libraries that are required to be installed through terminal, so run these commands:
-1. `sudo apt-get install libxrandr-dev`
-2. `sudo apt-get install libxcursor-dev`
-3. `sudo apt-get install libsfml-dev`
+1. `sudo apt-get install libxrandr-dev libxcursor-dev libsfml-dev`
 
 **Building and running the program**
   1. Clone `https://version.aalto.fi/gitlab/karhuj5/traffic-simulator-henrik-toikka-4.git`
