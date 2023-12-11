@@ -45,7 +45,7 @@ void Car::SetDirection(std::pair<int, int> current, std::pair<int, int> destinat
     }else if(destination.second > current.second){
         direction_ = "Down";
     }
-    waitingTime_ = -50.0;
+    waitingTime_ = 0.0;
 }
 
 void Car::SetSpeedLimit(std::vector<Road*> roads){
