@@ -167,7 +167,11 @@ class City {
    */
   void DrawIntersections(sf::RenderWindow& window) const;
 
-
+ /**
+   * @brief Chooses the road that the user wants to analyze and highlights it
+   *
+   * @param roadIndex The index of the chosen road
+   */
   void ChooseRoad(int roadIndex);
 
   /**
