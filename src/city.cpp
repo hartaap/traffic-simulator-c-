@@ -383,7 +383,6 @@ void City::UpdateCars(float deltaTime, float currentTime) {
 
   // Update each car
   for (const auto& personCar : personCarMap_) {
-    AddEvent(personCar.first);
     personCar.second->Update(deltaTime, currentTime, nodes_, intersections_,
                              allCars, roads_);
     personCar.first->UpdateLocationFromCar(personCar.second->GetLocation());
@@ -445,12 +444,3 @@ bool City::IsBusy(Person* p) const {
 
 // Add clock from simulator.cpp
 void City::AddClock(SimulationClock* clock) { clock_ = clock; }
-
-// Add event to schedule
-void City::AddEvent(Person* p) {
-  if (!IsBusy(p) && !(p->isAtHome()) && 
-      (p->GetWorkplace()->GetLocation() != p->GetLocation())) {
-    p->AddEvent(clock_->GetElapsedTime(),
-                GetNode(p->GetResidence()->GetLocation()));
-  }
-}
