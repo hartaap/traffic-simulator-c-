@@ -34,27 +34,27 @@ class Residential : public Building {
     sf::RectangleShape cellShape(sf::Vector2f(cellSize, cellSize));
     int x = location_.first;
     int y = location_.second;
-    cellShape.setFillColor(sf::Color(150, 75, 75)); 
+    cellShape.setFillColor(sf::Color(150, 75, 75));
     cellShape.setPosition(x * cellSize, y * cellSize);
-    cellShape.setSize(sf::Vector2f(cellSize, cellSize)); 
+    cellShape.setSize(sf::Vector2f(cellSize, cellSize));
 
-    
     window.draw(cellShape);
-  
+
     sf::RectangleShape door(sf::Vector2f(cellSize * 0.2f, cellSize * 0.4f));
-    door.setFillColor(sf::Color(100, 50, 50)); 
+    door.setFillColor(sf::Color(100, 50, 50));
     door.setPosition((x + 0.4f) * cellSize, (y + 0.6f) * cellSize);
     window.draw(door);
 
-    sf::RectangleShape windowRect(sf::Vector2f(cellSize * 0.2f, cellSize * 0.2f));
-    windowRect.setFillColor(sf::Color(200, 200, 255)); 
+    sf::RectangleShape windowRect(
+        sf::Vector2f(cellSize * 0.2f, cellSize * 0.2f));
+    windowRect.setFillColor(sf::Color(200, 200, 255));
     windowRect.setPosition((x + 0.7f) * cellSize, (y + 0.2f) * cellSize);
     window.draw(windowRect);
 
-  
     sf::ConvexShape roof(3);
     roof.setPoint(0, sf::Vector2f(x * cellSize, y * cellSize));
-    roof.setPoint(1, sf::Vector2f((x + 0.5f) * cellSize, (y - 0.5f) * cellSize));
+    roof.setPoint(1,
+                  sf::Vector2f((x + 0.5f) * cellSize, (y - 0.5f) * cellSize));
     roof.setPoint(2, sf::Vector2f((x + 1.0f) * cellSize, y * cellSize));
     roof.setFillColor(sf::Color(100, 50, 50));
     window.draw(roof);
@@ -65,10 +65,7 @@ class Residential : public Building {
    * output
    *
    */
-  std::string GetType() const override {
-    return type_;
-  }
+  std::string GetType() const override { return type_; }
 };
 
 #endif
-

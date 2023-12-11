@@ -1,12 +1,14 @@
 #include "visualization.hpp"
 
 Visualization::Visualization(int cellSize, Grid* g)
-    : window_(sf::VideoMode(g->GetSizeX() / 2.0 * 100, g->GetSizeY() / 2.0 * 100),
-              "Traffic Simulation"),
+    : window_(
+          sf::VideoMode(g->GetSizeX() / 2.0 * 100, g->GetSizeY() / 2.0 * 100),
+          "Traffic Simulation"),
       cellSize_(cellSize) {
-    // Set up the view to match the logical size of the content
-    sf::View view(sf::FloatRect(0, 0, g->GetSizeX() / 2.0 * 100, g->GetSizeY() / 2.0 * 100));
-    window_.setView(view);
+  // Set up the view to match the logical size of the content
+  sf::View view(sf::FloatRect(0, 0, g->GetSizeX() / 2.0 * 100,
+                              g->GetSizeY() / 2.0 * 100));
+  window_.setView(view);
 }
 
 sf::RenderWindow& Visualization::GetWindow() { return window_; }

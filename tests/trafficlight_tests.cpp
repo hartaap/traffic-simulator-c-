@@ -2,7 +2,6 @@
 #include <iostream>
 
 #include "test_functions.hpp"
-#include "../src/trafficlight.hpp"
 
 void TestTrafficLight() {
     // Test case 1: Verify the initial state of the traffic light

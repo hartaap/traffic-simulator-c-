@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "test_functions.hpp"
-#include "../src/intersection.hpp"
+#include "../src/trafficlight.hpp"
 
 void TestIntersection() {
   // Test 1: Create an intersection and check its location

@@ -35,7 +35,8 @@ class Cell {
   void Occupy(std::string type);
 
   /**
-   * @brief Empties the cell (i.e. sets the value of the type_ variable to "Empty").
+   * @brief Empties the cell (i.e. sets the value of the type_ variable to
+   * "Empty").
    *
    */
   void Clear();

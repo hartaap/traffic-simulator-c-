@@ -40,7 +40,7 @@ void Cell::Draw(sf::RenderWindow& window, int cellSize, int x, int y) {
     window.draw(cellShape);
     window.draw(dot);
 
-  }else {
+  } else {
     cellShape.setFillColor(sf::Color::White);
     cellShape.setPosition(x * cellSize, y * cellSize);
     window.draw(cellShape);

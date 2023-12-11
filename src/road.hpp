@@ -5,7 +5,7 @@
 
 /**
  * @brief A class for representing a road in the simulated city.
- * 
+ *
  */
 class Road {
  public:

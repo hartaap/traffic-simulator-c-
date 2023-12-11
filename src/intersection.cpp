@@ -1,7 +1,10 @@
 #include "intersection.hpp"
 
 Intersection::Intersection(std::pair<int, int> location)
-    : location_(location), trafficLight_(nullptr), allowVertical_(true), allowHorizontal_(true) {}
+    : location_(location),
+      trafficLight_(nullptr),
+      allowVertical_(true),
+      allowHorizontal_(true) {}
 
 std::pair<int, int> Intersection::GetLocation() const { return location_; }
 
@@ -31,13 +34,11 @@ void Intersection::Update(float deltaTime) {
 }
 
 void Intersection::AddTrafficLight(TrafficLight* t) {
-   trafficLight_ = t;
-   allowVertical_ = false;
-  }
-
-bool Intersection::HasTrafficLight() const {
-  return trafficLight_ != nullptr;
+  trafficLight_ = t;
+  allowVertical_ = false;
 }
+
+bool Intersection::HasTrafficLight() const { return trafficLight_ != nullptr; }
 
 bool Intersection::AllowVertical() { return allowVertical_; }
 
@@ -70,7 +71,7 @@ void Intersection::Draw(sf::RenderWindow& window, int cellSize, Grid* grid) {
       down.setFillColor(sf::Color::Red);
       left.setFillColor(sf::Color::Green);
       right.setFillColor(sf::Color::Green);
-    } else if(allowVertical_) {
+    } else if (allowVertical_) {
       up.setFillColor(sf::Color::Green);
       down.setFillColor(sf::Color::Green);
       left.setFillColor(sf::Color::Red);

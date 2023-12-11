@@ -1,11 +1,9 @@
 #include <cassert>
 #include <iostream>
 
+
 #include "test_functions.hpp"
-#include "../src/car.hpp"
-#include "../src/node.hpp"
-#include "../src/road.hpp"
-#include "../src/intersection.hpp"
+
 
 void TestCar() {
     //Add two nodes

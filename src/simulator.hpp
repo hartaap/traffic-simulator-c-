@@ -32,37 +32,25 @@ class Simulator {
 
   /**
    * @brief Destroy the Simulator object
-   * 
+   *
    */
   ~Simulator();
 
   /**
-   * @brief Speeds up the simulation speed
-   * 
-   */
-  void SpeedUpSimulation();
-
-  /**
-   * @brief Slows down the simulation speed
-   * 
-   */
-  void SlowDownSimulation();
-
-  /**
    * @brief Starts and initializes the simulation
-   * 
+   *
    */
   void StartSimulation();
 
   /**
    * @brief The simulator's main thread that is used to run the simulation
-   * 
+   *
    */
   void SimulatorThread();
 
   /**
    * @brief Updates the simulation with regard to time changes
-   * 
+   *
    * @param deltaTime tells how much time has passed in the main loop
    * @param currentTime tells what is the current system time
    */
@@ -70,28 +58,28 @@ class Simulator {
 
   /**
    * @brief Draws the simulation if the GUI is enabled
-   * 
+   *
    * @param gui graphical user interface used in visualization
    */
   void DrawSimulation(Visualization* gui);
 
   /**
    * @brief Loads the city from a .json file
-   * 
+   *
    * @return City*
    */
   City* LoadCity();
 
   /**
    * @brief Thread that is used for user input via terminal
-   * 
+   *
    * @param exitFuture information about the thread status (exit or not)
    */
   void InputThread(std::shared_future<void> exitFuture);
 
   /**
    * @brief Set the City object
-   * 
+   *
    * @param c city that is set
    */
   void SetCity(City* c) { c_ = c; }

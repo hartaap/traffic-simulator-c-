@@ -6,9 +6,7 @@ void SimulationClock::Start() {
   startTime_ = std::chrono::high_resolution_clock::now();
 }
 
-int SimulationClock::GetDayNumber() {
-    return dayNumber_;
-}
+int SimulationClock::GetDayNumber() { return dayNumber_; }
 
 double SimulationClock::GetElapsedTime() {
   auto currentTime = std::chrono::high_resolution_clock::now();
