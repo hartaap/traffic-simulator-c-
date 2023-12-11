@@ -98,7 +98,7 @@ void Simulator::SimulatorThread() {
   clock_->Start();
 
   while (true) {
-    if (endSimulation_) {
+    if (endSimulation_ || clock_->GetDayNumber() > 29) {
       break;
     }
 
