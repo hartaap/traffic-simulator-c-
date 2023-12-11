@@ -6,6 +6,7 @@
 int main() {
     TestIntersection();
     TestTrafficLight();
+    TestCar();
 
     std::cout << "All tests finished." << std::endl;
     return 0;

@@ -9,9 +9,9 @@
 #include "../src/road.hpp"
 #include "../src/intersection.hpp"
 
-
+void TestCar();
 void TestIntersection();
 void TestTrafficLight();
-void TestCar();
+
 
 #endif
