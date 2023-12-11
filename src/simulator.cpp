@@ -50,9 +50,20 @@ void Simulator::StartSimulation() {
 
 void Simulator::SimulatorThread() {
   analysis_ = new Analysis(c_, clock_);
+
   std::string roadIndex;
-  std::cout << "Please enter road index to be analyzed:" << std::endl;
-  std::cin >> roadIndex;
+
+  while (true) {
+    std::cout << "Please enter road index to be analyzed:" << std::endl;
+    std::cin >> roadIndex;
+
+    if (stoi(roadIndex) < 0 || stoi(roadIndex) > int(c_->GetRoads().size()) - 1) {
+      std::cout << "Invalid input." << std::endl;
+    } else {
+      break;
+    }
+  }
+
   analysis_->SpecifyRoad(stoi(roadIndex));
   analysis_->Init();
 
