@@ -78,7 +78,7 @@ The template:
     ["name", "PersonType", "name of workplace", "name of home building"]
   ],
   "trafficLights": [
-    [[x-coordinate(int), y-coordinate(int)], red_light_duration(int), yellow_light_duration(int), green_light_duration(int)]
+    [[x-coordinate(int), y-coordinate(int)], red_and_green_light_duration(int), yellow_light_duration(int)]
   ]
 }
 ```
