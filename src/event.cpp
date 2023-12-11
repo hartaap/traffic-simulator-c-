@@ -15,55 +15,127 @@ Event::Event(Person* person, std::vector<Node*> buildingNodes) {
 
 
 std::map<int, Node*> Event::CreateSchedule() {
-    int lastSelectedIndex = -1;  // Initialize to an invalid index
-    int ind;
-
-    int timeDifferenceRange = 5;  // Default time difference range
-
-    // Adjust time difference range based on PersonType
+    schedule_.clear();
+    int lastSelectedIndex = -1; // Initialize to an invalid index
+    int timeDifferenceRange = 5;
+    int days = 31; // initialized to month
+    
+    //Different person types have different expected leaving and arrival times.
     switch (person_->GetPersonType()) {
         case PersonType::Lazy:
-            timeDifferenceRange += 40;  // Additional 10 minutes for Lazy type
+            timeDifferenceRange += 40; 
             break;
         case PersonType::Active:
-            // Active type stays with the default range
+          
             break;
         case PersonType::Neutral:
-            timeDifferenceRange += 60;  // Reduce 5 minutes for Neutral type
+            timeDifferenceRange += 60;  
             break;
         case PersonType::Gentleman:
-            timeDifferenceRange += 20;  // Additional 5 minutes for Gentleman type
+            timeDifferenceRange += 20;  
             break;
         case PersonType::Angry:
-            timeDifferenceRange += 30;  // Reduce 10 minutes for Angry type
+            timeDifferenceRange += 30;  
+            break;
+        case PersonType::Nocturnal:
+            timeDifferenceRange += 10;  
             break;
     }
 
-    do {    
-        ind = rand() % (buildingNodes_.size()-1);
-    } while (buildingNodes_[ind]->GetLocation() == person_->GetLocation());
+    for (int day = 0; day < days; ++day) {
+        // Events during (00:00 - 07:00)
+        for (int time = (day * 1440); time <= 420; time += 100) {
+            if ((rand() % 100 < 3) || (person_->GetPersonType() == PersonType::Nocturnal)) { // 3% chance that will happen
+                int index;
+                do {
+                    index = rand() % (buildingNodes_.size() - 1);
+                } while (index == lastSelectedIndex || (buildingNodes_[index]->GetLocation() == person_->GetLocation()));
 
-    int timeDiff = (rand() % timeDifferenceRange + 1);
-    schedule_[timeDiff] = buildingNodes_[ind];
-    lastSelectedIndex = ind;
+                lastSelectedIndex = index;
 
-    for (int time = 45; time < 100000; time += 30) {
-        int index;
+                int timeDifferenceSign = (rand() % 2 == 0) ? 1 : -1;
+                int timeDifference = timeDifferenceSign * (rand() % timeDifferenceRange + 1);
+                int newTime = time + timeDifference;
 
-        do {
-            index = rand() % (buildingNodes_.size()-1);
-        } while (index == lastSelectedIndex || (buildingNodes_[index]->GetLocation() == person_->GetLocation()));
+                // Check if the new time is within the desired range
+                if (newTime <= 420) {
+                    schedule_[newTime] = buildingNodes_[index];
+                }
+            }
+        }
 
-        lastSelectedIndex = index;
+        // Events during (07:00 - 09:30) with normal probability
+        for (int time = 420; time <= 660; time += 60) {
+            // 90% chance
+            if (rand() % 100 < 90) {
+                int index;
 
-        int timeDifferenceSign = (rand() % 2 == 0) ? 1 : -1;
-        int timeDifference = timeDifferenceSign * (rand() % timeDifferenceRange + 1);
-        schedule_[time + timeDifference] = buildingNodes_[index];
+                do {
+                    index = rand() % (buildingNodes_.size() - 1);
+                } while (index == lastSelectedIndex || (buildingNodes_[index]->GetLocation() == person_->GetLocation()));
+
+                lastSelectedIndex = index;
+
+                int timeDifferenceSign = (rand() % 2 == 0) ? 1 : -1;
+                int timeDifference = timeDifferenceSign * (rand() % timeDifferenceRange + 1);
+                int newTime = time + timeDifference;
+
+                // Check if the new time is within the desired range
+                if (newTime <= 660) {
+                    schedule_[newTime] = buildingNodes_[index];
+                }
+            }
+        }
+
+        //Events during (09:30 - 16:00).
+        for (int time = 660; time <= 960; time += 60) {
+            //
+            if (rand() % 100 < 50 && person_->GetPersonType() != PersonType::Nocturnal) { // 50% chance that will happen
+                int index;
+
+                do {
+                    index = rand() % (buildingNodes_.size() - 1);
+                } while (index == lastSelectedIndex || (buildingNodes_[index]->GetLocation() == person_->GetLocation()));
+
+                lastSelectedIndex = index;
+
+                int timeDifferenceSign = (rand() % 2 == 0) ? 1 : -1;
+                int timeDifference = timeDifferenceSign * (rand() % timeDifferenceRange + 1);
+                int newTime = time + timeDifference;
+
+                // Checking if time is correct
+                if (newTime <= 960) {
+                    schedule_[newTime] = buildingNodes_[index];
+                }
+            }
+        }
+         // events during (16:00 - 22:00) with normal probability
+        for (int time = 960; time <= 1440; time += 60) {
+              if (rand() % 100 < 80) { // 80% probability
+                int index;
+
+                do {
+                    index = rand() % (buildingNodes_.size() - 1);
+                } while (index == lastSelectedIndex || (buildingNodes_[index]->GetLocation() == person_->GetLocation()));
+
+                lastSelectedIndex = index;
+
+                int timeDifferenceSign = (rand() % 2 == 0) ? 1 : -1;
+                int timeDifference = timeDifferenceSign * (rand() % timeDifferenceRange + 1);
+                int newTime = time + timeDifference;
+
+                // Checking if time is correct
+                if (newTime <= 660) {
+                    schedule_[newTime] = buildingNodes_[index];
+                }
+            }
+        }
+
+
+
     }
-
     return schedule_;
 }
-
 
 
 
