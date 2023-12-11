@@ -39,30 +39,10 @@ void Commercial::Draw(sf::RenderWindow& window, int cellSize){
   
     window.draw(cellShape);
 
-    sf::Font font;
-    if (!font.loadFromFile("details/Silkscreen/Silkscreen-Bold.ttf")) {
-        std::cerr << "Failed to load font." << std::endl;
-        return;
-    }
-
-   
-    sf::Text labelText("Shop", font, 14);
-    labelText.setPosition((x) * cellSize, (y) * cellSize);
-    labelText.setFillColor(sf::Color::Black);
-    window.draw(labelText);
-
-    sf::Texture shopTexture;
-    if (!shopTexture.loadFromFile("details/shop.png")) {
-      
-        std::cerr << "Failed to load shop image." << std::endl;
-        return;
-    }
-
-    sf::Sprite shopSprite(shopTexture);
-    shopSprite.setScale(0.12f, 0.12f);
-    shopSprite.setPosition((x) * cellSize+10, (y - 0.5f) * cellSize + 43); 
-    window.draw(shopSprite);
-
+    sf::RectangleShape door(sf::Vector2f(cellSize * 0.2f, cellSize * 0.4f));
+    door.setFillColor(sf::Color(100, 50, 50)); 
+    door.setPosition((x + 0.4f) * cellSize, (y + 0.6f) * cellSize);
+    window.draw(door);
     
 
   } else if (type_ == "Gym") {
@@ -72,26 +52,10 @@ void Commercial::Draw(sf::RenderWindow& window, int cellSize){
 
     window.draw(cellShape);
   
-    sf::Font font;
-    if (!font.loadFromFile("details/Silkscreen/Silkscreen-Bold.ttf")) {
-        std::cerr << "Failed to load font." << std::endl;
-        return;
-    }
-    sf::Text labelText("Gym", font, 11);
-    labelText.setPosition(((x) * cellSize)+8, (y) * cellSize+1);
-    labelText.setFillColor(sf::Color::Black);
-    window.draw(labelText);
-
-    sf::Texture gymTexture;
-    if (!gymTexture.loadFromFile("details/gym.png")) {
-        std::cerr << "Failed to load gym image." << std::endl;
-        return;
-    }
-
-    sf::Sprite gymSprite(gymTexture);
-    gymSprite.setScale(0.25f, 0.25f);
-    gymSprite.setPosition((x) * cellSize+4, (y - 0.5f) * cellSize + 40); 
-    window.draw(gymSprite);
+    sf::RectangleShape door(sf::Vector2f(cellSize * 0.2f, cellSize * 0.4f));
+    door.setFillColor(sf::Color(100, 50, 50)); 
+    door.setPosition((x + 0.4f) * cellSize, (y + 0.6f) * cellSize);
+    window.draw(door);
 
 
   } else if (type_ == "Restaurant") {
@@ -105,32 +69,11 @@ void Commercial::Draw(sf::RenderWindow& window, int cellSize){
   
     window.draw(cellShape);
 
+    sf::RectangleShape door(sf::Vector2f(cellSize * 0.2f, cellSize * 0.4f));
+    door.setFillColor(sf::Color(100, 50, 50)); 
+    door.setPosition((x + 0.4f) * cellSize, (y + 0.6f) * cellSize);
+    window.draw(door);
     
-    sf::Font font;
-    if (!font.loadFromFile("details/Silkscreen/Silkscreen-Bold.ttf")) {
-      
-        std::cerr << "Failed to load font." << std::endl;
-        return;
-    }
-
- 
-    sf::Text labelText("Restaurant", font, 6);
-    labelText.setPosition(((x) * cellSize)-1, (y) * cellSize); 
-    labelText.setFillColor(sf::Color::Black);
-    window.draw(labelText);
-
-    
-    sf::Texture pizzaTexture;
-    if (!pizzaTexture.loadFromFile("details/restaurant.png")) {
-        std::cerr << "Failed to load pizza image." << std::endl;
-        return;
-    }
-
-    sf::Sprite pizzaSprite(pizzaTexture);
-    pizzaSprite.setScale(0.17f,0.17f);
-    pizzaSprite.setPosition((x) * cellSize, (y - 0.5f) * cellSize + 31);
-    window.draw(pizzaSprite);
-
   }
 }
  
