@@ -16,12 +16,6 @@ See readme.md files in each folder.
 # Instructions on how to use the program
 
 **Building and running the program**
-
-The program must be run on an UNIX system (i.e. the program cannot be run with Windows).
-
-The first thing you need to do before running the program is to run the command: `cmake .` in the root folder of the project. This creates the required build files.
-
-After this, create an executable and run it in the terminal with the commands:
   1. Clone `https://version.aalto.fi/gitlab/karhuj5/traffic-simulator-henrik-toikka-4.git`
   2. Create build directory in the project's root folder: `mkdir build`
   3. Navigate to the folder `cd build`
