@@ -1,7 +1,7 @@
 #include "intersection.hpp"
 
 Intersection::Intersection(std::pair<int, int> location)
-    : location_(location), allowVertical_(true), allowHorizontal_(true), trafficLight_(nullptr) {}
+    : location_(location), trafficLight_(nullptr), allowVertical_(true), allowHorizontal_(true) {}
 
 std::pair<int, int> Intersection::GetLocation() const { return location_; }
 
