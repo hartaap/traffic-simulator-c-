@@ -262,14 +262,14 @@ bool Car::YieldRight(Intersection* intersection, std::vector<Car*> cars) {
     } else if (car->direction_ == "Right" && direction_ == "Down" &&
                l.second == iY) {
       if (((iX - l.first) <= 1.8) && ((iX - l.first) >= -0.5) &&
-          waitingTime_ < 90.0) {
+          waitingTime_ < 50.0) {
         waitingTime_ += 1.0;
         return true;
       }
     } else if (car->direction_ == "Left" && direction_ == "Up" &&
                l.second == iY) {
       if (((l.first - iX) <= 1.8) && ((l.first - iX) >= 0) &&
-          waitingTime_ < 90.0) {
+          waitingTime_ < 60.0) {
         waitingTime_ += 1;
         return true;
       }
