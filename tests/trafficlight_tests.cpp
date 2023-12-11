@@ -1,9 +1,10 @@
 #include <cassert>
 #include <iostream>
 
+#include "test_functions.hpp"
 #include "../src/trafficlight.hpp"
 
-int main() {
+void TestTrafficLight() {
     // Test case 1: Verify the initial state of the traffic light
     TrafficLight trafficLight({1, 2}, 10, 5, 15);
     assert(trafficLight.GetLocation() == std::make_pair(1, 2));
@@ -26,5 +27,5 @@ int main() {
 
     std::cout << "All TrafficLight tests passed!" << std::endl;
 
-    return 0;
+    return;
 }

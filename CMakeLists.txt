@@ -37,7 +37,7 @@ target_include_directories(main PUBLIC src)
 # Set SFML directory based on the operating system
 if(APPLE)
     # macOS
-    set(SFML_DIR ${CMAKE_SOURCE_DIR}/libs/SFML-2.6.1-macOS/lib)
+    set(SFML_DIR ${CMAKE_SOURCE_DIR}/libs/SFML-2.6.1-macOS/Frameworks/SFML.framework/Versions/2.6.1/Resources/CMake)
 elseif(UNIX AND NOT APPLE)
     # Linux
     set(SFML_DIR ${CMAKE_SOURCE_DIR}/libs/SFML-2.6.1-linux/lib/cmake/SFML)
@@ -53,3 +53,26 @@ else()
     # gcc and clang
     target_compile_options(main PRIVATE -Wall -Wextra -pedantic -Wno-missing-field-initializers)
 endif()
+
+# TESTING
+
+# Add the test executable target
+add_executable(tests)
+file(GLOB TEST_SOURCES "tests/*.cpp")
+target_sources(tests PUBLIC ${TEST_SOURCES})
+target_include_directories(tests PUBLIC .)
+target_include_directories(tests PUBLIC src)
+
+# Add all .cpp files in the src directory to the tests target
+file(GLOB TEST_SOURCES_SRC "src/*.cpp")
+list(FILTER TEST_SOURCES_SRC EXCLUDE REGEX "main.cpp$")
+target_sources(tests PRIVATE ${TEST_SOURCES_SRC})
+
+# Link SFML library to the tests
+target_link_libraries(tests PUBLIC sfml-graphics)
+
+# Add a test for the tests executable
+add_test(
+    NAME tests
+    COMMAND ${CMAKE_BINARY_DIR}/tests
+)

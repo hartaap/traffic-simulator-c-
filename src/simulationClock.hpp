@@ -11,6 +11,11 @@
  * Includes a clock that runs with regard to system time.
  * One second in real life equals one minute in simulation time.
  */
+/**
+ * @brief Class used for time management in the simulation.
+ * Includes a clock that runs with regard to system time.
+ * One second in real life equals one minute in simulation time.
+ */
 class SimulationClock {
  public:
   /**
