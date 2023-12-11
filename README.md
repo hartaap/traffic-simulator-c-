@@ -9,9 +9,13 @@ This document contains instructions on how to use the program.
 - Jaakko Karhu
 - Jiri Simell
 
-# Repository organization
-Your project implementation should follow the skelaton organization in this repository.
-See readme.md files in each folder.
+# Files
+1. The .json-files should be placed in the project's root folder (this folder) and some examples are found in this folder as well. 
+2. All of the source code is found in the src folder. 
+3. The used libraries can be found in the libs folder.
+4. Test files can be found in the tests folder.
+5. The project plan can be found in the plan folder.
+6. The final project documentation can be found in the doc folder.
 
 # Instructions on how to use the program
 
