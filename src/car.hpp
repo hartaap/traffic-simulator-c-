@@ -22,7 +22,8 @@ enum class PersonType {  //
   Active,
   Neutral,
   Gentleman,
-  Angry
+  Angry,
+  Nocturnal
 };
 
 /**

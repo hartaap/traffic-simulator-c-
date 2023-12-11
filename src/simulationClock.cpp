@@ -14,7 +14,7 @@ double SimulationClock::GetElapsedTime() {
   auto currentTime = std::chrono::high_resolution_clock::now();
   auto elapsedTime = std::chrono::duration_cast<std::chrono::duration<double>>(
       currentTime - startTime_);
-  return elapsedTime.count();
+  return elapsedTime.count() + 420.0;
 }
 
 std::string SimulationClock::GetSimulationTime() {

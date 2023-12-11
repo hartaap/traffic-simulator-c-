@@ -3,12 +3,17 @@
 #include <cmath>
 
 Simulator::Simulator()
-    : isPaused_(false),
-      guiEnabled_(true),
+    : guiEnabled_(true),
+      endSimulation_(false),
       simulationSpeed_(1),
       clock_(new SimulationClock()) {}
 
-Simulator::~Simulator() { delete c_; }
+Simulator::~Simulator() {
+  delete analysis_;  // Delete the Analysis object
+
+  delete c_;      // Delete the City object
+  delete clock_;  // Delete the SimulationClock object
+}
 
 void Simulator::UpdateSimulation(float deltaTime, float currentTime) {
   c_->UpdateCars(deltaTime, currentTime);
@@ -65,53 +70,45 @@ void Simulator::SimulatorThread() {
 
   float previousTime = 0.0;
 
+  // Use shared state for the promise/future
+  std::shared_future<void> exitFuture = exitSignal.get_future();
+
   // Start input thread
-  std::promise<void> exitSignal;
-  auto inputFuture = std::async(std::launch::async, &Simulator::InputThread,
-                                this, std::move(exitSignal));
+  std::thread inputThread(&Simulator::InputThread, this, std::move(exitFuture));
+
   // Main loop
   clock_->Start();
 
   while (true) {
+    if (endSimulation_) {
+      break;
+    }
+
     float currentTime = clock_->GetElapsedTime();
     float deltaTime = simulationSpeed_ * (currentTime - previousTime);
     previousTime = currentTime;
     std::string simulationTime = clock_->GetSimulationTime();
 
-    if (!isPaused_) {
-      UpdateSimulation(deltaTime, currentTime);
-      analysis_->Analyze();
-    }
+    UpdateSimulation(deltaTime, currentTime);
+    analysis_->Analyze();
 
     if (guiEnabled_) {
       DrawSimulation(gui);
     }
   }
 
-  // input thread exits
+  // Set the exit signal
   exitSignal.set_value();
 
-  // input thread finishes
-  inputFuture.get();
+  // Wait for the input thread to finish
+  inputThread.join();
+
+  if (guiEnabled_) {
+    delete gui;  // Delete the Visualization object if it was created
+  }
 
   // create a finish simulation function
-
   std::cout << "Simulation complete." << std::endl;
-}
-
-void Simulator::ResumeSimulation() {
-  isPaused_ = false;
-  std::cout << "Simulation resumed." << std::endl;
-}
-
-void Simulator::PauseSimulation() {
-  isPaused_ = true;
-  std::cout << "Simulation paused." << std::endl;
-}
-
-void Simulator::EndSimulation() {
-  // logic here
-  std::cout << "Simulation ended." << std::endl;
 }
 
 void Simulator::SpeedUpSimulation() {
@@ -249,6 +246,8 @@ City* Simulator::LoadCity() {
       pType = PersonType::Angry;
     } else if (pTypeString == "Gentleman") {
       pType = PersonType::Gentleman;
+    } else if (pTypeString == "Nocturnal") {
+      pType = PersonType::Nocturnal;
     } else {
       // Unknown string
       std::cerr << "Unknown PersonType " << pTypeString
@@ -298,17 +297,15 @@ City* Simulator::LoadCity() {
   return c;
 }
 
-void Simulator::InputThread(std::promise<void> exitSignal) {
+void Simulator::InputThread(std::shared_future<void> exitFuture) {
   std::string command;
-  while (true) {
+  while (exitFuture.wait_for(std::chrono::milliseconds(50)) ==
+         std::future_status::timeout) {
     std::cout << "Enter a command (e.g., status, exit, analyze, export): ";
     std::cin >> command;
 
     if (command == "exit") {
-      EndSimulation();
-      // Signal the main thread to exit
-      exitSignal.set_value();
-      break;
+      endSimulation_ = true;
     } else if (command == "status") {
       std::cout << "Day: " << clock_->GetDayNumber()
                 << " | Time is: " << clock_->GetSimulationTime() << std::endl;

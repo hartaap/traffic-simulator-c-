@@ -425,6 +425,9 @@ void Car::SetColor(PersonType pType) {
             case PersonType::Neutral:
                 color_ = sf::Color::Green;
                 break;
+            case PersonType::Nocturnal:
+                color_ = sf::Color::Blue;
+                break;
             default:
                 color_ = sf::Color::White; // Default color
                 break;
