@@ -48,6 +48,12 @@ void Simulator::StartSimulation() {
   SetCity(c);
 }
 
+bool is_integer(const std::string& string) {
+  return !string.empty() && std::find_if(string.begin(), string.end(), [](unsigned char c) {
+                         return !std::isdigit(c);
+                       }) == string.end();
+}
+
 void Simulator::SimulatorThread() {
   analysis_ = new Analysis(c_, clock_);
 
@@ -57,7 +63,8 @@ void Simulator::SimulatorThread() {
     std::cout << "Please enter road index to be analyzed:" << std::endl;
     std::cin >> roadIndex;
 
-    if (stoi(roadIndex) < 0 || stoi(roadIndex) > int(c_->GetRoads().size()) - 1) {
+    if (!is_integer(roadIndex) || stoi(roadIndex) < 0 ||
+        stoi(roadIndex) > int(c_->GetRoads().size()) - 1) {
       std::cout << "Invalid input." << std::endl;
     } else {
       break;
