@@ -356,10 +356,10 @@ void City::DrawIntersections(sf::RenderWindow& window) const {
   }
 }
 
-void City::AddTrafficLight(std::pair<int, int> location, int redDuration,
-                           int yellowDuration, int greenDuration) {
+void City::AddTrafficLight(std::pair<int, int> location,
+                           int redAndGreenDuration, int yellowDuration) {
   TrafficLight* t =
-      new TrafficLight(location, redDuration, yellowDuration, greenDuration);
+      new TrafficLight(location, redAndGreenDuration, yellowDuration);
   auto intersection = GetIntersection(t->GetLocation());
   if (intersection != nullptr) {
     trafficLights_.push_back(t);

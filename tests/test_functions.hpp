@@ -2,12 +2,14 @@
 #define TEST_FUNCTIONS_H
 
 #include <vector>
-#include "../src/intersection.hpp"
-#include "../src/trafficlight.hpp"
+
 #include "../src/car.hpp"
+#include "../src/intersection.hpp"
 #include "../src/node.hpp"
 #include "../src/road.hpp"
 #include "../src/intersection.hpp"
+#include "../src/cell.hpp"
+#include "../src/building.hpp"
 
 void TestCar();
 void TestIntersection();

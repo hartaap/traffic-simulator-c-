@@ -18,12 +18,12 @@ class TrafficLight {
    * @param yellowDuration The duration of the yellow light
    * @param greenDuration The duration of the green light
    */
-  TrafficLight(std::pair<int, int> location, int redDuration,
-               int yellowDuration, int greenDuration)
+  TrafficLight(std::pair<int, int> location, int redAndGreenDuration,
+               int yellowDuration)
       : location_(location),
-        redDuration_(redDuration),
+        redDuration_(redAndGreenDuration),
         yellowDuration_(yellowDuration),
-        greenDuration_(greenDuration){};
+        greenDuration_(redAndGreenDuration){};
 
   /**
    * @brief Get the coordinates of the traffic light's location.

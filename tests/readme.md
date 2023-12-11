@@ -1,18 +1,7 @@
-# Test files
+# How to run the tests:
 
-It is a common practice to do unit tests of each class before you integrate it into the project to validate its operation.
-In this folder, you can create your own unit test files to validate the operation of your components.
+The tests can be run by entering the following commands to the terminal while in the tests folder. (NOTE: Running the tests requires SFML to be installed on your device!):
+1. `g++ -o tests *.cpp ../src/!(main).cpp -lsfml-graphics -lsfml-window -lsfml-system`
+2. `./tests`
 
-> It might be a good idea to also take some notes about the tests since you are required to 
-  report these in the final report.
-
-# Unit Tests
-
-## Test of MyClass
-
-**Involved Classes:**
-
-**Test File:**
-
-**Results:**
-
+If a test fails, there will be an assertion error and the execution of the tests will stop.

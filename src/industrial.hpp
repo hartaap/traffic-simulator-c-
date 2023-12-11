@@ -17,10 +17,7 @@ class Industrial : public Building {
    */
   Industrial(const std::string& buildingName,
              const std::pair<int, int>& location)
-      : Building(buildingName, location, "Industrial") {
-    maxPersonCapacity_ = 30;
-    maxCarCapacity_ = 25;
-  }
+      : Building(buildingName, location, "Industrial") {}
 
   /**
    * @brief Draws the building to the SFML window given as a parameter. Each

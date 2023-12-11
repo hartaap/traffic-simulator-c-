@@ -32,42 +32,6 @@ class Building {
   virtual ~Building();
 
   /**
-   * @brief Get the max number of people that can be in the building.
-   *
-   * @return An integer representing the maximum person capacity of the building
-   */
-  int GetMaxPeopleCapacity() const;
-
-  /**
-   * @brief Get the max number of cars that can be in the building.
-   *
-   * @return An integer representing the maximum car capacity of the building
-   */
-  int GetMaxCarCapacity() const;
-
-  /**
-   * @brief Get the number of people currently in the building.
-   *
-   * @return The number of people currently in the building
-   */
-  int GetPeopleAmount() const;
-
-  /**
-   * @brief Get the number of cars currently in the building.
-   *
-   * @return The number of cars currently in the building
-   */
-  int GetCarAmount() const;
-
-  /**
-   * @brief Returns a boolean value indicating if the maximum people capacity
-   * has been reached.
-   *
-   * @return True if the building is currently full, false otherwise
-   */
-  bool isFull() const;
-
-  /**
    * @brief Get the name of the building.
    *
    * @return The name of the building as std::string&
