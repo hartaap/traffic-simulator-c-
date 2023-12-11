@@ -44,5 +44,5 @@ void TestBuilding() { // for industrial, residential and commercial
     delete(building4);
     delete(building5);
 
-    std::cout << "Everything works!" << std::endl;
+    std::cout << "All building tests passed!" << std::endl;
 }

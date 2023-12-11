@@ -17,6 +17,8 @@ void TestSimulationClockInitialization() {
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     double elapsedTime = clock.GetElapsedTime();
     assert(elapsedTime > 0.0);
+
+    std::cout << "All simulation clock initalization tests passed!" << std::endl;
 }
 
 void TestSimulationClockTimeConversion() {
@@ -33,4 +35,6 @@ void TestSimulationClockTimeConversion() {
     assert(std::isdigit(simulationTime[1]));
     assert(std::isdigit(simulationTime[3]));
     assert(std::isdigit(simulationTime[4]));
+
+    std::cout << "All simulation clock conversion tests passed!" << std::endl;
 }
