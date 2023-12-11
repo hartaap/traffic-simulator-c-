@@ -49,9 +49,10 @@ void Simulator::StartSimulation() {
 }
 
 bool is_integer(const std::string& string) {
-  return !string.empty() && std::find_if(string.begin(), string.end(), [](unsigned char c) {
-                         return !std::isdigit(c);
-                       }) == string.end();
+  return !string.empty() &&
+         std::find_if(string.begin(), string.end(), [](unsigned char c) {
+           return !std::isdigit(c);
+         }) == string.end();
 }
 
 void Simulator::SimulatorThread() {
@@ -60,7 +61,9 @@ void Simulator::SimulatorThread() {
   std::string roadIndex;
 
   while (true) {
-    std::cout << "Please enter road index to be analyzed:" << std::endl;
+    std::cout << "Please enter road index to be analyzed (the analyzed road "
+                 "will be highlighted in the simulation):"
+              << std::endl;
     std::cin >> roadIndex;
 
     if (!is_integer(roadIndex) || stoi(roadIndex) < 0 ||
