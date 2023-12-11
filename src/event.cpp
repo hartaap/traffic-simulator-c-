@@ -18,7 +18,7 @@ std::map<int, Node*> Event::CreateSchedule() {
     schedule_.clear();
     int lastSelectedIndex = -1; // Initialize to an invalid index
     int timeDifferenceRange = 5;
-    int days = 31; // initialized to month
+    int days = 30; // initialized to month
     
     //Different person types have different expected leaving and arrival times.
     switch (person_->GetPersonType()) {
@@ -44,7 +44,7 @@ std::map<int, Node*> Event::CreateSchedule() {
 
     for (int day = 0; day < days; ++day) {
         // Events during (00:00 - 07:00)
-        for (int time = (day * 1440); time <= 420; time += 100) {
+        for (int time = (day * 1440); time <= 420+(day * 1440); time += 50) {
             if ((rand() % 100 < 3) || (person_->GetPersonType() == PersonType::Nocturnal)) { // 3% chance that will happen
                 int index;
                 do {
@@ -58,14 +58,13 @@ std::map<int, Node*> Event::CreateSchedule() {
                 int newTime = time + timeDifference;
 
                 // Check if the new time is within the desired range
-                if (newTime <= 420) {
-                    schedule_[newTime] = buildingNodes_[index];
-                }
+                schedule_[newTime] = buildingNodes_[index];
+                
             }
         }
 
         // Events during (07:00 - 09:30) with normal probability
-        for (int time = 420; time <= 660; time += 60) {
+        for (int time = 420+(day * 1440); time <= 660+(day * 1440); time += 60) {
             // 90% chance
             if (rand() % 100 < 90) {
                 int index;
@@ -81,16 +80,16 @@ std::map<int, Node*> Event::CreateSchedule() {
                 int newTime = time + timeDifference;
 
                 // Check if the new time is within the desired range
-                if (newTime <= 660) {
-                    schedule_[newTime] = buildingNodes_[index];
-                }
+              
+                schedule_[newTime] = buildingNodes_[index];
+                
             }
         }
 
         //Events during (09:30 - 16:00).
-        for (int time = 660; time <= 960; time += 60) {
+        for (int time = 660+(day * 1440); time <= 960+(day * 1440); time += 60) {
             //
-            if (rand() % 100 < 50 && person_->GetPersonType() != PersonType::Nocturnal) { // 50% chance that will happen
+            if (rand() % 100 < 30 && person_->GetPersonType() != PersonType::Nocturnal) { // 50% chance that will happen
                 int index;
 
                 do {
@@ -104,13 +103,13 @@ std::map<int, Node*> Event::CreateSchedule() {
                 int newTime = time + timeDifference;
 
                 // Checking if time is correct
-                if (newTime <= 960) {
-                    schedule_[newTime] = buildingNodes_[index];
-                }
+              
+                schedule_[newTime] = buildingNodes_[index];
+            
             }
         }
-         // events during (16:00 - 22:00) with normal probability
-        for (int time = 960; time <= 1440; time += 60) {
+         // events during (16:00 - 21:00) with normal probability
+        for (int time = 960+(day * 1440); time <= 1260+(day * 1440); time += 60) {
               if (rand() % 100 < 80) { // 80% probability
                 int index;
 
@@ -124,10 +123,27 @@ std::map<int, Node*> Event::CreateSchedule() {
                 int timeDifference = timeDifferenceSign * (rand() % timeDifferenceRange + 1);
                 int newTime = time + timeDifference;
 
-                // Checking if time is correct
-                if (newTime <= 660) {
-                    schedule_[newTime] = buildingNodes_[index];
-                }
+                schedule_[newTime] = buildingNodes_[index];
+                
+            }
+        }
+
+        for (int time = 1260+(day * 1440); time <= 1440+(day * 1440); time += 120) { // from (21:00 to 00:00) there's less traffic
+              if (rand() % 100 < 30) { // 80% probability
+                int index;
+
+                do {
+                    index = rand() % (buildingNodes_.size() - 1);
+                } while (index == lastSelectedIndex || (buildingNodes_[index]->GetLocation() == person_->GetLocation()));
+
+                lastSelectedIndex = index;
+
+                int timeDifferenceSign = (rand() % 2 == 0) ? 1 : -1;
+                int timeDifference = timeDifferenceSign * (rand() % timeDifferenceRange + 1);
+                int newTime = time + timeDifference;
+
+                schedule_[newTime] = buildingNodes_[index];
+                
             }
         }
 
@@ -136,8 +152,3 @@ std::map<int, Node*> Event::CreateSchedule() {
     }
     return schedule_;
 }
-
-
-
-
-
