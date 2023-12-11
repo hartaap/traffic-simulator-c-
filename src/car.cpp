@@ -396,7 +396,12 @@ void Car::Update(float deltaTime, float currentTime,
 }
 
 // Add an event to the cars schedule
-void Car::AddEvent(int time, Node* node) { schedule_.insert({time, node}); }
+void Car::AddEvent(int time, Node* node) { 
+  schedule_.insert({time, node});
+  for (auto it = schedule_.begin(); it != schedule_.end() && it->first < time; ) {
+          it = schedule_.erase(it);
+      }
+}
 
 // Set color for car
 void Car::SetColor(PersonType pType) {
