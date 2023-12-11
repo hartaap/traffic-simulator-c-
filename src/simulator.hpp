@@ -33,18 +33,21 @@ class Simulator {
   void DrawSimulation(Visualization* gui);
 
   City* LoadCity();
-  void InputThread(std::promise<void> exitSignal);
+  void InputThread(std::shared_future<void> exitFuture);
 
   void SetCity(City* c) { c_ = c; }
 
  private:
   bool isPaused_;
   bool guiEnabled_;
+  bool endSimulation_;
   int simulationSpeed_;  // 1x, 2x, 4x, etc.
 
   City* c_;
   SimulationClock* clock_;
   Analysis* analysis_;
+
+  std::promise<void> exitSignal;  // Declare exitSignal as a member variable
 };
 
 #endif
