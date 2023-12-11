@@ -215,7 +215,12 @@
         ["jorma", "Angry", "Nokia", "Jorman koti"],
         ["jasu", "Gentleman", "Fazer", "Jorman koti"],
         ["jassu", "Neutral", "Fazer", "Ossin koti"],
-        ["josse", "Lazy", "Fazer","Ossin koti"]
+        ["josse", "Lazy", "Fazer","Ossin koti"],
+        ["pele", "Nocturnal", "Fazer", "Wiggum's house"],
+        ["krusty", "Nocturnal", "Microsoft", "Wiggum's house"],
+        ["roopeankka", "Nocturnal", "Fazer", "The Simpsons house"],
+        ["robert", "Nocturnal", "Nokia", "Brown house"],
+        ["batman", "Nocturnal", "Fazer", "Aapen crib"]
 
 
 
