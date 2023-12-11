@@ -38,6 +38,9 @@ std::map<int, Node*> Person::GetSchedule() const { return schedule_; }
 void Person::AddEvent(int time, Node* node) {
   schedule_.insert({time, node});
   car_->AddEvent(time, node);  // Adds the same event to the corresponding car
+  for (auto it = schedule_.begin(); it != schedule_.end() && it->first < time; ) {
+                it = schedule_.erase(it);
+    }
 }
 
 void Person::UpdateLocationFromCar(std::pair<float, float> location) {
