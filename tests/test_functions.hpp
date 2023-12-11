@@ -13,7 +13,6 @@
 #include "../src/commercial.hpp"
 #include "../src/residential.hpp"
 #include "../src/industrial.hpp"
-#include "../src/person.hpp"
 
 void TestCar();
 void TestIntersection();
@@ -22,6 +21,5 @@ void TestCar();
 void TestSimulationClockInitialization();
 void TestSimulationClockTimeConversion();
 void TestBuilding();
-void TestPerson();
 
 #endif
