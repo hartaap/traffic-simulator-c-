@@ -6,6 +6,8 @@
 int main() {
     TestIntersection();
     TestTrafficLight();
+    TestSimulationClockInitialization();
+    TestSimulationClockTimeConversion();
 
     std::cout << "All tests finished." << std::endl;
     return 0;

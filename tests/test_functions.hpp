@@ -13,5 +13,7 @@
 void TestIntersection();
 void TestTrafficLight();
 void TestCar();
+void TestSimulationClockInitialization();
+void TestSimulationClockTimeConversion();
 
 #endif
