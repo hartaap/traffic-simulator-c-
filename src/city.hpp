@@ -113,7 +113,8 @@ class City {
    * @param workplacename Name of working place.
    * @param homename Name of home.
    */
-  void AddPersonAndCar(std::string& name, PersonType personType, std::string& workplacename, std::string& homename);
+  void AddPersonAndCar(std::string& name, PersonType personType,
+                       std::string& workplacename, std::string& homename);
 
   /**
    * @brief Checks if the person that is trying to be added is valid.
