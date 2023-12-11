@@ -63,11 +63,7 @@ void Simulator::SimulatorThread() {
     std::cout << "Please enter road index to be analyzed:" << std::endl;
     std::cin >> roadIndex;
 
-<<<<<<< HEAD
     if (!is_integer(roadIndex) || stoi(roadIndex) < 0 ||
-=======
-    if (stoi(roadIndex) < 0 ||
->>>>>>> b649c8a408b0365cce850db7c8ca0f7c4e2e011e
         stoi(roadIndex) > int(c_->GetRoads().size()) - 1) {
       std::cout << "Invalid input." << std::endl;
     } else {
