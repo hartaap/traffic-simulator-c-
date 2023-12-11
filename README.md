@@ -25,15 +25,26 @@ The simulator might require some additional libraries that are required to be in
 
 **Building and running the program**
   1. Clone `https://version.aalto.fi/gitlab/karhuj5/traffic-simulator-henrik-toikka-4.git`
-  2. Create build directory in the project's root folder: `mkdir build`
-  3. Navigate to the folder `cd build`
-  4. Generate makefile with CMake: `cmake ..`
-  5. Build the file in the same directory `make`
-  6. Navigate to the root folder `cd ..`
-  7. Run the file `build/./main`
+  2. Navigate to the folder `cd build`
+  3. Generate makefile with CMake: `cmake ..`
+  4. Build the file in the same directory `make`
+  5. Navigate to the root folder `cd ..`
+  6. Run the file `build/./main`
 
 **How to use the simulation:**
-The si
+In the beginning, the program asks for a JSON file name. If the file is not found in the root folder, or if it is invalid, the program will not proceed and it will ask for another file (see the JSON file template and requirements below).
+
+After the JSON file has been successfully loaded, the program asks for a road index to analyze during the simulation. Index i chooses the i:th road listed in the JSON file to be analyzed.
+
+After choosing the road to be analyzed, the program asks for simulation speed (1, 2, 4, 8, or 16).
+
+After this the program asks if the gui should be enabled or not, and then it will start the simulation.
+
+During the simulation you can use the commands:
+- `status` Prints the current simulation time to the terminal
+- `exit` Exits the program
+- `analyze` Prints the usage data of the i:th road to the terminal
+- `export` Exports the road analysis data to a CSV file
 
 # JSON file template for city loading
 The city is loaded from a JSON file which should be located in the root folder of the project. A template for the JSON files is provided below. If the JSON file is invalid, the program will continue asking for a new file until the file is valid. The root folder of this project contains two example JSON files: city.json and smallcity.json.
