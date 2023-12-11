@@ -37,18 +37,6 @@ class Simulator {
   ~Simulator();
 
   /**
-   * @brief Speeds up the simulation speed
-   * 
-   */
-  void SpeedUpSimulation();
-
-  /**
-   * @brief Slows down the simulation speed
-   * 
-   */
-  void SlowDownSimulation();
-
-  /**
    * @brief Starts and initializes the simulation
    * 
    */
