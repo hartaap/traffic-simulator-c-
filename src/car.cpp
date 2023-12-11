@@ -12,6 +12,7 @@ Car::Car(Node* startingNode) {
     idle_ = true;
     direction_ = "None";
     destination_ = nullptr;
+    waitingTime_ = 0;
 
     previous_ = startingNode;
 
@@ -44,6 +45,7 @@ void Car::SetDirection(std::pair<int, int> current, std::pair<int, int> destinat
     }else if(destination.second > current.second){
         direction_ = "Down";
     }
+    waitingTime_ = 0.0;
 }
 
 void Car::SetSpeedLimit(std::vector<Road*> roads){
@@ -55,7 +57,7 @@ void Car::SetSpeedLimit(std::vector<Road*> roads){
     }
 }
 
-std::pair<int, int> Car::GetLocation(){
+std::pair<float, float> Car::GetLocation(){
     return location_;
 }
 
@@ -102,19 +104,19 @@ bool Car::CarInFront(std::vector<Car*> cars) {
 
 
             if (direction_ == "Up" && l.first == location_.first){
-                if(location_.second - l.second <= 1.2 && location_.second - l.second > 0){
+                if(((location_.second - l.second) <= 1.0) && ((location_.second - l.second) > 0)){
                     return true;
                 }
             } else if (direction_ == "Down" && l.first == location_.first) {
-                if(((l.second - location_.second) <= 0.8) && ((l.second - location_.second) > 0)){
+                if(((l.second - location_.second) <= 1.2) && ((l.second - location_.second) > 0)){
                     return true;
                 }
             } else if (direction_ == "Left" && l.second == location_.second) {
-                if(((location_.first - l.first) <= 1.5) && ((location_.first - l.first) > 0)){
+                if(((location_.first - l.first) <= 1.0) && ((location_.first - l.first) > 0)){
                     return true;
                 }
             } else if (direction_ == "Right" && l.second == location_.second) {
-                if(((l.first - location_.first) <= 0.8) && ((l.first - location_.first) > 0)){
+                if(((l.first - location_.first) <= 1.2) && ((l.first - location_.first) > 0)){
                     return true;
                 }
             }
@@ -140,19 +142,23 @@ bool Car::LaneIsFree(Intersection* intersection, std::vector<Car*> cars, std::st
 
 
             if (nextDirection== "Up" && l.first == iX){
-                if(iY - l.second <= 2 && iY - l.second >= -0.5){
+                if(iY - l.second <= 2.0 && (iY - l.second >= -0.5) && waitingTime_ < 80.0){
+                    waitingTime_ += 1.0;
                     return false;
                 }
             } else if (nextDirection == "Down" && l.first == iX) {
-                if(((l.second - iY) <= 2) && ((l.second - iY) >= 0)){
+                if(((l.second - iY) <= 2.0) && ((l.second - iY) >= 0.0) && waitingTime_ < 80.0){
+                    waitingTime_ += 1.0;
                     return false;
                 }
             } else if (nextDirection == "Left" && l.second == iY) {
-                if(((iX - l.first) <= 2) && ((iX - l.first) >= -0.5)){
+                if(((iX - l.first) <= 2.0) && ((iX - l.first) >= -0.5) && waitingTime_ < 70.0){
+                    waitingTime_ += 1.0;
                     return false;
                 }
             } else if (nextDirection == "Right" && l.second == iY) {
-                if(((l.first - iX) <= 2) && ((l.first - iX) >= 0)){
+                if(((l.first - iX) <= 2.0) && ((l.first - iX) >= 0.0) && waitingTime_ < 70.0){
+                    waitingTime_ += 1.0;
                     return false;
                 }
             }
@@ -168,7 +174,7 @@ bool Car::CheckIntersection(Intersection* intersection, std::vector<Car*> cars){
     if(path_.size() < 2){
         return true;
     }
-
+    
     auto nextDestination = path_[path_.size()-2];
 
     auto iX = intersection->GetLocation().first;
@@ -192,7 +198,10 @@ bool Car::CheckIntersection(Intersection* intersection, std::vector<Car*> cars){
         }else{
             nextDirection = "Right";
         }
+    }else{
+        return true;
     }
+    
 
     return LaneIsFree(intersection, cars, nextDirection);
 
@@ -235,19 +244,24 @@ bool Car::YieldRight(Intersection* intersection, std::vector<Car*> cars){
 
 
             if (car->direction_ == "Down" && direction_ == "Left" && l.first == iX){
-                if(iY - l.second <= 1.8 && iY - l.second >= -0.5){
+                if(iY - l.second <= 1.8 && iY - l.second >= -0.5 && waitingTime_ < 70.0){
+                    waitingTime_ += 1.0;
                     return true;
                 }
+
             } else if(car->direction_ == "Up" && direction_ == "Right" && l.first == iX) {
-                if(((l.second - iY) <= 1.8) && ((l.second - iY) >= 0)){
+                if(((l.second - iY) <= 1.8) && ((l.second - iY) >= 0.0) && waitingTime_ < 70.0){
+                    waitingTime_ += 1;
                     return true;
                 }
             } else if (car->direction_ == "Right" && direction_ == "Down" && l.second == iY) {
-                if(((iX - l.first) <= 1.8) && ((iX - l.first) >= -0.5)){
+                if(((iX - l.first) <= 1.8) && ((iX - l.first) >= -0.5)&& waitingTime_ < 90.0){
+                    waitingTime_ += 1.0;
                     return true;
                 }
             } else if (car->direction_ == "Left" && direction_ == "Up" && l.second == iY) {
-                if(((l.first - iX) <= 1.8) && ((l.first - iX) >= 0)){
+                if(((l.first - iX) <= 1.8) && ((l.first - iX) >= 0)&& waitingTime_ < 90.0){
+                    waitingTime_ += 1;
                     return true;
                 }
             }
