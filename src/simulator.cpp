@@ -9,7 +9,12 @@ Simulator::Simulator()
       simulationSpeed_(1),
       clock_(new SimulationClock()) {}
 
-Simulator::~Simulator() { delete c_; }
+Simulator::~Simulator() {
+  delete analysis_;  // Delete the Analysis object
+
+  delete c_;      // Delete the City object
+  delete clock_;  // Delete the SimulationClock object
+}
 
 void Simulator::UpdateSimulation(float deltaTime, float currentTime) {
   c_->UpdateCars(deltaTime, currentTime);
@@ -100,6 +105,10 @@ void Simulator::SimulatorThread() {
 
   // Wait for the input thread to finish
   inputThread.join();
+
+  if (guiEnabled_) {
+    delete gui;  // Delete the Visualization object if it was created
+  }
 
   // create a finish simulation function
   std::cout << "Simulation complete." << std::endl;
@@ -306,7 +315,8 @@ City* Simulator::LoadCity() {
 
 void Simulator::InputThread(std::shared_future<void> exitFuture) {
   std::string command;
-  while (exitFuture.wait_for(std::chrono::milliseconds(50)) == std::future_status::timeout) {
+  while (exitFuture.wait_for(std::chrono::milliseconds(50)) ==
+         std::future_status::timeout) {
     std::cout << "Enter a command (e.g., status, exit, analyze, export): ";
     std::cin >> command;
 
