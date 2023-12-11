@@ -155,7 +155,7 @@ class Car {
    * @brief Get the location of the car
    *
    */
-  std::pair<int, int> GetLocation();
+  std::pair<float, float> GetLocation();
 
   /**
    * @brief An algorithm to calculate the shortest route from source node to
@@ -189,6 +189,7 @@ class Car {
   std::map<int, Node*> schedule_;
   Node* previous_;
   sf::Color color_;
+  float waitingTime_;
 };
 
 #endif
