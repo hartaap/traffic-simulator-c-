@@ -1,6 +1,6 @@
 #include "simulationClock.hpp"
 
-SimulationClock::SimulationClock() : dayNumber_(0) {}
+SimulationClock::SimulationClock() : dayNumber_(0), simulationSpeed_(1) {}
 
 void SimulationClock::Start() {
   startTime_ = std::chrono::high_resolution_clock::now();
@@ -14,7 +14,7 @@ double SimulationClock::GetElapsedTime() {
   auto currentTime = std::chrono::high_resolution_clock::now();
   auto elapsedTime = std::chrono::duration_cast<std::chrono::duration<double>>(
       currentTime - startTime_);
-  return elapsedTime.count() + 420.0;
+  return simulationSpeed_ * (elapsedTime.count()) + 420.0;
 }
 
 std::string SimulationClock::GetSimulationTime() {
