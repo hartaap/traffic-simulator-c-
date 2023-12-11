@@ -248,6 +248,13 @@ class City {
    */
   bool IsBusy(Person* p) const;
 
+  /**
+   * @brief Add event to schedule.
+   *
+   * @param p This is the person that is going to have new event.
+   */
+  void AddEvent(Person* p);
+
  private:
   Grid* grid_;
   std::vector<Road*> roads_;
