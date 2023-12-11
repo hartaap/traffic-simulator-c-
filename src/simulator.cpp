@@ -134,7 +134,7 @@ City* Simulator::LoadCity() {
   std::string filename;
   std::cout << "Please enter JSON file name:" << std::endl;
   std::cin >> filename;
-  std::ifstream file("src/" + filename);
+  std::ifstream file(filename);
   if (!file.is_open()) {
     std::cerr << "Error: The file " << filename
               << " does not exist or there was an issue when opening "
