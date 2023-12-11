@@ -46,10 +46,10 @@ void Cell::Draw(sf::RenderWindow& window, int cellSize, int x, int y) {
     dot.setFillColor(sf::Color::White);
     dot.setPosition(x * cellSize, y * cellSize + cellSize / 2.0f);
     cellShape.setPosition(x * cellSize, y * cellSize);
-    sf::RectangleShape highlight2(sf::Vector2f(cellSize, 3.0f));
+    sf::RectangleShape highlight2(sf::Vector2f(cellSize, 5.0f));
     highlight2.setFillColor(sf::Color::Red);
-    highlight2.setPosition(x* cellSize, y*cellSize + (cellSize - 3));
-    sf::RectangleShape highlight1(sf::Vector2f(cellSize, 3.0f));
+    highlight2.setPosition(x* cellSize, y*cellSize + (cellSize - 5.0f));
+    sf::RectangleShape highlight1(sf::Vector2f(cellSize, 5.0f));
     highlight1.setFillColor(sf::Color::Red);
     highlight1.setPosition(x* cellSize, y*cellSize);
     window.draw(cellShape);
@@ -62,10 +62,10 @@ void Cell::Draw(sf::RenderWindow& window, int cellSize, int x, int y) {
     dot.setFillColor(sf::Color::White);
     dot.setPosition(x * cellSize + cellSize / 2.0f, y * cellSize);
     cellShape.setPosition(x * cellSize, y * cellSize);
-    sf::RectangleShape highlight2(sf::Vector2f(3.0f, cellSize));
+    sf::RectangleShape highlight2(sf::Vector2f(5.0f, cellSize));
     highlight2.setFillColor(sf::Color::Red);
-    highlight2.setPosition(x* cellSize + (cellSize - 3), y*cellSize);
-    sf::RectangleShape highlight1(sf::Vector2f(3.0f, cellSize));
+    highlight2.setPosition(x* cellSize + (cellSize - 5.0f), y*cellSize);
+    sf::RectangleShape highlight1(sf::Vector2f(5.0f, cellSize));
     highlight1.setFillColor(sf::Color::Red);
     highlight1.setPosition(x* cellSize, y*cellSize);
     window.draw(cellShape);
