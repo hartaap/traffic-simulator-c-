@@ -9,9 +9,17 @@ Simulator::Simulator()
       clock_(new SimulationClock()) {}
 
 Simulator::~Simulator() {
-  delete analysis_;  // Delete the Analysis object
+  // Delete the Analysis object if it is created
+  if (analysis_) {
+    delete analysis_;
+  }
 
-  delete c_;  // Delete the City object
+  // Delete the City object if it is created
+  if (c_) {
+    delete c_;
+  }
+  // Delete clock
+  delete clock_; 
 }
 
 void Simulator::UpdateSimulation(float deltaTime, float currentTime) {
@@ -165,6 +173,9 @@ City* Simulator::LoadCity() {
     return nullptr;
   }
 
+  City* c = nullptr;
+  // Try to create a city
+  try {
   // Load the file into a string
   std::string contents = std::string{std::istreambuf_iterator<char>(file),
                                      std::istreambuf_iterator<char>()};
@@ -178,7 +189,7 @@ City* Simulator::LoadCity() {
 
   // init to max 5 cars for now; using 1 car right now
   std::vector<Person*> persons;
-  City* c = new City(x, y);
+  c = new City(x, y);
 
   // Extract buildings
   auto buildingsArray = json::as_array(jsonData["buildings"]);
@@ -312,6 +323,16 @@ City* Simulator::LoadCity() {
       return nullptr;
     }
   }
+  } catch (const std::exception& e) {
+    std::cerr << "Error loading city: " << e.what() << std::endl;
+
+    // Delete the City object to avoid memory leak
+    delete c;
+
+    // Close the file and return nullptr
+    file.close();
+    return nullptr;
+  }
 
   // close file
   file.close();
@@ -343,3 +364,4 @@ void Simulator::InputThread(std::shared_future<void> exitFuture) {
     }
   }
 }
+
