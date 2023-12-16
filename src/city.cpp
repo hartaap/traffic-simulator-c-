@@ -30,6 +30,8 @@ City::~City() {
     delete (it.second);
   }
 
+  delete(clock_);
+
   delete (grid_);
 }
 
@@ -229,39 +231,36 @@ std::vector<Node*> City::GetBuildingNodes() const {
 void City::AddPersonAndCar(std::string& name, PersonType personType,
                            std::string& workplacename, std::string& homename) {
   Building* workplace = nullptr;
-  auto itWorkplace = std::find_if(buildings_.begin(), buildings_.end(),
-                                  [&workplacename](const Building* building) {
-                                    return building->GetName() == workplacename;
-                                  });
-  if (itWorkplace != buildings_.end()) {
-    workplace = *itWorkplace;
+  Building* home = nullptr;
+  auto it1 = std::find_if(buildings_.begin(), buildings_.end(),
+          [&workplacename](const Building* building) {
+          return building->GetName() == workplacename;});
+  if (it1 != buildings_.end()) {
+    workplace = *it1;
+  }
+  auto it2 = std::find_if(buildings_.begin(), buildings_.end(),
+              [&homename](const Building* building) {
+            return building->GetName() == homename;});
+  if (it2 != buildings_.end()) {
+    home = *it2;
   }
 
-  Building* home = nullptr;
-  auto itHome = std::find_if(buildings_.begin(), buildings_.end(),
-                             [&homename](const Building* building) {
-                               return building->GetName() == homename;
-                             });
-  if (itHome != buildings_.end()) {
-    home = *itHome;
-  }
-  // initially nullptrs
-  Industrial* ind = nullptr;
-  Residential* res = nullptr;
+  std::unique_ptr<Industrial> ind;
+  std::unique_ptr<Residential> res;
 
   if (workplace != nullptr && home != nullptr) {
-    ind = new Industrial(workplace->GetName(), workplace->GetLocation());
-    res = new Residential(home->GetName(), home->GetLocation());
+    ind = std::make_unique<Industrial>(workplace->GetName(), workplace->GetLocation());
+    res = std::make_unique<Residential>(home->GetName(), home->GetLocation());
   } else {
     throw InvalidCityException(
         "Invalid person: " + name +
         "! Check that the person's home and working place exist.");
   }
 
-  Person* p = new Person(name, personType, ind, res);
+  Person* p = new Person(name, personType, ind.get(), res.get());
 
   if (!IsValidPerson(p)) {
-    delete (p);
+    delete p;
     throw InvalidCityException(
         "Invalid person: " + name +
         "! Check that the person's home and working place exist.");
@@ -273,7 +272,6 @@ void City::AddPersonAndCar(std::string& name, PersonType personType,
     car_->SetColor(p->GetPersonType());
     p->BuyCar(car_);
     p->InitializeSchedule(i);
-    // Store person and its car in the map
     personCarMap_[p] = p->GetCar();
   }
 }
