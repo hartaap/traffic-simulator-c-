@@ -1,16 +1,18 @@
-# Traffic Simulator
+# Introduction
 The purpose of this program is to simulate and analyze the traffic of a city model inputted as a JSON file.
 
 This document contains instructions on how to use the program.
 
-# Group
+# Credits
+This project was developed as a group project in the Aalto University _ELEC-A7151 Object-oriented Programming with C++_ course in 2023. The responsible teacher for the course was Yusein Ali, and the project advisor was Henrik Toikka.
+
+The project was developed by:
 - Artur Brander
 - Aape Hartikainen
 - Jaakko Karhu
 - Jiri Simell
 
 # Instructions on how to use the program
-
 **Dependencies**
 The simulator requires some additional libraries to be installed, so run these commands in the terminal:
 1. Linux: `sudo apt-get install libxrandr-dev libxcursor-dev libsfml-dev`
