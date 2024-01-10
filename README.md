@@ -9,14 +9,6 @@ This document contains instructions on how to use the program.
 - Jaakko Karhu
 - Jiri Simell
 
-# Files
-1. The .json-files should be placed in the project's root folder (this folder) and some examples are found in this folder as well. 
-2. All of the source code is found in the src folder. 
-3. The used libraries can be found in the libs folder.
-4. Test files can be found in the tests folder.
-5. The project plan can be found in the plan folder.
-6. The final project documentation can be found in the doc folder.
-
 # Instructions on how to use the program
 
 **Dependencies**
@@ -47,6 +39,14 @@ During the simulation you can use the commands:
 - `analyze` Prints the usage data of the i:th road to the terminal
 - `export` Exports the road analysis data to a CSV file
 
+# Files
+1. The .json-files should be placed in the project's root folder (this folder) and some examples are found in this folder as well. 
+2. All of the source code is found in the src folder. 
+3. The used libraries can be found in the libs folder.
+4. Test files can be found in the tests folder.
+5. The project plan can be found in the plan folder.
+6. The final project documentation can be found in the doc folder.
+
 # JSON file template for city loading
 The city is loaded from a JSON file which should be located in the root folder of the project. A template for the JSON files is provided below. If the JSON file is invalid, the program will continue asking for a new file until the file is valid. The root folder of this project contains two example JSON files: city.json and smallcity.json.
 
@@ -67,7 +67,7 @@ The template:
   "x": vertical_city_size(int),
   "y": horizontal_city_size(int),
   "buildings": [
-    {"name": ["building type", [x-coordinate(int), y-coordinate(int)]]}
+    {"name": [building type(std::string), [x-coordinate(int), y-coordinate(int)]]}
   ],
   "intersections": [
     [x-coordinate(int), y-coordinate(int)]
@@ -76,7 +76,7 @@ The template:
     [starting_x-coordinate(int), starting_y-coordinate(int), ending_x-coordinate(int), ending_y-coordinate(int)]
     ],
   "persons": [
-    ["name", "PersonType", "name of workplace", "name of home building"]
+    [name(std::string), PersonType(std::string), name of workplace(std::string), name of home building(std::string)]
   ],
   "trafficLights": [
     [[x-coordinate(int), y-coordinate(int)], red_and_green_light_duration(int), yellow_light_duration(int)]
