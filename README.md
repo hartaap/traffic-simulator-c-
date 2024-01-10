@@ -12,7 +12,7 @@ This document contains instructions on how to use the program.
 # Instructions on how to use the program
 
 **Dependencies**
-The simulator might require some additional libraries that are required to be installed through terminal, so run these commands:
+The simulator requires some additional libraries to be installed, so run these commands in the terminal:
 1. Linux: `sudo apt-get install libxrandr-dev libxcursor-dev libsfml-dev`
 2. MacOS: `brew install sfml`
 
