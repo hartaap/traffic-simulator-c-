@@ -13,7 +13,7 @@ The project was developed by:
 - Jiri Simell
 
 # Instructions on how to use the program
-**Dependencies**
+**Dependencies:** 
 The simulator requires some additional libraries to be installed, so run these commands in the terminal:
 1. Linux: `sudo apt-get install libxrandr-dev libxcursor-dev libsfml-dev`
 2. MacOS: `brew install sfml`
@@ -26,7 +26,7 @@ The simulator requires some additional libraries to be installed, so run these c
   5. Navigate to the root folder `cd ..`
   6. Run the file `build/./main`
 
-**How to use the simulation: **
+**How to use the simulation:** 
 In the beginning, the program asks for a JSON file name. If the file is not found in the root folder, or if it is invalid, the program will not proceed and it will ask for another file (see the JSON file template and requirements below).
 
 After the JSON file has been successfully loaded, the program asks for a road index to analyze during the simulation. Index i chooses the i:th road listed in the JSON file to be analyzed.
